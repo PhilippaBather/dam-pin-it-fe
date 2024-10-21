@@ -1,0 +1,9 @@
+.private-layout {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  z-index: 1;
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(90deg, #dcf3dc 0%, #ffbb00 50%, #dcf3dc 100%);
+}
