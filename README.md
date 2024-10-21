@@ -1,9 +1,9 @@
-# React + Vite
+# dam-pin-it-app-fe
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+The frontend of an application to manage projects and their tasks visually and intuitively following the concept of a Kanban board.
 
-Currently, two official plugins are available:
+The application facilitates project management, assignment of tasks, and task workflow.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-# dam-pin-it-fe
+The application, also allows projects to be managed by multiple users (collaborators) according to assigned access levels.
+
+The application is written using the ReactJS Libary in Typescript; the build tool is Vite.
