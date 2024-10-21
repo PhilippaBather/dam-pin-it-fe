@@ -6,4 +6,4 @@ The application facilitates project management, assignment of tasks, and task wo
 
 The application, also allows projects to be managed by multiple users (collaborators) according to assigned access levels.
 
-The application is written using the ReactJS Libary in Typescript; the build tool is Vite.
+The application is written using the ReactJS Libary; the build tool is Vite.
