@@ -2,7 +2,7 @@ import { Navigate, Outlet } from "react-router-dom";
 import ROUTES from "./routes";
 
 const PrivateRoutes = () => {
-  const userLoggedIn = false; // placeholder
+  const userLoggedIn = true; // placeholder
 
   if (!userLoggedIn) {
     return <Navigate to={ROUTES.HOME} />;
