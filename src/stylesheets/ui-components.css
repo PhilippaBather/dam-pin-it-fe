@@ -1,0 +1,14 @@
+/** CARD **/
+
+.card {
+  position: fixed;
+  z-index: 15;
+  top: 50%;
+  left: 50%;
+  width: 35%;
+  transform: translate(-50%, -50%);
+  border: 1px solid var(--border-grey-brown);
+  border-radius: 10px;
+  background-color: white;
+  padding: 1rem 2rem;
+}
