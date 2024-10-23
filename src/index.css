@@ -1,0 +1,78 @@
+:root {
+  /* theme colors */
+  --theme-pink: rgba(251, 5, 173);
+  --theme-pastel-green: rgb(202, 247, 170);
+  --theme-orange: rgb(255, 187, 0);
+
+  --theme-green-button: rgba(202, 247, 170, 0.5);
+  --theme-pink-button: rgba(251, 5, 173, 0.5);
+  --theme-orange-button: rgb(255, 187, 0, 0.5);
+
+  --bright-pink: rgb(219, 10, 91);
+  --candy-pink: rgba(247, 65, 96, 1);
+  --crimson: rgb(191, 22, 80);
+  --light-pink: rgb(236, 221, 223);
+  --muted-pink: rgba(255, 224, 224, 0.878);
+  --white: rgb(255, 255, 255);
+
+  /* header and navigation bar */
+  --dull-black: rgb(17, 16, 16);
+  --grey-black: rgb(39, 34, 34);
+  --pitch-black: rgb(0, 0, 0);
+
+  /* background colours */
+  --duck-egg-white: rgb(232, 237, 237);
+  --light-blue-transparent: rgba(196, 224, 233, 0.35);
+
+  /* borders */
+  --border-light-grey: rgb(211, 211, 211);
+  --border-grey: rgb(128, 128, 128);
+  --border-grey-brown: rgba(62, 61, 61, 1);
+  --light-grey: rgb(226, 224, 224);
+  --baby-blue-semi-transparent: rgba(20, 97, 252, 0.7);
+
+  /* text */
+  --text-black: rgba(19, 17, 17, 1);
+
+  /* project cards */
+  --project-card-off-white: rgb(247, 247, 247);
+  --project-card-shadow-grey-brown: rgba(194, 179, 179, 0.6);
+  --project-card-shadow-sand-brown: rgba(194, 179, 179, 0.6);
+
+  /* legend */
+  --legend-none-green: rgb(41, 207, 29);
+  --legend-low-cyan: rgb(26, 234, 234);
+  --legend-medium-yellow: rgb(251, 251, 37);
+  --legend-high-orange: rgb(245, 182, 66);
+  --legend-critical-red: rgb(231, 15, 15);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  margin: 0;
+  /* height: 100%; */
+}
+
+body {
+  /* height: 100%; */
+  margin: 0;
+  padding: 0;
+  font-family: "Raleway", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+    "Helvetica Neue", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+main,
+button {
+  font-family: "Raleway", sans-serif;
+}

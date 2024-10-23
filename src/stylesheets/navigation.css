@@ -1,0 +1,56 @@
+.root-header {
+  background: linear-gradient(
+    90deg,
+    var(--dull-black 0%),
+    var(--grey-black 70%),
+    var(--pitch-black 100%)
+  );
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  color: var(--theme-pink);
+
+  .header-title {
+    flex-grow: 2;
+    margin: 0;
+    margin-left: 0.2rem;
+    font-family: "Slackside One", cursive;
+    font-size: 3rem;
+    color: var(--theme-pink);
+    text-decoration: none;
+  }
+
+  .nav-list {
+    display: flex;
+    flex-direction: row;
+    list-style-type: none;
+    align-items: center;
+    padding: 0;
+
+    .nav-list__item,
+    .nav-list__signout {
+      font-size: 0.9rem;
+      padding: 0;
+      margin: 0;
+      flex-grow: 1;
+      margin: 0 0.5rem 0 0;
+    }
+
+    .nav-list__link,
+    .nav-list__signout-btn {
+      background: transparent;
+      border: none;
+      text-decoration: none;
+      color: var(--theme-pink);
+      font-weight: 600;
+
+      &:hover {
+        color: var(--bright-pink);
+        color: var(--theme-pastel-green);
+        text-decoration: none;
+      }
+    }
+  }
+}

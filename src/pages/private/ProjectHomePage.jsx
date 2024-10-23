@@ -1,5 +1,12 @@
+import MainNavigation from "../../components/MainNavigation";
+
 function ProjectHomePage() {
-  return <h1>Project Page</h1>;
+  return (
+    <>
+      <MainNavigation />
+      <main className={"private-layout"}></main>
+    </>
+  );
 }
 
 export default ProjectHomePage;
