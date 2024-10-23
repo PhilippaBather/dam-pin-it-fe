@@ -4,12 +4,12 @@
 
   label,
   input {
-    margin-top: 0.4rem;
-    margin-bottom: 0.4rem;
+    margin-top: 0.2rem;
+    margin-bottom: 0.2rem;
   }
 
   label {
-    font-size: 1rem;
+    font-size: 0.9rem;
     font-weight: 700;
     color: var(--theme-pink);
   }
@@ -31,33 +31,22 @@
 
   .form-title {
     font-size: 1.5rem;
+    text-align: center;
   }
 
-  /* for previously created selected task */
-  .form-input__select-task {
-    padding: 0.75rem;
-    &::placeholder {
-      color: var(--crimson);
-      font-size: 1.3rem;
-      font-weight: 900;
-      letter-spacing: 2px;
-      text-align: center;
-    }
+  .error-msg__form {
+    font-size: 0.7rem;
+    font-weight: 900;
+    color: var(--baby-blue-semi-transparent);
   }
 }
 
-.alert {
+/* .alert {
   color: var(--bright-pink);
   text-align: center;
   font-weight: 500;
   font-size: 0.8rem;
-}
-
-/* for login form */
-.form-title {
-  font-size: 3rem;
-  text-align: center;
-}
+} */
 
 .login-redirects {
   text-align: center;
@@ -84,7 +73,7 @@
     margin-top: 1rem;
     padding: 0.25rem;
     text-align: center;
-    border: 1px solid var(--theme-pastel-green);
+    border: 2px solid var(--theme-pastel-green);
     background: var(--theme-green-button);
     color: var(--theme-pink-button);
     border-radius: 10px;
@@ -96,5 +85,19 @@
       font-weight: 800;
       cursor: pointer;
     }
+  }
+}
+
+/* TASKS */
+
+/* for previously created selected task */
+.form-input__select-task {
+  padding: 0.75rem;
+  &::placeholder {
+    color: var(--crimson);
+    font-size: 1.3rem;
+    font-weight: 900;
+    letter-spacing: 2px;
+    text-align: center;
   }
 }
