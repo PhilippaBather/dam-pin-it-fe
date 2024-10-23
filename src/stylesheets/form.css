@@ -1,0 +1,100 @@
+.form {
+  display: flex;
+  flex-direction: column;
+
+  label,
+  input {
+    margin-top: 0.4rem;
+    margin-bottom: 0.4rem;
+  }
+
+  label {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--theme-pink);
+  }
+
+  input,
+  select,
+  textarea {
+    border-radius: 5px;
+    border: 1px solid var(--light-grey);
+    padding: 0.2rem;
+
+    &:focus {
+      outline: none;
+      background-color: var(--theme-green-button);
+      border: 2px solid var(--theme-pink-button);
+      border: 2px solid var(--theme-orange-button);
+    }
+  }
+
+  .form-title {
+    font-size: 1.5rem;
+  }
+
+  /* for previously created selected task */
+  .form-input__select-task {
+    padding: 0.75rem;
+    &::placeholder {
+      color: var(--crimson);
+      font-size: 1.3rem;
+      font-weight: 900;
+      letter-spacing: 2px;
+      text-align: center;
+    }
+  }
+}
+
+.alert {
+  color: var(--bright-pink);
+  text-align: center;
+  font-weight: 500;
+  font-size: 0.8rem;
+}
+
+/* for login form */
+.form-title {
+  font-size: 3rem;
+  text-align: center;
+}
+
+.login-redirects {
+  text-align: center;
+
+  a {
+    text-decoration: none;
+
+    &:hover,
+    &:active {
+      font-weight: 600;
+      text-decoration: underline;
+    }
+  }
+}
+
+.form-btn__container {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+
+  .form-btn {
+    width: 20%;
+    margin: 0 auto;
+    margin-top: 1rem;
+    padding: 0.25rem;
+    text-align: center;
+    border: 1px solid var(--theme-pastel-green);
+    background: var(--theme-green-button);
+    color: var(--theme-pink-button);
+    border-radius: 10px;
+    color: var(--crimson);
+    font-weight: 700;
+
+    &:hover {
+      background-color: var(--theme-pastel-green);
+      font-weight: 800;
+      cursor: pointer;
+    }
+  }
+}
