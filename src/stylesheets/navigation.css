@@ -11,11 +11,17 @@
   justify-content: center;
   align-items: center;
   color: var(--theme-pink);
+  border-bottom: 1px solid var(--theme-pastel-green);
+  background: linear-gradient(
+    rgba(30, 30, 30),
+    rgba(20, 20, 20),
+    rgba(30, 30, 30)
+  );
 
   .header-title {
     flex-grow: 2;
     margin: 0;
-    margin-left: 0.2rem;
+    margin-left: 0.5rem;
     font-family: "Slackside One", cursive;
     font-size: 3rem;
     color: var(--theme-pink);

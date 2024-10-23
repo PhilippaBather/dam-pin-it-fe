@@ -1,19 +1,122 @@
+import { useForm } from "react-hook-form";
 import Card from "../../components/Card";
-import Form from "../../components/Form";
+import {
+  errFirstnameRequired as firstReq,
+  errorFirstnameInvalid as firstInv,
+  errorSurnameRequired as surnReq,
+  errorSurnameInvalid as surnInv,
+  errorEmailInv as emailInv,
+  errorEmailConfirmation as emailConfInv,
+  errorPasswordInv as passInv,
+} from "../../constants/error-messages.js";
+import "../../stylesheets/form.css";
 
 function RegistrationPage() {
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
+
+  const handleRegistration = (data) => {
+    console.log(data);
+  };
+
   return (
     <Card>
-      <Form>
+      <form className="form" onSubmit={handleSubmit(handleRegistration)}>
         <h1 className="form-title">¡Register!</h1>
-        <label htmlFor="reg-username">Username:</label>
-        <input id="reg-username" type="text" />
+        <label htmlFor="reg-firstname">Name:</label>
+        <input
+          id="reg-firstname"
+          type="text"
+          {...register("firstname", {
+            minLength: { value: 2 },
+            required: true,
+          })}
+          aria-invalid={errors.firstname ? "true" : "false"}
+        />
+        {errors.firstname?.type === "required" && (
+          <span className="error-msg__form" role="alert">
+            {firstReq}
+          </span>
+        )}
+        {errors.firstname?.type === "minLength" && (
+          <span className="error-msg__form__form" role="alert">
+            {firstInv}
+          </span>
+        )}
+        <label htmlFor="reg-surname">Surname:</label>
+        <input
+          id="reg-surname"
+          type="text"
+          {...register("surname", {
+            minLength: { value: 2 },
+            required: true,
+          })}
+          aria-invalid={errors.surname ? "true" : "false"}
+        />
+        {errors.surname?.type === "required" && (
+          <span className="error-msg__form" role="alert">
+            {surnReq}
+          </span>
+        )}
+        {errors.surname?.type === "minLength" && (
+          <span role="alert">{surnInv}</span>
+        )}
         <label htmlFor="reg-email">Email:</label>
-        <input id="reg-email" type="email" />
+        <input
+          id="reg-email"
+          type="email"
+          {...register("email", {
+            required: "required",
+            pattern: {
+              value: /\S+@\S+\.\S+/,
+            },
+          })}
+          aria-invalid={errors.email ? "true" : "false"}
+        />
+        {errors.email && (
+          <span className="error-msg__form" role="alert">
+            {emailInv}
+          </span>
+        )}
         <label htmlFor="reg-email__confirm">Confirm email:</label>
-        <input id="reg-email__confirm" type="email" />
-        <label htmlFor="login-password">Password</label>
-        <input id="login-password" type="password" />
+        <input
+          id="reg-email__confirm"
+          type="email"
+          {...register("emailConfirmation", {
+            required: "required",
+            pattern: {
+              value: watch("email"),
+            },
+          })}
+          aria-invalid={errors.emailConfirmation ? "true" : "false"}
+        />
+        {errors.emailConfirmation && (
+          <span className="error-msg__form" role="alert">
+            {emailConfInv}
+          </span>
+        )}
+        <label htmlFor="reg-password">Password</label>
+        <input
+          id="reg-password"
+          type="password"
+          {...register("password", {
+            required: "required",
+            pattern: {
+              value:
+                /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\W)(?!=$_¿.* ).{8,25}$/,
+            },
+          })}
+          aria-invalid={errors.password ? "true" : "false"}
+        />
+        {errors.password && (
+          <span className="error-msg__form" role="alert">
+            {passInv}
+          </span>
+        )}
         <div className="form-btn__container">
           <button className="form-btn" type="submit">
             Submit
@@ -22,7 +125,7 @@ function RegistrationPage() {
             Cancel
           </button>
         </div>
-      </Form>
+      </form>
     </Card>
   );
 }
