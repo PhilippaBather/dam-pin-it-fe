@@ -1,10 +1,9 @@
 import Card from "../../components/Card";
-import Form from "../../components/Form";
 
 function PasswordRecoveryPage() {
   return (
     <Card>
-      <Form>
+      <form className="form">
         <h1 className="form-title">Recover Password</h1>
         <label htmlFor="login-email">Email:</label>
         <input id="login-email" type="email" />
@@ -16,7 +15,7 @@ function PasswordRecoveryPage() {
             Cancel
           </button>
         </div>
-      </Form>
+      </form>
     </Card>
   );
 }
