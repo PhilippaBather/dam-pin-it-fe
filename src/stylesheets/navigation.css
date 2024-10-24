@@ -45,6 +45,7 @@
     }
 
     .nav-list__link,
+    .nav-list__link-active,
     .nav-list__signout-btn {
       background: transparent;
       border: none;
@@ -57,6 +58,11 @@
         color: var(--theme-pastel-green);
         text-decoration: none;
       }
+    }
+
+    .nav-list__link-active {
+      color: var(--theme-pastel-green);
+      text-decoration: none;
     }
   }
 }
