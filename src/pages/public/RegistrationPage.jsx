@@ -1,5 +1,8 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import Card from "../../components/Card";
+import { postData } from "../../api/http-requests.js";
+import { signupEndpoint } from "../../api/endpoints.js";
 import {
   errFirstnameRequired as firstReq,
   errorFirstnameInvalid as firstInv,
@@ -19,25 +22,40 @@ function RegistrationPage() {
     formState: { errors },
   } = useForm();
 
-  const handleRegistration = (data) => {
+  const [error, setError] = useState(null);
+
+  const handleRegistration = async (data, event) => {
+    event.preventDefault();
+
+    try {
+      await postData(signupEndpoint, data);
+    } catch (e) {
+      setError(e.message);
+    }
     console.log(data);
+    console.log(error);
   };
 
   return (
     <Card>
       <form className="form" onSubmit={handleSubmit(handleRegistration)}>
         <h1 className="form-title">¡Register!</h1>
-        <label htmlFor="reg-firstname">Name:</label>
+        {error && (
+          <span className="error-msg__form-resp" role="alert">
+            {error}
+          </span>
+        )}
+        <label htmlFor="reg-forename">Name:</label>
         <input
-          id="reg-firstname"
+          id="reg-forename"
           type="text"
-          {...register("firstname", {
+          {...register("forename", {
             minLength: { value: 2 },
             required: true,
           })}
-          aria-invalid={errors.firstname ? "true" : "false"}
+          aria-invalid={errors.forename ? "true" : "false"}
         />
-        {errors.firstname?.type === "required" && (
+        {errors.forename?.type === "required" && (
           <span className="error-msg__form" role="alert">
             {firstReq}
           </span>
