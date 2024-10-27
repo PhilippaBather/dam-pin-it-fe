@@ -1,5 +1,8 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import Card from "../../components/Card";
+import { postData } from "../../api/http-requests.js";
+import { loginEndpoint as url } from "../../api/endpoints.js";
 import {
   errorEmailReq as emailReq,
   errorPasswordRequired as passReq,
@@ -14,15 +17,31 @@ function LoginPage() {
     formState: { errors },
   } = useForm();
 
-  const handleLogin = (data) => {
-    console.log(data);
-    console.log("hello");
+  const [user, setUser] = useState(null);
+  const [error, setError] = useState(null);
+
+  const handleLogin = async (data, event) => {
+    event.preventDefault();
+
+    try {
+      await postData(url, data);
+      setUser(data);
+      // TODO: call code to get the JWT token and set it
+    } catch (e) {
+      setError(e.message);
+    }
+    console.log(user);
   };
 
   return (
     <Card>
       <form className="form" onSubmit={handleSubmit(handleLogin)}>
         <h1 className="form-title">Login</h1>
+        {error && (
+          <span className="error-msg__form-resp" role="alert">
+            {error}
+          </span>
+        )}
         <label htmlFor="login-email">Email:</label>
         <input
           id="login-email"
