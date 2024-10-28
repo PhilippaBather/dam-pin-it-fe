@@ -1,26 +1,19 @@
-// import Card from "../../components/Card";
+import { useRef } from "react";
+import Card from "../../components/Card";
 import Modal from "../../components/Modal";
 
 function ProjectHomePage() {
-  //const handleCreateProject = () => {};
+  const dialog = useRef();
+
+  const handleCreateProject = () => {
+    dialog.current.open();
+  };
 
   return (
     <>
       <main className={"private-layout"}>
         <h1>Project Home Page</h1>
-        <Modal></Modal>
-      </main>
-    </>
-  );
-}
-
-export default ProjectHomePage;
-
-/*
-
-    <>
-      <main className={"private-layout"}>
-        <h1>Project Home Page</h1>
+        <Modal ref={dialog} />
         <buton type="button" onClick={handleCreateProject}>
           <Card>
             <h1>Create a new project</h1>
@@ -28,5 +21,7 @@ export default ProjectHomePage;
         </buton>
       </main>
     </>
+  );
+}
 
-*/
+export default ProjectHomePage;
