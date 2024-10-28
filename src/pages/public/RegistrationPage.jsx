@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import Card from "../../components/Card";
-import { postData } from "../../api/http-requests.js";
+import { postAuthData } from "../../api/http-requests.js";
+import ROUTES from "../../pages/routes/routes";
 import { signupEndpoint } from "../../api/endpoints.js";
 import {
-  errFirstnameRequired as firstReq,
+  errorFirstnameRequired as firstReq,
   errorFirstnameInvalid as firstInv,
   errorSurnameRequired as surnReq,
   errorSurnameInvalid as surnInv,
@@ -23,12 +25,22 @@ function RegistrationPage() {
   } = useForm();
 
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   const handleRegistration = async (data, event) => {
     event.preventDefault();
+    const parsedData = {
+      forename: data.forename,
+      surname: data.surname,
+      email: data.email,
+      password: data.password,
+    };
+
+    console.log(parsedData);
 
     try {
-      await postData(signupEndpoint, data);
+      await postAuthData(signupEndpoint, parsedData, "SIGNUP");
+      navigate(ROUTES.LOGIN);
     } catch (e) {
       setError(e.message);
     }
