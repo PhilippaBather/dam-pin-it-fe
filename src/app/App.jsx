@@ -9,6 +9,8 @@ import ROUTES from "../pages/routes/routes";
 import { action as logoutAction } from "../pages/private/Logout.js";
 import { checkAuthLoader, tokenLoader } from "../auth/auth-functions.js";
 
+// TODO: const token = useRouteLoaderData("root"); // retruns token
+
 const router = createBrowserRouter([
   {
     path: ROUTES.HOME,
@@ -26,7 +28,7 @@ const router = createBrowserRouter([
       { path: ROUTES.LOGIN, element: <LoginPage /> },
       { path: ROUTES.REGISTER, element: <RegistrationPage /> },
       {
-        path: "/logout",
+        path: ROUTES.LOGOUT,
         action: logoutAction,
       },
     ],
