@@ -34,10 +34,17 @@
     text-align: center;
   }
 
-  .error-msg__form {
+  .error-msg__form,
+  .error-msg__form-resp {
     font-size: 0.7rem;
     font-weight: 900;
     color: var(--baby-blue-semi-transparent);
+  }
+
+  .error-msg__form-resp {
+    text-align: center;
+    font-size: 0.8rem;
+    color: var(--theme-pink);
   }
 }
 

@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { Form, NavLink } from "react-router-dom";
 import ROUTES from "../pages/routes/routes.js";
 import "../stylesheets/navigation.css";
 
@@ -10,7 +10,8 @@ import "../stylesheets/navigation.css";
 // useNavigate hook: allows you to switch to a different route programmatically inside your code
 
 // TODO: conditional rendering: Login and register if not logged in
-// TODO: conditional rendering: Sign out button if logged in
+// TODO: conditional rendering: Sign out and Account if logged in
+// TODO: const token = useRouteLoaderData("root"); // retruns token
 
 function MainNavigation() {
   return (
@@ -23,28 +24,49 @@ function MainNavigation() {
       <nav>
         <div>
           <ul className={"nav-list"}>
-            <li className={["nav-list__signout"]}>
-              <button className={"nav-list__signout-btn"}>Sign out</button>
-            </li>
+            <Form method="POST" action="logout">
+              <li className={"nav-list__signout"}>
+                <button className={"nav-list__signout-btn"} type="button">
+                  Sign out
+                </button>
+              </li>
+            </Form>
             <li className={"nav-list__item"}>
-              <NavLink to={ROUTES.HOME} className={"nav-list__link"}>
+              <NavLink
+                to={ROUTES.HOME}
+                className={({ isActive }) =>
+                  isActive ? "nav-list__link-active" : "nav-list__link"
+                }
+              >
                 Home
               </NavLink>
             </li>
             <li className={"nav-list__item"}>
-              <NavLink to={ROUTES.LOGIN} className={"nav-list__link"}>
+              <NavLink
+                to={ROUTES.LOGIN}
+                className={({ isActive }) =>
+                  isActive ? "nav-list__link-active" : "nav-list__link"
+                }
+              >
                 Login
               </NavLink>
             </li>
             <li className={"nav-list__item"}>
-              <NavLink to={ROUTES.REGISTER} className={"nav-list__link"}>
+              <NavLink
+                to={ROUTES.REGISTER}
+                className={({ isActive }) =>
+                  isActive ? "nav-list__link-active" : "nav-list__link"
+                }
+              >
                 Register
               </NavLink>
             </li>
             <li className={"nav-list__item"}>
               <NavLink
                 to={ROUTES.PROJECT_HOME_PAGE}
-                className={"nav-list__link"}
+                className={({ isActive }) =>
+                  isActive ? "nav-list__link-active" : "nav-list__link"
+                }
               >
                 Account
               </NavLink>
