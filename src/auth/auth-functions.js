@@ -27,18 +27,22 @@ export function getAuthToken() {
   if (tokenDuration < 0) {
     return "EXPIRED";
   }
+
+  return token;
 }
 
 export function tokenLoader() {
   return getAuthToken();
 }
 
-export function checkAuthLoader() {
+export async function checkAuthLoader() {
   const token = getAuthToken();
 
   if (!token) {
     return redirect("/"); // TODO: is this the route I want?
   }
+
+  // TODO: check user loaded into context
 
   // loaders must return a value
   return null;
