@@ -1,15 +1,26 @@
-import { setJWTExpiration } from "../auth/auth-functions";
+import { getAuthToken, setJWTExpiration } from "../auth/auth-functions";
 import { origin } from "./endpoints";
 
-export const fetchData = async (url, errMsg) => {
-  const resp = await fetch(url);
-  const data = await resp.json();
+export const postUserLogin = async (url, data) => {
+  const token = getAuthToken();
+  const resp = await fetch(url, {
+    method: "POST",
+    body: JSON.stringify(data),
+    headers: {
+      "Content-Type": "application/json",
+      Origin: origin,
+      Authorizaton: "Bearer " + token,
+    },
+  });
+
+  const respData = await resp.json();
+  console.log(respData);
 
   if (!resp.ok) {
-    throw new Error(errMsg);
+    throw new Error("TODO: create custom error message");
   }
 
-  return data;
+  return respData;
 };
 
 export const postAuthData = async (url, data, method) => {
@@ -46,15 +57,21 @@ export const postAuthData = async (url, data, method) => {
     localStorage.setItem("token", respData.jsonToken);
     setJWTExpiration();
   }
+  return respData;
 };
 
-export const postProjectData = async (url, data, method) => {
-  const resp = await fetch(url, {
+export const postProjectData = async (url, data, id, method) => {
+  const token = getAuthToken();
+  const ep = url + id;
+  console.log(ep);
+
+  const resp = await fetch(ep, {
     method: "POST",
     body: JSON.stringify(data),
     headers: {
       "Content-Type": "application/json",
       Origin: origin,
+      Authorizaton: "Bearer " + token,
     },
   });
 
@@ -67,6 +84,7 @@ export const postProjectData = async (url, data, method) => {
   }
 
   const respData = await resp.json();
+  console.log(respData);
 
   return respData;
 };
