@@ -1,7 +1,9 @@
-import { useForm } from "react-hook-form";
 import { useState } from "react";
+import { useParams } from "react-router-dom";
+import { useForm } from "react-hook-form";
 import { postProjectData } from "../api/http-requests";
-import { projectEndppoint } from "../api/endpoints";
+import { stripQueryParam } from "../utilities/data-parsing";
+import { projectEndpoint } from "../api/endpoints";
 import {
   errorDeadlineRequired as deadlineReq,
   errorTitleRequired as titleReq,
@@ -11,26 +13,47 @@ function CreateProject() {
   const {
     register,
     handleSubmit,
+    clearErrors,
+    reset,
     formState: { errors },
   } = useForm();
 
-  const [error, setError] = useState();
+  let { id } = useParams();
+  const [isCreated, setIsCreated] = useState(false);
 
   const handleProjectCreation = async (data, event) => {
     event.preventDefault();
+    setIsCreated(true);
 
     try {
-      await postProjectData(projectEndppoint, data, "PROJECT");
+      id = stripQueryParam(id, "USER_ID");
+      await postProjectData(projectEndpoint, data, id, "PROJECT");
     } catch (e) {
-      // set error
-      setError(e);
+      console.log(e);
     }
+    clearErrors();
+    reset({ title: "", description: "", deadline: "" });
+  };
 
-    console.log(error); // TODO: remove
+  const resetIsCreated = () => {
+    setIsCreated(false);
+    clearErrors();
   };
 
   return (
     <>
+      <form method="dialog" className="dialog-btn__form">
+        <div className="form-btn__container-close">
+          <button
+            className="form-btn"
+            method="dialog"
+            type="cancel"
+            onClick={resetIsCreated}
+          >
+            Close
+          </button>
+        </div>
+      </form>
       <form className="form" onSubmit={handleSubmit(handleProjectCreation)}>
         <h2 className="form-title">Project Details</h2>
         <label htmlFor="proj-title">Title</label>
@@ -66,20 +89,31 @@ function CreateProject() {
             {deadlineReq}
           </span>
         )}
-        <div className="form-btn__container">
-          <button className="form-btn" type="submit">
-            Create
-          </button>
-          <form method="dialog" className="dialog-btn__form">
-            <button className="form-btn" method="reset">
+        {!isCreated && (
+          <div className="form-btn__container">
+            <button className="form-btn" type="submit">
+              Create
+            </button>
+            <button className="form-btn" type="reset">
               Reset
             </button>
-            <button className="form-btn" method="dialog">
-              Cancel
-            </button>
-          </form>
-        </div>
+          </div>
+        )}
       </form>
+      {isCreated && (
+        <form method="dialog" className="dialog-btn__form">
+          <div className="form-btn__container">
+            <button
+              className="form-btn form-btn_another-project"
+              method="dialog"
+              type="button"
+              onClick={resetIsCreated}
+            >
+              Create Another Project
+            </button>
+          </div>
+        </form>
+      )}
     </>
   );
 }
