@@ -1,0 +1,12 @@
+.title-page {
+  font-family: "Slackside One", cursive;
+  font-size: 3rem;
+  color: var(--theme-pink);
+  text-align: center;
+}
+
+.title-create_project {
+  font-size: 1.5rem;
+  font-family: "Slackside One", cursive;
+  color: white;
+}
