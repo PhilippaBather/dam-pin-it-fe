@@ -5,9 +5,11 @@ import LoginPage from "../pages/public/LoginPage";
 import RegistrationPage from "../pages/public/RegistrationPage";
 import ProjectHomePage from "../pages/private/ProjectHomePage";
 import RootLayout from "../pages/public/RootLayout";
-import ROUTES from "../pages/routes/routes";
+import { ProjectContextProvider } from "../context/project-context.jsx";
 import { action as logoutAction } from "../pages/private/Logout.js";
+import ProjectDashboard from "../pages/private/ProjectDashboard.jsx";
 import { checkAuthLoader, tokenLoader } from "../auth/auth-functions.js";
+import ROUTES from "../pages/routes/routes";
 
 // TODO: const token = useRouteLoaderData("root"); // retruns token
 
@@ -20,10 +22,15 @@ const router = createBrowserRouter([
     loader: tokenLoader,
     children: [
       {
-        path: ROUTES.PROJECT_HOME_PAGE,
+        path: "/projects-home/user/:id",
         element: <ProjectHomePage />,
         loader: checkAuthLoader,
       },
+      {
+        path: "/projects-home/user/:id/project/:pid",
+        element: <ProjectDashboard />,
+      },
+
       { index: true, element: <HomePage /> },
       { path: ROUTES.LOGIN, element: <LoginPage /> },
       { path: ROUTES.REGISTER, element: <RegistrationPage /> },
@@ -36,7 +43,11 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <ProjectContextProvider>
+      <RouterProvider router={router} />
+    </ProjectContextProvider>
+  );
 }
 
 export default App;
