@@ -8,4 +8,5 @@ export const signupEndpoint = "http://localhost:3000/users/auth/signup";
 export const userDataEndpoint = "http://localhost:3000/users";
 
 // Project and task creation
-export const projectEndpoint = `http://localhost:3000/projects/`;
+export const projectEndpoint = "http://localhost:3000/projects/";
+export const projectDeleteEndpoint = "http://localhost:3000/project/";

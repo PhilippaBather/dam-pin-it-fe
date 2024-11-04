@@ -63,7 +63,6 @@ export const postAuthData = async (url, data, method) => {
 export const postProjectData = async (url, data, id, method) => {
   const token = getAuthToken();
   const ep = url + id;
-  console.log(ep);
 
   const resp = await fetch(ep, {
     method: "POST",
@@ -84,7 +83,19 @@ export const postProjectData = async (url, data, id, method) => {
   }
 
   const respData = await resp.json();
-  console.log(respData);
-
   return respData;
+};
+
+export const deleteProject = async (url, pid) => {
+  const token = getAuthToken();
+  const ep = url + pid;
+
+  await fetch(ep, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Origin: origin,
+      Authorizaton: "Bearer " + token,
+    },
+  });
 };

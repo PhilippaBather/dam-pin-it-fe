@@ -1,12 +1,13 @@
-import { Form, NavLink } from "react-router-dom";
+import { Form, NavLink, useParams } from "react-router-dom";
+import { getAuthToken } from "../auth/auth-functions.js";
 import ROUTES from "../pages/routes/routes.js";
 import "../stylesheets/navigation.css";
-import { getAuthToken } from "../auth/auth-functions.js";
 
 // NavLink does not send new HTTP request and uses an anonymous function to indicate whether a lin is active
 
 function MainNavigation() {
   const isUserAuth = getAuthToken();
+  const { id } = useParams();
 
   const authNav = (
     <ul className={"nav-list"}>
@@ -19,7 +20,7 @@ function MainNavigation() {
       </li>
       <li className={"nav-list__item"}>
         <NavLink
-          to="/create-project"
+          to={`/projects-home/user/${id}`}
           className={({ isActive }) =>
             isActive ? "nav-list__link-active" : "nav-list__link"
           }

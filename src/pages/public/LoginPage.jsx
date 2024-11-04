@@ -10,7 +10,6 @@ import {
 import "../../stylesheets/form.css";
 import "../../stylesheets/ui-components.css";
 import { loginEndpoint, userDataEndpoint } from "../../api/endpoints.js";
-import ROUTES from "../routes/routes.js";
 
 function LoginPage() {
   const {
@@ -28,7 +27,8 @@ function LoginPage() {
       await postAuthData(loginEndpoint, data, "LOGIN");
       const user = await postUserLogin(userDataEndpoint, data);
       // useNavigate hook to programmatically change route
-      navigate(ROUTES.PROJECT_HOME_PAGE + user.id);
+      const route = `/projects-home/user/${user.id}`;
+      navigate(route);
     } catch (e) {
       setError(e.message);
     }

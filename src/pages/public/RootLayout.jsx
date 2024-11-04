@@ -32,7 +32,6 @@ function RootLayout() {
   return (
     <>
       <MainNavigation />
-      <main></main>
       <Footer />
       <Outlet />
     </>

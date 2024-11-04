@@ -9,17 +9,23 @@ import {
   errorTitleRequired as titleReq,
 } from "../constants/error-messages";
 
-function CreateProject() {
+function EditProject() {
+  const { currProject, setCurrProject } = useProjectContext();
   const {
     register,
     handleSubmit,
     clearErrors,
     reset,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      title: currProject.title,
+      description: currProject.description,
+      deadline: currProject.deadline,
+    },
+  });
 
   let { id } = useParams();
-  const { currProject, setCurrProject } = useProjectContext();
   const navigate = useNavigate();
   const [isCreated, setIsCreated] = useState(false);
 
@@ -106,22 +112,8 @@ function CreateProject() {
           </div>
         )}
       </form>
-      {isCreated && (
-        <form method="dialog" className="dialog-btn__form">
-          <div className="form-btn__container">
-            <button
-              className="form-btn form-btn_another-project"
-              method="dialog"
-              type="button"
-              onClick={resetIsCreated}
-            >
-              Create Another Project
-            </button>
-          </div>
-        </form>
-      )}
     </>
   );
 }
 
-export default CreateProject;
+export default EditProject;
