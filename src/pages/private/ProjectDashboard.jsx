@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { useProjectContext } from "../../context/project-context";
 import { getAuthToken } from "../../auth/auth-functions";
 import Card from "../../components/Card";
+import AddTask from "../../components/AddTask";
 import DeleteProject from "../../components/DeleteProject";
 import EditProject from "../../components/EditProject";
 import Modal from "../../components/Modal";
@@ -48,11 +49,22 @@ function ProjectDashboard() {
     setDialogType("DELETE");
   };
 
+  const handleAddTask = () => {
+    dialog.current.open();
+    setDialogType("ADD_TASK");
+  };
+
   return (
     <>
       <Modal ref={dialog}>
         <Card>
-          {dialogType === "EDIT" ? <EditProject /> : <DeleteProject />}
+          {dialogType === "EDIT" ? (
+            <EditProject />
+          ) : dialogType === "DELETE" ? (
+            <DeleteProject />
+          ) : (
+            <AddTask />
+          )}
         </Card>
       </Modal>
       <main>
@@ -62,7 +74,7 @@ function ProjectDashboard() {
             <button
               type="button"
               className="dashboard-btn"
-              onClick={handleEditProject}
+              onClick={handleAddTask}
             >
               Task &#128203;
             </button>

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useProjectContext } from "../context/project-context";
-import { postProjectData } from "../api/http-requests";
+import { handleHttpReq } from "../api/http-requests";
 import { projectEndpoint } from "../api/endpoints";
 import {
   errorDeadlineRequired as deadlineReq,
@@ -34,7 +34,13 @@ function EditProject() {
     setIsCreated(true);
 
     try {
-      const resp = await postProjectData(projectEndpoint, data, id, "PROJECT");
+      const resp = await handleHttpReq(
+        projectEndpoint,
+        data,
+        id,
+        "POST",
+        "PROJECT"
+      );
       setCurrProject(resp);
     } catch (e) {
       console.log(e);
@@ -104,7 +110,7 @@ function EditProject() {
         {!isCreated && (
           <div className="form-btn__container">
             <button className="form-btn" type="submit">
-              Create
+              Update
             </button>
             <button className="form-btn" type="reset">
               Reset

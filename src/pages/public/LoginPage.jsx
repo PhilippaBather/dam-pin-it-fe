@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import Card from "../../components/Card";
-import { postAuthData, postUserLogin } from "../../api/http-requests.js";
+import { handleHttpReq } from "../../api/http-requests.js";
 import {
   errorEmailReq as emailReq,
   errorPasswordRequired as passReq,
@@ -24,8 +24,14 @@ function LoginPage() {
   const handleLogin = async (data, event) => {
     event.preventDefault();
     try {
-      await postAuthData(loginEndpoint, data, "LOGIN");
-      const user = await postUserLogin(userDataEndpoint, data);
+      await handleHttpReq(loginEndpoint, data, null, "POST", "LOGIN");
+      const user = await handleHttpReq(
+        userDataEndpoint,
+        data,
+        null,
+        "POST",
+        "LOGIN"
+      );
       // useNavigate hook to programmatically change route
       const route = `/projects-home/user/${user.id}`;
       navigate(route);

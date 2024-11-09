@@ -1,9 +1,11 @@
+import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useProjectContext } from "../context/project-context";
-import { deleteProject } from "../api/http-requests";
+import { handleHttpReq } from "../api/http-requests";
 import { projectDeleteEndpoint as url } from "../api/endpoints";
 
 function DeleteProject() {
+  const [isDeleted, setIsDeleted] = useState(false);
   const navigate = useNavigate();
   const { id, pid } = useParams();
   const { currProject } = useProjectContext();
@@ -14,7 +16,9 @@ function DeleteProject() {
     e.preventDefault();
 
     try {
-      await deleteProject(url, pid);
+      const resp = await handleHttpReq(url, null, pid, "DELETE", "PROJECT");
+      setIsDeleted(resp.status === 204 ? true : false);
+      console.log(resp);
       navigate(`/projects-home/user/${id}`);
     } catch (e) {
       console.error(e);
@@ -33,9 +37,11 @@ function DeleteProject() {
       <form onSubmit={handleDeleteProject}>
         <h1 className={"delete-modal_title"}>{alertMsg}</h1>
         <div className={"delete-modal_btn-container"}>
-          <button type="submit" className={"delete-modal_btn"}>
-            Confirm
-          </button>
+          {!isDeleted && (
+            <button type="submit" className={"delete-modal_btn"}>
+              Confirm
+            </button>
+          )}
         </div>
       </form>
     </>
