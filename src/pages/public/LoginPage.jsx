@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import Card from "../../components/Card";
+import Card from "../../components/ui/Card";
 import { handleHttpReq } from "../../api/http-requests.js";
 import {
   errorEmailReq as emailReq,

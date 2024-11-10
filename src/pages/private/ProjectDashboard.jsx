@@ -2,12 +2,13 @@ import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useProjectContext } from "../../context/project-context";
 import { getAuthToken } from "../../auth/auth-functions";
-import Card from "../../components/Card";
-import AddTask from "../../components/AddTask";
-import DeleteProject from "../../components/DeleteProject";
-import EditProject from "../../components/EditProject";
-import Modal from "../../components/Modal";
+import Card from "../../components/ui/Card";
+import AddTask from "../../components/tasks/AddTask";
+import DeleteProject from "../../components/projects/DeleteProject";
+import EditProject from "../../components/projects/EditProject";
+import Modal from "../../components/ui/Modal";
 import "../../stylesheets/project-dashboard.css";
+import ContextContainer from "../../components/draggable/ContextContainer";
 
 function ProjectDashboard() {
   const [dialogType, setDialogType] = useState(null);
@@ -94,6 +95,7 @@ function ProjectDashboard() {
             </button>
           </div>
         </header>
+        <ContextContainer />
       </main>
     </>
   );

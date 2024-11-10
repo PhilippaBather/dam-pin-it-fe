@@ -1,9 +1,9 @@
 import { useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
-import Card from "../../components/Card";
-import CreateProject from "../../components/CreateProject";
-import Modal from "../../components/Modal";
-import Sidebar from "../../components/Sidebar";
+import Card from "../../components/ui/Card";
+import CreateProject from "../../components/projects/CreateProject";
+import Modal from "../../components/ui/Modal";
+import Sidebar from "../../components/projects/Sidebar";
 import { useProjectContext } from "../../context/project-context";
 import { getAuthToken } from "../../auth/auth-functions";
 import "../../stylesheets/titles.css";

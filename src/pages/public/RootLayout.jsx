@@ -1,9 +1,8 @@
 import { useEffect } from "react";
 import { Outlet, useLoaderData, useSubmit } from "react-router-dom"; // Outlet marks the place to where the child elements are to be rendered
-import Footer from "../../components/Footer";
-import MainNavigation from "../../components/MainNavigation";
+import Footer from "../../components/navigation/Footer";
+import MainNavigation from "../../components/navigation/MainNavigation";
 import { getTokenDuration } from "../../auth/auth-functions";
-//import MainNavigation from "../../components/MainNavigation";
 
 function RootLayout() {
   // in root route so no need to specify useRouteLoaderData
