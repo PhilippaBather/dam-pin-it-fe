@@ -11,7 +11,6 @@ const getItemDragStyle = (isDragging, draggableStyle) => ({
 });
 
 function TaskContainer({ task }) {
-  console.log(task.id);
   const viewTaskDetails = (task) => {
     console.log(task);
     //setCurrentTask(id);
@@ -19,7 +18,7 @@ function TaskContainer({ task }) {
   };
 
   return (
-    <Draggable draggableId={task.id} index={task.id}>
+    <Draggable draggableId={task.id.toString()} index={task.id}>
       {(provided, snapshot) => (
         <li className={"list-item"} key={task.id}>
           <div

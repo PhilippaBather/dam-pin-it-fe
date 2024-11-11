@@ -20,19 +20,16 @@ function DroppableContainer({ column, tasks }) {
   }, []);
 
   if (!droppableEnabled) return null;
+  //  {...provided.droppableProps}
 
   return (
     <ListContainer title={column} colId={column}>
       <Droppable droppableId={column}>
         {(provided) => (
-          <ul
-            className="droppable-list"
-            ref={provided.innerRef}
-            {...provided.droppableProps}
-          >
-            {tasks?.map((task) => {
-              <TaskContainer index={task.id} task={task} key={task.id} />;
-            })}
+          <ul className="droppable-list" ref={provided.innerRef}>
+            {tasks?.map((task) => (
+              <TaskContainer index={task.id} task={task} key={task.id} />
+            ))}
             {provided.placeholder}
           </ul>
         )}
