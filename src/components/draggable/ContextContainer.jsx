@@ -4,15 +4,21 @@ import ColumnContainer from "./ColumnContainer";
 import DroppableContainer from "./DroppableContainer";
 import { useProjectContext } from "../../context/project-context";
 import {
-  getModStartCol,
-  getModEndCol,
-  updatedClonedTasks,
+  getModStartColTaskIds,
+  getDraggedTaskIndex,
+  updateTaskPositionInColumn,
+  filterTasksInStartColumn,
+  addTaskToEndColumn,
 } from "./draggable-utilities";
 import "../../stylesheets/draggables.css";
 
 function ContextContainer() {
-  const { projectTasks, setTasks, updateDraggedTasksXAxis } =
-    useProjectContext();
+  const {
+    projectTasks,
+    setTasks,
+    updateDraggedTasksXAxis,
+    updateDraggedTasksYAxis,
+  } = useProjectContext();
 
   useEffect(() => {
     setTasks({
@@ -107,37 +113,50 @@ function ContextContainer() {
     }
     const [draggedItem] = newStartTaskIds.splice(projectTasks[source.index], 1);
     if (startCol === endCol) {
-      const modStartCol = getModStartCol({
+      const modStartCol = getModStartColTaskIds({
         destination,
         newStartTaskIds,
         draggedItem,
         startCol,
         sameCol: true,
       });
-      const updatedTasks = updatedClonedTasks(
+      const updatedTasks = updateTaskPositionInColumn(
         destination.droppableI,
         projectTasks,
         modStartCol
       );
       updateDraggedTasksXAxis(updatedTasks);
-      // handleReorderUpdates(revisedColumn);
     } else {
-      const modStartColumn = startCol.tasks.filter(
-        (task) => task.id !== parseInt(draggableId)
-      );
-      const modEndColumn = getModEndCol({
-        destination,
-        draggableId,
-        startCol,
-        endCol,
-      });
-      console.log(modStartColumn);
-      console.log(modEndColumn);
+      const modStartColumn = startCol.tasks
+        .map((task) => task.id)
+        .filter((id) => id !== parseInt(draggableId));
 
-      // updatedStartColumn: get clone where clone only contains the ids in modStartColumn
-      // updatedEndColumn: get clone where clone inserts task by task ID in the correct status object
-      // so, need destination.draggableId: to insrt task according to the correct status
-      // source.draggableId: to get task to insert
+      // const draggedTaskArrayIndex = getDraggedTaskIndex({
+      //   destination,
+      //   draggableId,
+      //   startCol,
+      //   endCol,
+      // });
+
+      const updatedTasksStartCol = filterTasksInStartColumn(
+        source.droppableId,
+        modStartColumn,
+        projectTasks
+      );
+
+      const updatedTasksEndCol = addTaskToEndColumn(
+        draggableId,
+        source.droppableId,
+        destination.droppableId,
+        projectTasks
+      );
+
+      updateDraggedTasksYAxis(
+        source.droppableId,
+        updatedTasksStartCol,
+        destination.droppableId,
+        updatedTasksEndCol
+      );
     }
   };
 

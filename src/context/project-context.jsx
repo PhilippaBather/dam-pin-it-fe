@@ -22,12 +22,21 @@ export const ProjectContextProvider = ({ children }) => {
     });
   };
 
-  const updateDraggedTasksYAxis = (updatedStartTasks, updatedEndTasks) => {
+  const updateDraggedTasksYAxis = (
+    startColId,
+    updatedStartTasks,
+    endColId,
+    updatedEndTasks
+  ) => {
     setTasks((prev) => {
       return {
         ...prev,
-        ...updatedStartTasks,
-        ...updatedEndTasks,
+        [startColId]: {
+          tasks: [...updatedStartTasks],
+        },
+        [endColId]: {
+          tasks: [...updatedEndTasks],
+        },
       };
     });
   };

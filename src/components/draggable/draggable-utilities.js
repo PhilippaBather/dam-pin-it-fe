@@ -1,6 +1,6 @@
 import { cloneDeep } from "lodash";
 
-export const getModStartCol = ({
+export const getModStartColTaskIds = ({
   destination,
   newStartTaskIds,
   draggedItem,
@@ -15,7 +15,7 @@ export const getModStartCol = ({
   };
 };
 
-export const getModEndCol = ({
+export const getDraggedTaskIndex = ({
   destination,
   draggableId,
   startCol,
@@ -25,13 +25,10 @@ export const getModEndCol = ({
   const taskPosition =
     destination.index - (startCol.tasks.length + endCol.tasks.length);
   newEndTaskIds.splice(taskPosition + 1, 0, parseInt(draggableId));
-
-  return {
-    ids: newEndTaskIds,
-  };
+  return newEndTaskIds.indexOf(+draggableId);
 };
 
-export const updatedClonedTasks = (
+export const updateTaskPositionInColumn = (
   columnIdentifier,
   tasks,
   newTaskOrderByIds
@@ -46,4 +43,56 @@ export const updatedClonedTasks = (
     key[1].tasks.sort((a, b) => a.position - b.position);
   });
   return clonedTasks;
+};
+
+export const filterTasksInStartColumn = (
+  colIdentifier,
+  modStartTaskIds,
+  projectTasks
+) => {
+  const clonedTasks = cloneDeep(projectTasks);
+  // const startCol = Object.entries(clonedTasks).filter((key, value) => {
+  //   if (key[0] === colIdentifier) return value;
+  // })[0][1];
+  const startColTasks = getColumnTasks(clonedTasks, colIdentifier);
+
+  const filteredTasks = Object.values(startColTasks)[0].filter((task) => {
+    if (modStartTaskIds.includes(task.id)) return task;
+  });
+
+  return filteredTasks;
+};
+
+export const addTaskToEndColumn = (
+  taskId,
+  colStartId,
+  colEndId,
+  projectTasks
+) => {
+  const clonedTasks = cloneDeep(projectTasks);
+
+  const startColTasks = getColumnTasks(clonedTasks, colStartId);
+
+  const draggedTask = Object.values(startColTasks)[0].filter((task) => {
+    if (task.id === +taskId) return task;
+  })[0];
+
+  const endColTasks = Object.entries(clonedTasks).filter((key, value) => {
+    if (key[0] === colEndId) {
+      return value;
+    }
+  })[0][1];
+
+  endColTasks.tasks.push(draggedTask);
+
+  return endColTasks.tasks;
+};
+
+const getColumnTasks = (clonedTasks, colIdentifier) => {
+  console.log(clonedTasks);
+  return Object.entries(clonedTasks).filter((key, value) => {
+    if (key[0] === colIdentifier) {
+      return value;
+    }
+  })[0][1];
 };
