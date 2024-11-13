@@ -23,12 +23,12 @@ function DroppableContainer({ column, tasks }) {
   //  {...provided.droppableProps}
 
   return (
-    <ListContainer title={column} colId={column}>
+    <ListContainer colId={column} className={`list-container column`}>
       <Droppable droppableId={column}>
         {(provided) => (
-          <ul className="droppable-list" ref={provided.innerRef}>
+          <ul className="list-container__list" ref={provided.innerRef}>
             {tasks?.map((task) => (
-              <TaskContainer index={task.id} task={task} key={task.id} />
+              <TaskContainer index={task.position} task={task} key={task.id} />
             ))}
             {provided.placeholder}
           </ul>

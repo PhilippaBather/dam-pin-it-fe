@@ -11,16 +11,10 @@ const getItemDragStyle = (isDragging, draggableStyle) => ({
 });
 
 function TaskContainer({ task }) {
-  const viewTaskDetails = (task) => {
-    console.log(task);
-    //setCurrentTask(id);
-    //setModal("SELECTED_TASK");
-  };
-
   return (
-    <Draggable draggableId={task.id.toString()} index={task.id}>
+    <Draggable draggableId={task.id.toString()} index={task.position}>
       {(provided, snapshot) => (
-        <li className={"list-item"} key={task.id}>
+        <li className="list-item" key={task.id}>
           <div
             {...provided.draggableProps}
             {...provided.dragHandleProps}
@@ -29,12 +23,13 @@ function TaskContainer({ task }) {
               snapshot.isDragging,
               provided.draggableProps.style
             )}
-            onClick={() => viewTaskDetails(task)}
+            //onClick={() => viewTaskDetails(task)}
           >
-            <p className={"task-title"}>{task.title}</p>
-            <p className={"task-deadline-formatted"}>{task.deadline}</p>
-
-            <span className={"task-priority"}>{task.priority}</span>
+            <p className="task-title">{task.title}</p>
+            <div className="task-info">
+              <p className="task-deadline-formatted">{task.deadline}</p>
+              <p className="task-priority">{task.priority}</p>
+            </div>
           </div>
         </li>
       )}

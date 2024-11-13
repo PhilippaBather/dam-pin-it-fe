@@ -1,19 +1,8 @@
 import { useUIContext } from "../../context/ui-context";
+import { getColName } from "./draggable-utilities";
 
-function ListContainer({ children, title, colId }) {
+function ListContainer({ children, colId }) {
   const { setColumnClicked } = useUIContext();
-
-  const parseTasksKey = (title) => {
-    const name = Object.values(title);
-    const firstLetter = name.slice(0, 1);
-    const remainingLetters = name
-      .slice(1)
-      .toString()
-      .toLowerCase()
-      .replaceAll(",", "")
-      .replaceAll("_", " ");
-    return firstLetter.concat(remainingLetters);
-  };
 
   const getColClicked = () => {
     setColumnClicked(colId);
@@ -21,7 +10,7 @@ function ListContainer({ children, title, colId }) {
 
   return (
     <div className="list-container" onClick={getColClicked}>
-      <h1 onClick={getColClicked}>{parseTasksKey(title)}</h1>
+      <h1 onClick={getColClicked}>{getColName[colId]()}</h1>
       {children}
     </div>
   );

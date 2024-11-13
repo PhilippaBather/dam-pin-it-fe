@@ -3,92 +3,13 @@ import { DragDropContext } from "react-beautiful-dnd";
 import ColumnContainer from "./ColumnContainer";
 import DroppableContainer from "./DroppableContainer";
 import { useProjectContext } from "../../context/project-context";
-import {
-  getModStartColTaskIds,
-  getDraggedTaskIndex,
-  updateTaskPositionInColumn,
-  filterTasksInStartColumn,
-  addTaskToEndColumn,
-} from "./draggable-utilities";
 import "../../stylesheets/draggables.css";
 
 function ContextContainer() {
-  const {
-    projectTasks,
-    setTasks,
-    updateDraggedTasksXAxis,
-    updateDraggedTasksYAxis,
-  } = useProjectContext();
+  const { projectTasks, updateDraggedTasksXAxis, updateDraggedTasksYAxis } =
+    useProjectContext();
 
-  useEffect(() => {
-    setTasks({
-      PENDING: {
-        tasks: [
-          {
-            id: 1,
-            projectId: "1",
-            title: "Task 1",
-            description: "taskDescription",
-            deadline: "01/01/2025",
-            priority: "NORMAL",
-            status: "PENDING",
-            position: 1,
-          },
-          {
-            id: 2,
-            projectId: "1",
-            title: "Task 2",
-            description: "taskDescription",
-            deadline: "01/01/2025",
-            priority: "NORMAL",
-            status: "PENDING",
-            position: 2,
-          },
-        ],
-      },
-      IN_PROGRESS: {
-        tasks: [
-          {
-            id: 3,
-            projectId: "1",
-            title: "Task 3",
-            description: "taskDescription",
-            deadline: "01/01/2025",
-            priority: "NORMAL",
-            status: "IN_PROGRESS",
-            position: 1,
-          },
-          {
-            id: 4,
-            projectId: "1",
-            title: "Task 4",
-            description: "taskDescription",
-            deadline: "01/01/2025",
-            priority: "NORMAL",
-            status: "IN_PROGRESS",
-            position: 2,
-          },
-        ],
-      },
-      BLOCKED: {
-        tasks: [],
-      },
-      COMPLETED: {
-        tasks: [
-          {
-            id: 5,
-            projectId: "1",
-            title: "Task 5",
-            description: "taskDescription",
-            deadline: "01/01/2025",
-            priority: "NORMAL",
-            status: "COMPLETED",
-            position: 1,
-          },
-        ],
-      },
-    });
-  }, [setTasks]);
+  useEffect(() => {}, [projectTasks]);
 
   const onDragEnd = (result) => {
     if (!projectTasks) {
@@ -105,57 +26,45 @@ function ContextContainer() {
     ) {
       return;
     }
-    const startCol = projectTasks[source.droppableId];
-    const endCol = projectTasks[destination.droppableId];
-    let newStartTaskIds = [];
-    for (let i = 0; i < startCol.tasks.length; i++) {
-      newStartTaskIds.push(startCol.tasks[i].id);
-    }
-    const [draggedItem] = newStartTaskIds.splice(projectTasks[source.index], 1);
-    if (startCol === endCol) {
-      const modStartCol = getModStartColTaskIds({
-        destination,
-        newStartTaskIds,
-        draggedItem,
-        startCol,
-        sameCol: true,
-      });
-      const updatedTasks = updateTaskPositionInColumn(
-        destination.droppableI,
-        projectTasks,
-        modStartCol
+
+    let sourceCol = projectTasks[source.droppableId].tasks;
+    const destinationCol = projectTasks[destination.droppableId].tasks;
+
+    const draggedTask = sourceCol.filter(
+      (task) => task.id.toString() === draggableId
+    )[0];
+
+    if (source.droppableId === destination.droppableId) {
+      // filter out dragged task
+      const modifiedSourceCol = sourceCol.filter(
+        (task) => task.id.toString() !== draggableId
       );
-      updateDraggedTasksXAxis(updatedTasks);
+      // add dragged task at array index matching modified position
+      // destination.index -1: dnd indexing not zero based
+      modifiedSourceCol.splice(destination.index - 1, 0, draggedTask);
+      // update task position values according to array index
+      // index + 1: dnd not zero based
+      modifiedSourceCol.forEach((task, index) => (task.position = index + 1));
+      // update state
+      updateDraggedTasksYAxis(destination.droppableId, modifiedSourceCol);
     } else {
-      const modStartColumn = startCol.tasks
-        .map((task) => task.id)
-        .filter((id) => id !== parseInt(draggableId));
-
-      // const draggedTaskArrayIndex = getDraggedTaskIndex({
-      //   destination,
-      //   draggableId,
-      //   startCol,
-      //   endCol,
-      // });
-
-      const updatedTasksStartCol = filterTasksInStartColumn(
-        source.droppableId,
-        modStartColumn,
-        projectTasks
+      // filter out dragged task from source column
+      const modifiedSourceCol = sourceCol.filter(
+        (task) => task.id.toString() !== draggableId
       );
+      // add task to destination column at index matching position
+      // destination.index -1: dnd indexing not zero based
+      destinationCol.splice(destination.index - 1, 0, draggedTask);
+      // update task position values according to array index
+      // index + 1: dnd not zero based
+      destinationCol.forEach((task, index) => (task.position = index + 1));
 
-      const updatedTasksEndCol = addTaskToEndColumn(
-        draggableId,
+      // update state
+      updateDraggedTasksXAxis(
         source.droppableId,
         destination.droppableId,
-        projectTasks
-      );
-
-      updateDraggedTasksYAxis(
-        source.droppableId,
-        updatedTasksStartCol,
-        destination.droppableId,
-        updatedTasksEndCol
+        modifiedSourceCol,
+        destinationCol
       );
     }
   };
@@ -167,8 +76,6 @@ function ContextContainer() {
           // get the key identifying task status
           Object.keys(projectTasks).map((key) => {
             const column = key;
-            console.log(projectTasks);
-
             // get the task ids pertaining to a task status
             const [...tasks] = projectTasks[key].tasks.map((task) => task);
             return (
