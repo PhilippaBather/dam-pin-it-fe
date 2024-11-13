@@ -31,8 +31,8 @@ function RootLayout() {
   return (
     <>
       <MainNavigation />
-      <Footer />
       <Outlet />
+      <Footer />
     </>
   );
 }
