@@ -67,6 +67,27 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+body::-webkit-scrollbar {
+  scrollbar-width: thin;
+  background: linear-gradient(
+    45deg,
+    var(--theme-pink-button) 20%,
+    hotpink 50%,
+    var(--theme-pink-button) 80%
+  );
+}
+body::-webkit-scrollbar-thumb {
+  max-height: 5px;
+  background: linear-gradient(
+    45deg,
+    #ece6ff 0%,
+    var(--theme-pink-button) 20%,
+    #ece6ff 80%
+  );
+  outline: 1px solid var(--theme-green-button);
+  cursor: grab;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
