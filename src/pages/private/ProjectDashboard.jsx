@@ -15,10 +15,10 @@ function ProjectDashboard() {
   const { id, pid } = useParams();
   const dialog = useRef();
   const { currProject, setCurrProject } = useProjectContext();
-  const token = getAuthToken();
 
   useEffect(() => {
     async function fetchData() {
+      const token = getAuthToken();
       try {
         const resp = await fetch(
           `http://localhost:3000/project/user/${id}/project/${pid}`,
@@ -38,7 +38,7 @@ function ProjectDashboard() {
       }
     }
     fetchData();
-  }, [id, pid, setCurrProject, token]);
+  }, [id, pid, setCurrProject]);
 
   const handleEditProject = () => {
     dialog.current.open();
@@ -95,6 +95,14 @@ function ProjectDashboard() {
             </button>
           </div>
         </header>
+        <p className="para-info">
+          <span className="para-info_title">Deadline:</span>
+          {new Date(currProject.deadline).toLocaleDateString()}
+        </p>
+        <p className="para-info">
+          <span className="para-info_title">Description:</span>
+          {currProject.description}
+        </p>
         <ContextContainer />
       </main>
     </>
