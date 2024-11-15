@@ -130,9 +130,6 @@ export const ProjectContextProvider = ({ children }) => {
     setSelectedTask,
     updateDraggedTasksXAxis,
     updateDraggedTasksYAxis,
-
-    // updateChangedColumn,
-    // updateReorderedColumn,
   };
 
   return (
