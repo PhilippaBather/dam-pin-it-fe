@@ -20,7 +20,7 @@ export const handleHttpReq = async (url, data, id, method, dataType) => {
     },
   });
 
-  if (method === "DELETE" && resp.status === 204) {
+  if ((method === "DELETE" || method === "PUT") && resp.status === 204) {
     return resp.status;
   }
 
@@ -34,6 +34,55 @@ export const handleHttpReq = async (url, data, id, method, dataType) => {
     throw new Error(respData.message);
   }
 
+  // if (dataType === "SIGNUP" && resp.status !== 200) {
+  //   if (resp.status === 404) {
+  //     throw new Error(respData.message);
+  //   }
+
+  //   if (resp.status === 409) {
+  //     throw new Error(respData.message);
+  //   }
+  // }
+
+  // if (dataType === "LOGIN") {
+  //   localStorage.setItem("token", respData.jsonToken);
+  //   setJWTExpiration();
+  // }
+
+  return respData;
+};
+
+// export const fetchData = async (url, errMsg) => {
+//   const resp = await fetch(url);
+//   const data = await resp.json();
+
+//   if (!resp.ok) {
+//     throw new Error(errMsg);
+//   }
+
+//   return data;
+// };
+
+export const postAuthData = async (url, data, dataType) => {
+  const resp = await fetch(url, {
+    method: "POST",
+    body: JSON.stringify(data),
+    headers: {
+      "Content-Type": "application/json",
+      Origin: origin,
+    },
+  });
+
+  if (resp.status === 401 || resp.status === 422) {
+    throw new Error("Incorrect login details.");
+  }
+
+  if (resp.status === 500) {
+    throw new Error(respData.message);
+  }
+
+  const respData = await resp.json();
+
   if (dataType === "SIGNUP" && resp.status !== 200) {
     if (resp.status === 404) {
       throw new Error(respData.message);
@@ -46,8 +95,7 @@ export const handleHttpReq = async (url, data, id, method, dataType) => {
 
   if (dataType === "LOGIN") {
     localStorage.setItem("token", respData.jsonToken);
+    console.log(localStorage.getItem("token"));
     setJWTExpiration();
   }
-
-  return respData;
 };
