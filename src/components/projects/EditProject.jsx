@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useProjectContext } from "../../context/project-context";
 import { handleHttpReq } from "../../api/http-requests";
@@ -8,6 +8,7 @@ import {
   errorDeadlineRequired as deadlineReq,
   errorTitleRequired as titleReq,
 } from "../../constants/error-messages";
+import { getAuthToken } from "../../auth/auth-functions";
 
 function EditProject() {
   const { currProject, setCurrProject } = useProjectContext();
@@ -25,23 +26,31 @@ function EditProject() {
     },
   });
 
-  let { id } = useParams();
-  const navigate = useNavigate();
-  const [isCreated, setIsCreated] = useState(false);
+  let { id, pid } = useParams();
+  const [isEdited, setIsEdited] = useState(false);
 
   const handleProjectCreation = async (data, event) => {
+    const token = getAuthToken();
     event.preventDefault();
-    setIsCreated(true);
+    setIsEdited(true);
 
     try {
-      const resp = await handleHttpReq(
-        projectEndpoint,
-        data,
-        id,
-        "POST",
-        "PROJECT"
+      await handleHttpReq(projectEndpoint, data, pid, "PUT", "PROJECT");
+
+      const resp = await fetch(
+        `http://localhost:3000/project/user/${id}/project/${pid}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Origin: origin,
+            Authorizaton: "Bearer " + token,
+          },
+        }
       );
-      setCurrProject(resp);
+
+      const respData = await resp.json();
+      setCurrProject(respData);
     } catch (e) {
       console.log(e);
     }
@@ -49,13 +58,10 @@ function EditProject() {
     reset({ title: "", description: "", deadline: "" });
   };
 
-  const resetIsCreated = () => {
+  const resetIsEdited = () => {
     clearErrors();
     reset({ title: "", description: "", deadline: "" });
-    setIsCreated(false);
-
-    const route = `/projects-home/user/${id}/project/${currProject.projectId}`;
-    navigate(route);
+    setIsEdited(false);
   };
 
   return (
@@ -66,7 +72,7 @@ function EditProject() {
             className="form-btn"
             method="dialog"
             type="cancel"
-            onClick={resetIsCreated}
+            onClick={resetIsEdited}
           >
             Close
           </button>
@@ -107,7 +113,7 @@ function EditProject() {
             {deadlineReq}
           </span>
         )}
-        {!isCreated && (
+        {!isEdited && (
           <div className="form-btn__container">
             <button className="form-btn" type="submit">
               Update

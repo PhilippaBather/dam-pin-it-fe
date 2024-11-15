@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useProjectContext } from "../../context/project-context";
 import { handleHttpReq } from "../../api/http-requests";
-import { projectDeleteEndpoint as url } from "../../api/endpoints";
+import { projectEndpoint as url } from "../../api/endpoints";
 
 function DeleteProject() {
   const [isDeleted, setIsDeleted] = useState(false);

@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useProjectContext } from "../../context/project-context";
 import { handleHttpReq } from "../../api/http-requests";
-import { projectEndpoint } from "../../api/endpoints";
+import { projectsEndpoint } from "../../api/endpoints";
 import {
   errorDeadlineRequired as deadlineReq,
   errorTitleRequired as titleReq,
@@ -29,7 +29,7 @@ function CreateProject() {
 
     try {
       const resp = await handleHttpReq(
-        projectEndpoint,
+        projectsEndpoint,
         data,
         id,
         "POST",
