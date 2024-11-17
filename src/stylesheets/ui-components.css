@@ -9,6 +9,14 @@
   transform: translate(-50%, -47%);
   border: 1px solid var(--border-grey-brown);
   border-radius: 10px;
-  background-color: white;
+  background-color: black;
   padding: 0.5rem 2rem;
+}
+
+.card-btn {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: var(--theme-pink);
+  border-radius: 10px;
 }
