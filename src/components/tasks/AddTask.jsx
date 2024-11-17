@@ -6,8 +6,13 @@ import {
   colourStyles,
   priorityOptions,
 } from "./task-priority-dropdown-settings";
-import { taskEndpoint } from "../../api/endpoints.js";
-import { handleHttpReq } from "../../api/http-requests.js";
+import { useProjectContext } from "../../context/project-context.jsx";
+import { getAuthToken } from "../../auth/auth-functions.js";
+import {
+  processTaskData,
+  resetTasksOrderInColumn,
+  updateContext,
+} from "../draggable/draggable-utilities.js";
 import {
   errorDeadlineRequired as deadlineReq,
   errorTitleRequired as titleReq,
@@ -23,22 +28,54 @@ function AddTask() {
   } = useForm();
 
   const [isCreated, setIsCreated] = useState(false);
+  const [selectOption, setSelectOption] = useState("");
+  const { projectTasks, setTasks } = useProjectContext();
+  const { id, pid } = useParams();
 
-  const { pid } = useParams();
+  const handleChange = (selectedOption) => {
+    console.log(selectedOption);
+    setSelectOption(selectedOption.label);
+  };
 
-  const handleProjectCreation = async (data, event) => {
+  const handleTaskCreation = async (data, event) => {
     event.preventDefault();
 
     setIsCreated(true);
-    if (!data.priorityLevel) {
-      data.priorityLevel = "4"; // none by default
-      data.status = "PENDING"; // for column ordering
-    }
 
+    const processedData = processTaskData(data, selectOption, pid);
+
+    const token = getAuthToken();
     try {
-      const resp = await handleHttpReq(taskEndpoint, data, pid, "POST", "TASK");
-      // TODO: update context
-      console.log(resp); // TODO: remove
+      // save updated tasks in batch
+      const resp = await fetch(
+        `http://localhost:3000/tasks/user/${id}/project/${pid}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Origin: origin,
+            Authorizaton: "Bearer " + token,
+          },
+          body: JSON.stringify(processedData),
+        }
+      );
+      // add saved task and revise task positions in column
+      const savedTask = await resp.json();
+      console.log(savedTask);
+      const modifiedTaskList = resetTasksOrderInColumn(savedTask, projectTasks);
+      await fetch(
+        `http://localhost:3000/tasks-list/user/${id}/project/${pid}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Origin: origin,
+            Authorizaton: "Bearer " + token,
+          },
+          body: JSON.stringify(modifiedTaskList),
+        }
+      );
+      updateContext(modifiedTaskList, setTasks);
     } catch (e) {
       console.error(e);
     }
@@ -66,7 +103,7 @@ function AddTask() {
           </button>
         </div>
       </form>
-      <form className="form" onSubmit={handleSubmit(handleProjectCreation)}>
+      <form className="form" onSubmit={handleSubmit(handleTaskCreation)}>
         <h2 className="form-title">Task Details</h2>
         <label htmlFor="proj-title">Title</label>
         <input
@@ -108,7 +145,7 @@ function AddTask() {
           styles={colourStyles}
           options={priorityOptions}
           isSearchable={true}
-          {...register("priorityLevel", { required: false })}
+          onChange={handleChange}
         />
         {!isCreated && (
           <div className="form-btn__container">

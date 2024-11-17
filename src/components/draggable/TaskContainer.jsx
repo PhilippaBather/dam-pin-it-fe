@@ -12,7 +12,7 @@ const getItemDragStyle = (isDragging, draggableStyle) => ({
 
 function TaskContainer({ task }) {
   return (
-    <Draggable draggableId={task.id.toString()} index={task.position}>
+    <Draggable draggableId={task.id.toString()} index={task.taskPosition}>
       {(provided, snapshot) => (
         <li className="list-item" key={task.id}>
           <div
@@ -27,8 +27,8 @@ function TaskContainer({ task }) {
           >
             <p className="task-title">{task.title}</p>
             <div className="task-info">
-              <p className="task-deadline-formatted">{task.deadline}</p>
-              <p className="task-priority">{task.priority}</p>
+              <p className="task-deadline-formatted"> {task.deadline}</p>
+              <p className="task-priority"> {task.priority}</p>
             </div>
           </div>
         </li>

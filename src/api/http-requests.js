@@ -34,34 +34,8 @@ export const handleHttpReq = async (url, data, id, method, dataType) => {
     throw new Error(respData.message);
   }
 
-  // if (dataType === "SIGNUP" && resp.status !== 200) {
-  //   if (resp.status === 404) {
-  //     throw new Error(respData.message);
-  //   }
-
-  //   if (resp.status === 409) {
-  //     throw new Error(respData.message);
-  //   }
-  // }
-
-  // if (dataType === "LOGIN") {
-  //   localStorage.setItem("token", respData.jsonToken);
-  //   setJWTExpiration();
-  // }
-
   return respData;
 };
-
-// export const fetchData = async (url, errMsg) => {
-//   const resp = await fetch(url);
-//   const data = await resp.json();
-
-//   if (!resp.ok) {
-//     throw new Error(errMsg);
-//   }
-
-//   return data;
-// };
 
 export const postAuthData = async (url, data, dataType) => {
   const resp = await fetch(url, {
@@ -95,7 +69,6 @@ export const postAuthData = async (url, data, dataType) => {
 
   if (dataType === "LOGIN") {
     localStorage.setItem("token", respData.jsonToken);
-    console.log(localStorage.getItem("token"));
     setJWTExpiration();
   }
 };

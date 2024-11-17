@@ -10,4 +10,5 @@ export const userDataEndpoint = "http://localhost:3000/users";
 // Project and task creation
 export const projectsEndpoint = "http://localhost:3000/projects/";
 export const projectEndpoint = "http://localhost:3000/project/";
-export const taskEndpoint = "http://localhost:3000/task/";
+export const taskEndpoint =
+  "http://localhost:3000/task//task/{taskId}/user/{userId}/project/{projectId}";

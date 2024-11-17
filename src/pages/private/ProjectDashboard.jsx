@@ -14,10 +14,10 @@ function ProjectDashboard() {
   const [dialogType, setDialogType] = useState(null);
   const { id, pid } = useParams();
   const dialog = useRef();
-  const { currProject, setCurrProject } = useProjectContext();
+  const { currProject, setCurrProject, setTasks } = useProjectContext();
 
   useEffect(() => {
-    async function fetchData() {
+    async function fetchProjectData() {
       const token = getAuthToken();
       try {
         const resp = await fetch(
@@ -37,8 +37,8 @@ function ProjectDashboard() {
         console.error(e);
       }
     }
-    fetchData();
-  }, [id, pid, setCurrProject]);
+    fetchProjectData();
+  }, [id, pid, setCurrProject, setTasks]);
 
   const handleEditProject = () => {
     dialog.current.open();

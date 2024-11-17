@@ -1,15 +1,48 @@
 import { useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { DragDropContext } from "react-beautiful-dnd";
 import ColumnContainer from "./ColumnContainer";
 import DroppableContainer from "./DroppableContainer";
 import { useProjectContext } from "../../context/project-context";
+import { getAuthToken } from "../../auth/auth-functions";
+import { parseTaskData } from "./draggable-utilities";
 import "../../stylesheets/draggables.css";
 
 function ContextContainer() {
-  const { projectTasks, updateDraggedTasksXAxis, updateDraggedTasksYAxis } =
-    useProjectContext();
+  const {
+    projectTasks,
+    updateDraggedTasksXAxis,
+    updateDraggedTasksYAxis,
+    setTasks,
+  } = useProjectContext();
+  const { id, pid } = useParams();
 
-  useEffect(() => {}, [projectTasks]);
+  useEffect(() => {
+    async function fetchTaskData() {
+      try {
+        const token = getAuthToken();
+
+        const resp = await fetch(
+          `http://localhost:3000/tasks/user/${id}/project/${pid}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Origin: origin,
+              Authorizaton: "Bearer " + token,
+            },
+          }
+        );
+        const data = await resp.json();
+        const parsedData = parseTaskData(data);
+        setTasks(parsedData);
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    fetchTaskData();
+  }, [id, pid, setTasks, projectTasks]);
 
   const onDragEnd = (result) => {
     if (!projectTasks) {
