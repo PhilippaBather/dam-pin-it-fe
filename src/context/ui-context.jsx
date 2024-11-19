@@ -1,21 +1,29 @@
 import { createContext, useContext, useState } from "react";
+// import AddTask from "../components/tasks/AddTask";
+// import DeleteProject from "../components/projects/DeleteProject";
+// import EditProject from "../components/projects/EditProject";
+// import TaskViewer from "../components/tasks/TaskViewer";
 
 // create context
 const UIContext = createContext();
 
 // create provider
 export const UIContextProvider = ({ children }) => {
-  //const [rerender, setRerender] = useState(false);
   const [columnClicked, setColumnClicked] = useState("");
-  //const [modal, setModal] = useState(null);
+  const [modalComponentType, setModalComponentType] = useState(null);
+
+  // const modalComponents = {
+  //   ADD_TASK: <AddTask />,
+  //   DELETE_PROJECT: <DeleteProject />,
+  //   EDIT_PROJECT: <EditProject />,
+  //   VIEW_TASK: <TaskViewer />,
+  // };
 
   const ctxtValue = {
-    //modal,
-    //rerender,
     columnClicked,
-    //setModal,
-    //setRerender,
+    modalComponentType,
     setColumnClicked,
+    setModalComponentType,
   };
 
   return <UIContext.Provider value={ctxtValue}>{children}</UIContext.Provider>;
