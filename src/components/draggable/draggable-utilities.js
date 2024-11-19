@@ -6,6 +6,15 @@ export const getColName = {
   4: () => "Completed",
 };
 
+export const getItemDragStyle = (isDragging, draggableStyle) => ({
+  background: isDragging ? `rgb(251, 5, 173)` : "white",
+  border: `1px solid grey`,
+  borderRadius: `5px`,
+  color: isDragging ? "white" : "black",
+
+  ...draggableStyle,
+});
+
 export const parseTaskData = (data) => {
   const pendingTasks = data
     .filter((task) => task.taskStatus === "PENDING")
@@ -30,9 +39,8 @@ export const parseTaskData = (data) => {
 };
 
 export const processTaskData = (data, selectedOption, pid) => {
-  // none by default
   data.priorityLevel =
-    selectedOption === "" ? "NONE" : selectedOption.toUpperCase();
+    selectedOption === "" ? "NONE" : selectedOption.toUpperCase(); // none by default
   data.taskStatus = "PENDING"; // for first column ordering
   data.taskPosition = 1;
   data.projectId = parseInt(pid);

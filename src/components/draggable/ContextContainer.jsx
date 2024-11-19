@@ -42,7 +42,8 @@ function ContextContainer() {
     }
 
     fetchTaskData();
-  }, [id, pid, setTasks, projectTasks]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // render on page load once
 
   const onDragEnd = (result) => {
     if (!projectTasks) {
