@@ -70,13 +70,17 @@ function ProjectDashboard() {
             </button>
           </div>
         </header>
-        <p className="para-info">
-          <span className="para-info_title">Deadline:</span>
-          {new Date(currProject.deadline).toLocaleDateString()}
+        <p className="para-title">
+          Deadline:
+          <span className="para-info">
+            {"  "}
+            {new Date(currProject.deadline).toLocaleDateString()}{" "}
+          </span>
         </p>
-        <p className="para-info">
-          <span className="para-info_title">Description:</span>
-          {currProject.description}
+        <p className="para-title">
+          Description:
+          {"  "}
+          <span className="para-info">{currProject.description}</span>
         </p>
         <ContextContainer />
       </main>
