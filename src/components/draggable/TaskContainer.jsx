@@ -10,7 +10,6 @@ function TaskContainer({ task }) {
   const viewTaskDetails = (task) => {
     setSelectedTask(task);
     setModalComponentType("VIEW_TASK");
-    console.log(task);
   };
 
   return (

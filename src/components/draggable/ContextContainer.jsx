@@ -5,7 +5,7 @@ import ColumnContainer from "./ColumnContainer";
 import DroppableContainer from "./DroppableContainer";
 import { useProjectContext } from "../../context/project-context";
 import { getAuthToken } from "../../auth/auth-functions";
-import { parseTaskData } from "./draggable-utilities";
+import { getTaskStatus, parseTaskData } from "./draggable-utilities";
 import "../../stylesheets/draggables.css";
 
 function ContextContainer() {
@@ -16,12 +16,11 @@ function ContextContainer() {
     setTasks,
   } = useProjectContext();
   const { id, pid } = useParams();
+  const token = getAuthToken();
 
   useEffect(() => {
     async function fetchTaskData() {
       try {
-        const token = getAuthToken();
-
         const resp = await fetch(
           `http://localhost:3000/tasks/user/${id}/project/${pid}`,
           {
@@ -44,6 +43,30 @@ function ContextContainer() {
     fetchTaskData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // render on page load once
+
+  useEffect(() => {
+    async function saveTaskUpdates() {
+      try {
+        for (let i = 1; i < 5; i++) {
+          await fetch(
+            `http://localhost:3000/tasks-list/user/${id}/project/${pid}`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Origin: origin,
+                Authorizaton: "Bearer " + token,
+              },
+              body: JSON.stringify(projectTasks[i]?.tasks),
+            }
+          );
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    }
+    saveTaskUpdates();
+  }, [projectTasks, id, pid, token]);
 
   const onDragEnd = (result) => {
     if (!projectTasks) {
@@ -78,7 +101,9 @@ function ContextContainer() {
       modifiedSourceCol.splice(destination.index - 1, 0, draggedTask);
       // update task position values according to array index
       // index + 1: dnd not zero based
-      modifiedSourceCol.forEach((task, index) => (task.position = index + 1));
+      modifiedSourceCol.forEach(
+        (task, index) => (task.taskPosition = index + 1)
+      );
       // update state
       updateDraggedTasksYAxis(destination.droppableId, modifiedSourceCol);
     } else {
@@ -86,12 +111,20 @@ function ContextContainer() {
       const modifiedSourceCol = sourceCol.filter(
         (task) => task.id.toString() !== draggableId
       );
+      // update source column
+      modifiedSourceCol.map((task) => {
+        if (task.taskPosition > draggedTask.taskPosition) {
+          --task.taskPosition;
+        }
+      });
+      // update task status (column type)
+      draggedTask.taskStatus = getTaskStatus(destination.droppableId);
       // add task to destination column at index matching position
       // destination.index -1: dnd indexing not zero based
       destinationCol.splice(destination.index - 1, 0, draggedTask);
       // update task position values according to array index
       // index + 1: dnd not zero based
-      destinationCol.forEach((task, index) => (task.position = index + 1));
+      destinationCol.forEach((task, index) => (task.taskPosition = index + 1));
 
       // update state
       updateDraggedTasksXAxis(

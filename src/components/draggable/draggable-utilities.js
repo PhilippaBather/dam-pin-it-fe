@@ -1,9 +1,11 @@
+import { cloneDeep } from "lodash";
+
 // object literal to get column name by position
 export const getColName = {
-  1: () => "Pending",
-  2: () => "In Progress",
-  3: () => "Blocked",
-  4: () => "Completed",
+  1: "Pending",
+  2: "In Progress",
+  3: "Blocked",
+  4: "Completed",
 };
 
 export const getItemDragStyle = (isDragging, draggableStyle) => ({
@@ -14,6 +16,14 @@ export const getItemDragStyle = (isDragging, draggableStyle) => ({
 
   ...draggableStyle,
 });
+
+export const getTaskStatus = (col) => {
+  const taskStatus = getColName[col].toUpperCase();
+  if (taskStatus === "IN PROGRESS") {
+    return taskStatus.replace(" ", "_");
+  }
+  return taskStatus;
+};
 
 export const parseTaskData = (data) => {
   const pendingTasks = data
@@ -38,31 +48,76 @@ export const parseTaskData = (data) => {
   return parsedData;
 };
 
-export const processTaskData = (data, selectedOption, pid) => {
-  data.priorityLevel =
-    selectedOption === "" ? "NONE" : selectedOption.toUpperCase(); // none by default
-  data.taskStatus = "PENDING"; // for first column ordering
-  data.taskPosition = 1;
-  data.projectId = parseInt(pid);
-  return data;
+export const processUpdatedTaskData = (
+  data,
+  selectedOption,
+  selectedTask,
+  col,
+  pid
+) => {
+  return {
+    title: data.title,
+    description: data.description,
+    priorityLevel: (data.priorityLevel =
+      selectedOption === "" ? "NONE" : selectedOption.toUpperCase()),
+    taskStatus: --col,
+    taskPosition: selectedTask.taskPosition,
+    projectId: pid,
+    id: selectedTask.id,
+  };
 };
 
-export const resetTasksOrderInColumn = (savedTask, projectTasks) => {
-  const modTaskList = projectTasks[1].tasks.map((task) => {
+export const processNewTaskData = (data, selectedOption, pid) => {
+  console.log(data.description);
+  return {
+    title: data.title,
+    description: data.description === "" ? "None" : data.description,
+    deadline: data.deadline,
+    priorityLevel: (data.priorityLevel =
+      selectedOption === "" ? "NONE" : selectedOption.toUpperCase()), // none by default
+    taskStatus: (data.taskStatus = "PENDING"), // for first column ordering
+    taskPosition: 1, // add new tasks to top of column
+    projectId: (data.projectId = parseInt(pid)),
+  };
+};
+
+export const resetTaskOrderInColumn = (savedTask, tasks, col) => {
+  const clonedTasks = cloneDeep(tasks);
+  clonedTasks[col].tasks.map((task) => {
     ++task.taskPosition;
     return task;
-  });
-  modTaskList.unshift(savedTask);
-  return modTaskList.reverse();
+  })[0];
+  clonedTasks[col].tasks.unshift(savedTask);
+  return clonedTasks[col].tasks.sort((a, b) => a.taskPosition - b.taskPosition);
 };
 
-export const updateContext = (modTaskList, setTasks) => {
-  setTasks((prev) => {
-    return {
-      ...prev,
-      1: {
-        tasks: [...modTaskList],
-      },
-    };
-  });
+export const resetTaskPositionOnTaskDeletion = (tasks, selectedTask, col) => {
+  const clonedTasks = cloneDeep(tasks);
+  const filteredTask = clonedTasks[col].tasks
+    .filter((task) => {
+      return task.id !== selectedTask.id;
+    })
+    .map((task) => {
+      if (task.taskPosition > selectedTask.taskPosition) {
+        --task.taskPosition;
+        return task;
+      }
+    });
+
+  return filteredTask;
+};
+
+export const updateColumnOnTaskUpdate = (
+  tasks,
+  selectedTask,
+  processedData,
+  col
+) => {
+  const clonedTasks = cloneDeep(tasks);
+  let updatedTasks = clonedTasks[col].tasks.filter(
+    (task) => task.id !== selectedTask.id
+  );
+  updatedTasks.unshift(processedData);
+  updatedTasks.sort((a, b) => a.taskPosition - b.taskPosition);
+  return updatedTasks;
 };
