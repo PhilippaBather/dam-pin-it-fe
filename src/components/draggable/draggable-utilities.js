@@ -62,6 +62,7 @@ export const processUpdatedTaskData = (
       selectedOption === "" ? "NONE" : selectedOption.toUpperCase()),
     taskStatus: --col,
     taskPosition: selectedTask.taskPosition,
+    deadline: data.deadline,
     projectId: pid,
     id: selectedTask.id,
   };
