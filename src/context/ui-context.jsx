@@ -1,8 +1,4 @@
 import { createContext, useContext, useState } from "react";
-// import AddTask from "../components/tasks/AddTask";
-// import DeleteProject from "../components/projects/DeleteProject";
-// import EditProject from "../components/projects/EditProject";
-// import TaskViewer from "../components/tasks/TaskViewer";
 
 // create context
 const UIContext = createContext();
@@ -11,13 +7,6 @@ const UIContext = createContext();
 export const UIContextProvider = ({ children }) => {
   const [columnClicked, setColumnClicked] = useState("");
   const [modalComponentType, setModalComponentType] = useState(null);
-
-  // const modalComponents = {
-  //   ADD_TASK: <AddTask />,
-  //   DELETE_PROJECT: <DeleteProject />,
-  //   EDIT_PROJECT: <EditProject />,
-  //   VIEW_TASK: <TaskViewer />,
-  // };
 
   const ctxtValue = {
     columnClicked,
