@@ -21,19 +21,24 @@ function ProjectHomePage() {
     async function fetchData() {
       const token = getAuthToken();
       try {
-        const resp = await fetch(`http://localhost:3000/projects/${id}`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Origin: origin,
-            Authorizaton: "Bearer " + token,
-          },
-        });
-        const data = await resp.json();
-        const sortedProjects = data.sort((a, b) =>
-          a.title.localeCompare(b.title)
+        const resp = await fetch(
+          `http://localhost:3000/projects/${parseInt(id)}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Origin: origin,
+              Authorizaton: "Bearer " + token,
+            },
+          }
         );
-        setProjects(sortedProjects);
+        if (resp) {
+          const data = await resp.json();
+          const sortedProjects = data?.sort((a, b) =>
+            a.title.localeCompare(b.title)
+          );
+          setProjects(sortedProjects);
+        }
       } catch (e) {
         console.error(e);
       }
