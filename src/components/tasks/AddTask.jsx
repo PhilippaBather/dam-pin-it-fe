@@ -3,22 +3,23 @@ import { useParams } from "react-router-dom";
 import Card from "../../components/ui/Card.jsx";
 import FormTask from "../forms/FormTask.jsx";
 import { useProjectContext } from "../../context/project-context.jsx";
+import { useUIContext } from "../../context/ui-context.jsx";
 import { getAuthToken } from "../../auth/auth-functions.js";
 import {
-  processTaskData,
-  resetTasksOrderInColumn,
-  updateContext,
+  processNewTaskData,
+  resetTaskOrderInColumn,
 } from "../draggable/draggable-utilities.js";
 
 function AddTask() {
   const [selectOption, setSelectOption] = useState("");
-  const { projectTasks, setTasks } = useProjectContext();
+  const { projectTasks, resetTaskState } = useProjectContext();
+  const { setModalComponentType } = useUIContext();
   const { id, pid } = useParams();
 
   const handleTaskSubmit = async (data, event) => {
     event.preventDefault();
 
-    const processedData = processTaskData(data, selectOption, pid);
+    const processedData = processNewTaskData(data, selectOption, pid);
 
     const token = getAuthToken();
     try {
@@ -35,9 +36,15 @@ function AddTask() {
           body: JSON.stringify(processedData),
         }
       );
-      // add saved task and revise task positions in column
       const savedTask = await resp.json();
-      const modifiedTaskList = resetTasksOrderInColumn(savedTask, projectTasks);
+
+      // add saved task and revise task positions in column
+      const updatedTaskOrderInColumn = resetTaskOrderInColumn(
+        savedTask,
+        projectTasks,
+        1
+      );
+
       await fetch(
         `http://localhost:3000/tasks-list/user/${id}/project/${pid}`,
         {
@@ -47,13 +54,19 @@ function AddTask() {
             Origin: origin,
             Authorizaton: "Bearer " + token,
           },
-          body: JSON.stringify(modifiedTaskList),
+          body: JSON.stringify(updatedTaskOrderInColumn),
         }
       );
-      updateContext(modifiedTaskList, setTasks);
+
+      resetContext(updatedTaskOrderInColumn, 1);
     } catch (e) {
       console.error(e);
     }
+  };
+
+  const resetContext = (updatedTasks, col) => {
+    resetTaskState(updatedTasks, col);
+    setModalComponentType(null);
   };
 
   return (
