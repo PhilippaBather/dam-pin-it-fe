@@ -13,7 +13,12 @@ import {
   errorTitleRequired as titleReq,
 } from "../../constants/error-messages";
 
-function FormTask({ btnLabels, handleTaskSubmit, setSelectOption }) {
+function FormTask({
+  btnLabels,
+  handleTaskSubmit,
+  setSelectOption,
+  handleTaskDelete,
+}) {
   const [btnLabel1, btnLabel2] = btnLabels;
   const { selectedTask } = useProjectContext();
   const { modalComponentType, setModalComponentType } = useUIContext();
@@ -36,7 +41,6 @@ function FormTask({ btnLabels, handleTaskSubmit, setSelectOption }) {
   const [isCreated, setIsCreated] = useState(false);
 
   const handleChange = (selectedOption) => {
-    console.log(selectedOption);
     setSelectOption(selectedOption.label);
   };
 
@@ -45,6 +49,13 @@ function FormTask({ btnLabels, handleTaskSubmit, setSelectOption }) {
     reset({ title: "", description: "", deadline: "", priorityLevel: "" });
     setIsCreated(false);
     setModalComponentType(null);
+  };
+
+  const handleClick = () => {
+    console.log("clicked");
+    if (btnLabel2 === "Delete") {
+      handleTaskDelete();
+    }
   };
 
   return (
@@ -109,7 +120,7 @@ function FormTask({ btnLabels, handleTaskSubmit, setSelectOption }) {
             <button className="form-btn" type="submit">
               {btnLabel1}
             </button>
-            <button className="form-btn" type="reset">
+            <button className="form-btn" type="reset" onClick={handleClick}>
               {btnLabel2}
             </button>
           </div>
