@@ -11,16 +11,16 @@
   position: fixed;
   top: 55%;
   left: 5%;
-  color: white;
-  font-size: 1.6rem;
+  color: var(--crimson);
+  font-weight: 800;
 }
 
 .app-description {
   position: fixed;
   top: 65%;
   left: 5%;
-  color: var(--theme-pink);
-  font-weight: 400;
+  color: rgb(26, 107, 107);
+  font-weight: 500;
 
   .app-description_p {
     font-size: 1rem;
@@ -32,6 +32,10 @@
   position: fixed;
   top: 72%;
   left: 5%;
-  color: white;
+  color: var(--crimson);
   font-size: 1.5rem;
+
+  &:hover {
+    color: var(--theme-pink);
+  }
 }
