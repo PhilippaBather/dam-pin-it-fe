@@ -6,3 +6,32 @@
   background: url(../assets/kelly-sikkema-huT1A8nW_Ho-unsplash.jpg) 25% 75% /
     cover no-repeat;
 }
+
+.app-slogan {
+  position: fixed;
+  top: 55%;
+  left: 5%;
+  color: white;
+  font-size: 1.6rem;
+}
+
+.app-description {
+  position: fixed;
+  top: 65%;
+  left: 5%;
+  color: var(--theme-pink);
+  font-weight: 400;
+
+  .app-description_p {
+    font-size: 1rem;
+    font-style: italic;
+  }
+}
+
+.app-reg {
+  position: fixed;
+  top: 72%;
+  left: 5%;
+  color: white;
+  font-size: 1.5rem;
+}
