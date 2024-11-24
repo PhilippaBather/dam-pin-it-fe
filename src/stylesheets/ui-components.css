@@ -3,20 +3,56 @@
 .card {
   position: fixed;
   z-index: 15;
-  top: 50%;
+  top: 45%;
   left: 50%;
   width: 35%;
   transform: translate(-50%, -47%);
   border: 1px solid var(--border-grey-brown);
   border-radius: 10px;
   background-color: black;
-  padding: 0.5rem 2rem;
+  padding: 1rem 2rem;
+
+  .card-btn {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: var(--theme-pink);
+    border-radius: 10px;
+  }
 }
 
-.card-btn {
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  background-color: var(--theme-pink);
+.alert-card,
+.project-card {
+  position: fixed;
+  z-index: 15;
+  top: 50%;
+  left: 50%;
+  width: 35%;
+  transform: translate(-50%, -47%);
+  border: 1px solid var(--theme-pastel-green);
+  background: linear-gradient(45deg, #78e49e 0%, #9e83f8 50%, #95efb8 75%);
   border-radius: 10px;
+  padding: 2rem;
+  text-align: center;
+
+  p {
+    font-size: 1.5rem;
+  }
+
+  .card-btn {
+    width: 100%;
+    margin: 0;
+    padding: 0.3rem;
+    border: 1px solid var(--candy-pink);
+    background-color: var(--theme-pink);
+    border-radius: 10px;
+    font-weight: 600;
+
+    &:hover {
+      border: 1px solid var(--theme-pastel-green);
+      background-color: #95efb8;
+      color: rgb(0, 12, 12);
+      color: var(--theme-pink);
+    }
+  }
 }

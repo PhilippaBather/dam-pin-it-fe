@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import Card from "../../components/ui/Card";
 import FormActions from "../../components/forms/FormActions.jsx";
+import { useProjectContext } from "../../context/project-context.jsx";
 import { handleHttpReq, postAuthData } from "../../api/http-requests.js";
 import {
   errorEmailReq as emailReq,
@@ -21,6 +22,7 @@ function LoginPage() {
   } = useForm();
 
   const [error, setError] = useState(null);
+  const { setIsAlert } = useProjectContext();
   const navigate = useNavigate();
 
   const handleLogin = async (data, event) => {
@@ -28,6 +30,7 @@ function LoginPage() {
     try {
       await postAuthData(loginEndpoint, data, "LOGIN");
       const user = await handleHttpReq(userDataEndpoint, data, null, "POST");
+      setIsAlert(!user.userNotification);
       // useNavigate hook to programmatically change route
       const route = `/projects-home/user/${user.id}`;
       navigate(route);

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import Card from "../ui/Card";
 import { useProjectContext } from "../../context/project-context";
 import {
   errorDeadlineRequired as deadlineReq,
@@ -56,7 +57,7 @@ function CreateProject() {
   };
 
   return (
-    <>
+    <Card>
       <form method="dialog" className="dialog-btn__form">
         <div className="form-btn__container-close">
           <button
@@ -129,7 +130,7 @@ function CreateProject() {
           </div>
         </form>
       )}
-    </>
+    </Card>
   );
 }
 
