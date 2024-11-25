@@ -13,6 +13,7 @@ import "../../stylesheets/form.css";
 import "../../stylesheets/ui-components.css";
 import { loginEndpoint, userDataEndpoint } from "../../api/endpoints.js";
 import ROUTES from "../routes/routes.js";
+import { useUIContext } from "../../context/ui-context.jsx";
 
 function LoginPage() {
   const {
@@ -22,7 +23,8 @@ function LoginPage() {
   } = useForm();
 
   const [error, setError] = useState(null);
-  const { setIsAlert } = useProjectContext();
+  const { setIsAlert, setProjectNotifications } = useProjectContext();
+  const { setModalComponentType } = useUIContext();
   const navigate = useNavigate();
 
   const handleLogin = async (data, event) => {
@@ -30,7 +32,13 @@ function LoginPage() {
     try {
       await postAuthData(loginEndpoint, data, "LOGIN");
       const user = await handleHttpReq(userDataEndpoint, data, null, "POST");
-      setIsAlert(!user.userNotification);
+
+      if (user.projectNotifications.length > 0) {
+        setIsAlert(true);
+        setProjectNotifications(user.projectNotifications);
+        setModalComponentType("ALERT_PROJECT");
+      }
+
       // useNavigate hook to programmatically change route
       const route = `/projects-home/user/${user.id}`;
       navigate(route);
