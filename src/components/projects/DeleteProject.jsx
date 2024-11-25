@@ -5,6 +5,7 @@ import { useProjectContext } from "../../context/project-context";
 import { useUIContext } from "../../context/ui-context";
 import { handleHttpReq } from "../../api/http-requests";
 import { projectEndpoint as url } from "../../api/endpoints";
+import CloseForm from "../forms/CloseForm";
 
 function DeleteProject() {
   const [isDeleted, setIsDeleted] = useState(false);
@@ -21,25 +22,23 @@ function DeleteProject() {
     try {
       const resp = await handleHttpReq(url, null, pid, "DELETE", "PROJECT");
       setIsDeleted(resp.status === 204 ? true : false);
-      console.log(resp);
-      navigate(`/projects-home/user/${id}`);
-      setModalComponentType(null);
+
+      if (resp.status === 204) {
+        setModalComponentType(null);
+        navigate(`/projects-home/user/${id}`);
+      }
     } catch (e) {
       console.error(e);
     }
   };
 
-  const handleClose = () => {
+  const handleCancel = () => {
     setModalComponentType(null);
   };
 
   return (
     <Card>
-      <div className="form-btn__container-close">
-        <button className="form-btn" type="button" onClick={handleClose}>
-          Cancel
-        </button>
-      </div>
+      <CloseForm handleClose={handleCancel} />
       <form onSubmit={handleDeleteProject}>
         <h1 className={"delete-modal_title"}>{alertMsg}</h1>
         <div className={"delete-modal_btn-container"}>

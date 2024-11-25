@@ -54,9 +54,12 @@ function FormTask({
   };
 
   const handleClick = () => {
-    console.log("clicked");
     if (btnLabel2 === "Delete") {
       handleTaskDelete();
+    }
+    if (btnLabel2 === "Reset") {
+      clearErrors();
+      reset({ title: "", description: "", deadline: "", priorityLevel: "" });
     }
   };
 

@@ -1,5 +1,7 @@
 import { createPortal } from "react-dom";
 import AddTask from "../../components/tasks/AddTask";
+import Alert from "./Alert";
+import CreateProject from "../projects/CreateProject";
 import DeleteProject from "../../components/projects/DeleteProject";
 import EditProject from "../../components/projects/EditProject";
 import TaskViewer from "../../components/tasks/TaskViewer";
@@ -23,6 +25,8 @@ const Overlay = () => {
   const { modalComponentType } = useUIContext();
   const modalComponents = {
     ADD_TASK: <AddTask />,
+    ALERT_PROJECT: <Alert />,
+    CREATE_PROJECT: <CreateProject />,
     DELETE_PROJECT: <DeleteProject />,
     EDIT_PROJECT: <EditProject />,
     VIEW_TASK: <TaskViewer />,
