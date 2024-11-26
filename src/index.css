@@ -97,3 +97,7 @@ main,
 button {
   font-family: "Raleway", sans-serif;
 }
+
+ul {
+  list-style-type: none;
+}
