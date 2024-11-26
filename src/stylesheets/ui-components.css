@@ -72,3 +72,25 @@
     }
   }
 }
+
+.table-card {
+  position: relative;
+  top: 8rem;
+  left: 50%;
+  width: 85%;
+  transform: translate(-50%, -47%);
+  border: 1px solid var(--border-grey-brown);
+  border-radius: 10px;
+  background-color: rgba(0, 0, 0, 0.8);
+  padding: 1rem 2rem;
+  color: var(--theme-pink);
+  margin-bottom: 3rem;
+}
+
+.card-btn {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: var(--theme-pink);
+  border-radius: 10px;
+}
