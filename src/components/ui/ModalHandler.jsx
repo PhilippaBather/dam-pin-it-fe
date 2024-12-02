@@ -8,6 +8,7 @@ import TaskViewer from "../../components/tasks/TaskViewer";
 import { useProjectContext } from "../../context/project-context";
 import { useUIContext } from "../../context/ui-context";
 import "../../stylesheets/modal.css";
+import DeleteSharedProject from "../projects/DeleteSharedProject";
 
 const Backdrop = () => {
   const { setSelectedTask } = useProjectContext();
@@ -28,6 +29,7 @@ const Overlay = () => {
     ALERT_PROJECT: <Alert />,
     CREATE_PROJECT: <CreateProject />,
     DELETE_PROJECT: <DeleteProject />,
+    DELETE_SHARED_PROJECT: <DeleteSharedProject />,
     EDIT_PROJECT: <EditProject />,
     VIEW_TASK: <TaskViewer />,
   };
