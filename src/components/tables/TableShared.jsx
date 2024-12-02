@@ -53,30 +53,32 @@ function TableShared() {
           <div className="table-row__head">Email</div>
           <div className="table-row__head">Remove Project</div>
         </div>
-        <div className="table-container__body">
-          {sharedProjects &&
-            sharedProjects.map((project) => (
-              <>
-                <div className="table-row__body">{project.projectTitle}</div>
-                <div className="table-row__body">
-                  {project.permissions.toLowerCase()}
-                </div>
-                <div className="table-row__body">{project.deadline}</div>
-                <div className="table-row__body">{`${project.ownerName} ${project.ownerSurname}`}</div>
-                <div className="table-row__body">{project.ownerEmail}</div>
-                <div className="table-row__body">
-                  {" "}
-                  <button
-                    className="card-btn table-btn"
-                    type="button"
-                    onClick={() => handleLeaveSharedProject(project)}
-                  >
-                    Remove
-                  </button>
-                </div>
-              </>
-            ))}
-        </div>
+        {sharedProjects &&
+          sharedProjects.map((project) => (
+            <div key={project.projectId} className="table-row__items">
+              <div className="table-row__body">{project.projectTitle}</div>
+              <div className="table-row__body">
+                {project.permissions.toLowerCase()}
+              </div>
+              <div className="table-row__body">{project.deadline}</div>
+              <div className="table-row__body">{`${project.ownerName} ${project.ownerSurname}`}</div>
+              <div className="table-row__body">{project.ownerEmail}</div>
+              <div className="table-row__body">
+                <button
+                  className="card-btn table-btn"
+                  type="button"
+                  onClick={(project) =>
+                    handleLeaveSharedProject(project.projectTitle)
+                  }
+                >
+                  Remove
+                </button>
+              </div>
+            </div>
+          ))}
+        {sharedProjects.length == 0 && (
+          <p className="table-msg__not-found">No shared projects found.</p>
+        )}
       </Card>
     </section>
   );
