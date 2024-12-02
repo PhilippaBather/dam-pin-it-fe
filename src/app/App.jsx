@@ -14,8 +14,6 @@ import { UIContextProvider } from "../context/ui-context.jsx";
 import PasswordRecoveryPage from "../pages/public/PasswordReoveryPage.jsx";
 import ManagementDashboard from "../pages/private/ManagementDashboard.jsx";
 
-// TODO: const token = useRouteLoaderData("root"); // retruns token
-
 const router = createBrowserRouter([
   {
     path: ROUTES.HOME,
@@ -32,13 +30,17 @@ const router = createBrowserRouter([
       {
         path: "/projects-home/user/:id/project/:pid",
         element: <ProjectDashboard />,
+        loader: checkAuthLoader,
       },
-
+      {
+        path: "/account-management/:id",
+        element: <ManagementDashboard />,
+        loader: checkAuthLoader,
+      },
       { index: true, element: <HomePage /> },
       { path: ROUTES.LOGIN, element: <LoginPage /> },
       { path: ROUTES.REGISTER, element: <RegistrationPage /> },
       { path: ROUTES.PASSWORD_RECOVERY, element: <PasswordRecoveryPage /> },
-      { path: ROUTES.MANAGEMENT, element: <ManagementDashboard /> },
       {
         path: ROUTES.LOGOUT,
         action: logoutAction,
