@@ -30,7 +30,7 @@ function MainNavigation() {
       </li>
       <li className={"nav-list__item"}>
         <NavLink
-          to="/account"
+          to={`/account-management/${id}`}
           className={({ isActive }) =>
             isActive ? "nav-list__link-active" : "nav-list__link"
           }
