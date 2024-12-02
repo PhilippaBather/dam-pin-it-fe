@@ -1,8 +1,23 @@
 import "../../stylesheets/ui-components.css";
 
-function Card({ children, isAlert = false, isTable = false }) {
+function Card({
+  children,
+  isAlert = false,
+  isTable = false,
+  isStrong = false,
+}) {
   return (
-    <div className={isAlert ? "alert-card" : isTable ? "table-card" : "card"}>
+    <div
+      className={
+        isAlert
+          ? "alert-card"
+          : isTable
+          ? "table-card"
+          : isStrong
+          ? "card-strong"
+          : "card"
+      }
+    >
       {children}
     </div>
   );

@@ -35,8 +35,6 @@
   overflow-wrap: break-word;
   margin: 0.5rem 0;
   color: var(--crimson);
-  color: var(--theme-orange-button);
-  color: var(--crimson);
 }
 
 .table-row__body {
