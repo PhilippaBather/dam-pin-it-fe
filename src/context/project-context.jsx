@@ -12,6 +12,9 @@ export const ProjectContextProvider = ({ children }) => {
   const [projectNotifications, setProjectNotifications] = useState([]);
   const [projectsState, setProjectsState] = useState([]);
   const [currProject, setCurrProject] = useState({});
+  const [selectedGuest, setSelectedGuest] = useState({});
+  const [ownedProjects, setOwnedProjects] = useState([]);
+  const [selectedOwnedProject, setSelectedOwnedProject] = useState({});
   const [sharedProjects, setSharedProjects] = useState([]);
   const [selectedSharedProject, setSelectedSharedProject] = useState({});
   const [tasks, setTasks] = useState({});
@@ -65,6 +68,9 @@ export const ProjectContextProvider = ({ children }) => {
     projects: projectsState,
     projectTasks: tasks,
     selectedTask,
+    ownedProjects,
+    selectedGuest,
+    selectedOwnedProject,
     sharedProjects,
     selectedSharedProject,
     resetTaskState,
@@ -72,6 +78,9 @@ export const ProjectContextProvider = ({ children }) => {
     setIsAlert,
     setProjectNotifications,
     setProjects: setProjectsState,
+    setOwnedProjects,
+    setSelectedGuest,
+    setSelectedOwnedProject,
     setSharedProjects,
     setSelectedSharedProject,
     setTasks,
