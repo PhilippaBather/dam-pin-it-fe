@@ -2,13 +2,16 @@ import { createPortal } from "react-dom";
 import AddTask from "../../components/tasks/AddTask";
 import Alert from "./Alert";
 import CreateProject from "../projects/CreateProject";
+import DeleteGuest from "../guests/DeleteGuest";
 import DeleteProject from "../../components/projects/DeleteProject";
+import DeleteSharedProject from "../projects/DeleteSharedProject";
 import EditProject from "../../components/projects/EditProject";
+import InviteGuest from "../guests/InviteGuest";
 import TaskViewer from "../../components/tasks/TaskViewer";
+import UpdateGuest from "../guests/UpdateGuest";
 import { useProjectContext } from "../../context/project-context";
 import { useUIContext } from "../../context/ui-context";
 import "../../stylesheets/modal.css";
-import DeleteSharedProject from "../projects/DeleteSharedProject";
 
 const Backdrop = () => {
   const { setSelectedTask } = useProjectContext();
@@ -29,8 +32,11 @@ const Overlay = () => {
     ALERT_PROJECT: <Alert />,
     CREATE_PROJECT: <CreateProject />,
     DELETE_PROJECT: <DeleteProject />,
+    DELETE_GUEST: <DeleteGuest />,
     DELETE_SHARED_PROJECT: <DeleteSharedProject />,
     EDIT_PROJECT: <EditProject />,
+    INVITE_GUEST: <InviteGuest />,
+    UPDATE_GUEST: <UpdateGuest />,
     VIEW_TASK: <TaskViewer />,
   };
 

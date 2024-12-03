@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useParams } from "react-router-dom";
 import Card from "../ui/Card";
 import CloseForm from "../forms/CloseForm";
 import { getAuthToken } from "../../auth/auth-functions";
@@ -8,7 +7,6 @@ import { useUIContext } from "../../context/ui-context";
 
 function DeleteGuest() {
   const [isDeleted, setIsDeleted] = useState(false);
-  const { id } = useParams();
   const { selectedGuest, selectedSharedProject } = useProjectContext();
   const { setModalComponentType } = useUIContext();
 
@@ -19,7 +17,7 @@ function DeleteGuest() {
 
     try {
       const resp = await fetch(
-        `http://localhost:3000/guests/${selectedGuest.email}/owned-projects/${selectedSharedProject.projectId}`,
+        `http://localhost:3000/guests/owned-projects/${selectedGuest.email}/project/${selectedSharedProject.projectId}`,
         {
           method: "DELETE",
           headers: {

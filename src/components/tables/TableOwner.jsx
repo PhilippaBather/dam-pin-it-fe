@@ -15,17 +15,19 @@ function TableOwner() {
     setSelectedSharedProject,
     setOwnedProjects,
   } = useProjectContext();
-  const { setModalComponentType } = useUIContext();
+  const { setSelectedOwnedProject, setModalComponentType } = useUIContext();
 
-  const handleDeleteGuest = (guest, project) => {
-    console.log(guest);
+  // const handleDeleteGuest = (guest, project) => {
+  //   setSelectedGuest(guest);
+  //   setSelectedSharedProject(project);
+  //   setModalComponentType("DELETE_SHARED_PROJECT");
+  // };
+
+  const handleClick = (guest = null, project, componentType) => {
     setSelectedGuest(guest);
     setSelectedSharedProject(project);
-    setModalComponentType("DELETE_SHARED_PROJECT");
+    setModalComponentType(componentType);
   };
-
-  const handleUpdateGuest = () => {};
-  const handleInviteGuest = () => {};
 
   useEffect(() => {
     const getOwnedProjects = async () => {
@@ -105,7 +107,13 @@ function TableOwner() {
                         <button
                           className="card-btn table-btn"
                           type="button"
-                          onClick={handleUpdateGuest}
+                          onClick={() =>
+                            handleClick(
+                              guest,
+                              project,
+                              "UPDATE_GUEST_PERMISSIONS"
+                            )
+                          }
                         >
                           Update
                         </button>
@@ -131,7 +139,9 @@ function TableOwner() {
                         <button
                           className="card-btn table-btn"
                           type="button"
-                          onClick={(guest) => handleDeleteGuest(guest.email)}
+                          onClick={() =>
+                            handleClick(guest, project, "DELETE_GUEST")
+                          }
                         >
                           Delete
                         </button>
@@ -154,7 +164,7 @@ function TableOwner() {
                   <button
                     className="card-btn table-btn"
                     type="button"
-                    onClick={(project) => handleInviteGuest(project)}
+                    onClick={() => handleClick(project, "INVITE_GUEST")}
                   >
                     Invite
                   </button>
@@ -171,40 +181,3 @@ function TableOwner() {
 }
 
 export default TableOwner;
-
-{
-  /* <div className="table-row__body">
-                  <ul className="table-row__body-list">
-        
-                </div>
-                <div className="table-row__body">
-                  <ul className="table-row__body-list">
-                    {project.guestList.map((guest) => (
-                      <li key={guest.guestId}>
-                        <button
-                          className="card-btn table-btn"
-                          type="button"
-                          onClick={handleUpdateGuest}
-                        >
-                          Update
-                        </button>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <div className="table-row__body">
-                  <ul className="table-row__body-list">
-                    {project.guestList.map((guest) => (
-                      <li key={guest.guestId}>
-                        <button
-                          className="card-btn table-btn"
-                          type="button"
-                          onClick={handleDeleteGuest}
-                        >
-                          Delete
-                        </button>
-                      </li>
-                    ))}
-                  </ul>
-                </div> */
-}
