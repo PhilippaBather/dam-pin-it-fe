@@ -6,20 +6,20 @@ import { getAuthToken } from "../../auth/auth-functions";
 import { useProjectContext } from "../../context/project-context";
 import { useUIContext } from "../../context/ui-context";
 
-function DeleteSharedProject() {
+function DeleteGuest() {
   const [isDeleted, setIsDeleted] = useState(false);
   const { id } = useParams();
-  const { selectedSharedProject } = useProjectContext();
+  const { selectedGuest, selectedSharedProject } = useProjectContext();
   const { setModalComponentType } = useUIContext();
 
-  const alertMsg = `Are you sure you want to leave the shared project '${selectedSharedProject.projectTitle}'?`;
+  const alertMsg = `Are you sure you want to remove ${selectedGuest.email} from the shared project ${selectedSharedProject.projectTitle}?`;
 
   const handleDeleteSharedProject = async () => {
     const token = getAuthToken();
 
     try {
       const resp = await fetch(
-        `http://localhost:3000/guests/${id}/shared-projects/${selectedSharedProject.projectId}`,
+        `http://localhost:3000/guests/${selectedGuest.email}/owned-projects/${selectedSharedProject.projectId}`,
         {
           method: "DELETE",
           headers: {
@@ -61,4 +61,4 @@ function DeleteSharedProject() {
   );
 }
 
-export default DeleteSharedProject;
+export default DeleteGuest;
