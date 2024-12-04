@@ -12,12 +12,12 @@ function DeleteGuest() {
 
   const alertMsg = `Are you sure you want to remove ${selectedGuest.email} from the shared project ${selectedSharedProject.projectTitle}?`;
 
-  const handleDeleteSharedProject = async () => {
+  const handleDelete = async () => {
     const token = getAuthToken();
 
     try {
       const resp = await fetch(
-        `http://localhost:3000/guests/owned-projects/${selectedGuest.email}/project/${selectedSharedProject.projectId}`,
+        `http://localhost:3000/guests/owned-projects/guest/${selectedGuest.email}/project/${selectedSharedProject.projectId}`,
         {
           method: "DELETE",
           headers: {
@@ -45,7 +45,7 @@ function DeleteGuest() {
   return (
     <Card>
       <CloseForm handleClose={handleCancel} />
-      <form onSubmit={handleDeleteSharedProject}>
+      <form onSubmit={handleDelete}>
         <h1 className={"delete-modal_title"}>{alertMsg}</h1>
         <div className={"delete-modal_btn-container"}>
           {!isDeleted && (

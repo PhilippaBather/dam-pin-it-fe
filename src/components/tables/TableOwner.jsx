@@ -15,13 +15,8 @@ function TableOwner() {
     setSelectedSharedProject,
     setOwnedProjects,
   } = useProjectContext();
-  const { setSelectedOwnedProject, setModalComponentType } = useUIContext();
 
-  // const handleDeleteGuest = (guest, project) => {
-  //   setSelectedGuest(guest);
-  //   setSelectedSharedProject(project);
-  //   setModalComponentType("DELETE_SHARED_PROJECT");
-  // };
+  const { setModalComponentType } = useUIContext();
 
   const handleClick = (guest = null, project, componentType) => {
     setSelectedGuest(guest);
@@ -61,8 +56,9 @@ function TableOwner() {
           <div className="table-row__head">Guests</div>
           <div className="table-row__head">Permissions</div>
           <div className="table-row__head">Update Guest</div>
-          <div className="table-row__head">Delete Guest</div>
+          <div className="table-row__head">Remove Guest</div>
           <div className="table-row__head">Invite Guest</div>
+          <div className="table-row__head">Delete Project</div>
         </div>
         <div>
           {ownedProjects &&
@@ -154,7 +150,7 @@ function TableOwner() {
                           type="button"
                           disabled
                         >
-                          Delete
+                          Remove
                         </button>
                       </li>
                     )}
@@ -164,9 +160,18 @@ function TableOwner() {
                   <button
                     className="card-btn table-btn"
                     type="button"
-                    onClick={() => handleClick(project, "INVITE_GUEST")}
+                    onClick={() => handleClick(null, project, "INVITE_GUEST")}
                   >
                     Invite
+                  </button>
+                </div>
+                <div className="table-row__body">
+                  <button
+                    className="card-btn table-btn"
+                    type="button"
+                    onClick={() => handleClick(project, "DELETE_PROJECT")}
+                  >
+                    Delete
                   </button>
                 </div>
               </div>

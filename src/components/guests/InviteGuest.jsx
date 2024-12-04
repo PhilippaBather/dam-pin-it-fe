@@ -1,44 +1,49 @@
+import { useState } from "react";
 import { useParams } from "react-router-dom";
+
 import Card from "../ui/Card";
 import FormGuest from "../forms/FormGuest";
-import { getAuthToken } from "../../auth/auth-functions";
 import { useUIContext } from "../../context/ui-context";
+import { getAuthToken } from "../../auth/auth-functions";
+import { processData, handleInvitationRequest } from "./guest-utilities";
+import { convertToPermissionsEnum } from "./guest-permissions-dropdown-settings";
+import { useProjectContext } from "../../context/project-context";
 
 function InviteGuest() {
-  const { id, pid } = useParams();
-  const { setModaComponentType } = useUIContext();
+  const { id } = useParams();
+  const { selectedSharedProject } = useProjectContext();
+  const { selectedOption, setModalComponentType } = useUIContext();
+  const [selectionError, setSelectionError] = useState(false);
 
   const handleSubmit = async (data, event) => {
     event.preventDefault();
 
-    const token = getAuthToken();
+    console.log(selectedOption.label === undefined);
 
-    const processedData = {
-      email: data.email,
-      msg: "",
-      permissions: "",
-      userId: id,
-      projectId: pid,
-    };
-
-    try {
-      await fetch("http://localhost:3000/guests", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Origin: origin,
-          Authorizaton: "Bearer " + token,
-        },
-        body: JSON.stringify(processedData),
-      });
-      setModaComponentType(null);
-    } catch (e) {
-      console.error(e);
+    if (!selectionError && selectedOption.label !== undefined) {
+      console.log("here");
+      const processedData = processData(
+        data,
+        convertToPermissionsEnum[selectedOption],
+        id,
+        selectedSharedProject.projectId
+      );
+      const token = getAuthToken();
+      //const resp = await handleInvitationRequest(processedData, token);
+      console.log("in method " + processedData);
+      setModalComponentType(null);
+    } else {
+      setSelectionError(true);
     }
   };
+
   return (
     <Card>
-      <FormGuest handleGuestSubmit={handleSubmit} />
+      <FormGuest
+        handleGuestSubmit={handleSubmit}
+        selectionError={selectionError}
+        setSelectionError={setSelectionError}
+      />
     </Card>
   );
 }
