@@ -11,6 +11,7 @@ function TableOwner() {
   const token = getAuthToken();
   const {
     ownedProjects,
+    setCurrProject,
     setSelectedGuest,
     setSelectedSharedProject,
     setOwnedProjects,
@@ -20,7 +21,8 @@ function TableOwner() {
 
   const handleClick = (guest = null, project, componentType) => {
     setSelectedGuest(guest);
-    setSelectedSharedProject(project);
+    setSelectedSharedProject(project); // TODO remove and replace w/ currProject state
+    setCurrProject(project);
     setModalComponentType(componentType);
   };
 
@@ -62,18 +64,18 @@ function TableOwner() {
         </div>
         <div>
           {ownedProjects &&
-            ownedProjects.map((project) => (
+            ownedProjects?.map((project) => (
               <div key={project.projectId} className="table-row__items">
                 <div className="table-row__body">{project.title}</div>
                 <div className="table-row__body">{project.deadline}</div>
                 <div className="table-row__body">
                   <ul className="table-row__body-list">
-                    {project.guestList.map((guest) => (
+                    {project?.guestList.map((guest) => (
                       <li
-                        key={guest.guestId}
+                        key={guest?.guestId}
                         className="table-row__body-guests"
                       >
-                        {guest.email}
+                        {guest?.email}
                       </li>
                     ))}
                     {project.guestList.length === 0 && (
@@ -83,12 +85,12 @@ function TableOwner() {
                 </div>
                 <div className="table-row__body">
                   <ul className="table-row__body-list">
-                    {project.guestList.map((guest) => (
+                    {project?.guestList.map((guest) => (
                       <li
-                        key={guest.guestId}
+                        key={guest?.guestId}
                         className="table-row__body-guests"
                       >
-                        {guest.permissions.toLowerCase()}
+                        {guest?.permissions.toLowerCase()}
                       </li>
                     ))}
                     {project.guestList.length === 0 && (
@@ -98,17 +100,13 @@ function TableOwner() {
                 </div>
                 <div className="table-row__body">
                   <ul className="table-row__body-list">
-                    {project.guestList.map((guest) => (
-                      <li key={guest.guestId}>
+                    {project?.guestList.map((guest) => (
+                      <li key={guest?.guestId}>
                         <button
                           className="card-btn table-btn"
                           type="button"
                           onClick={() =>
-                            handleClick(
-                              guest,
-                              project,
-                              "UPDATE_GUEST_PERMISSIONS"
-                            )
+                            handleClick(guest, project, "UPDATE_GUEST")
                           }
                         >
                           Update
@@ -131,7 +129,7 @@ function TableOwner() {
                 <div className="table-row__body">
                   <ul className="table-row__body-list">
                     {project.guestList.map((guest) => (
-                      <li key={guest.guestId}>
+                      <li key={guest?.guestId}>
                         <button
                           className="card-btn table-btn"
                           type="button"
@@ -169,7 +167,7 @@ function TableOwner() {
                   <button
                     className="card-btn table-btn"
                     type="button"
-                    onClick={() => handleClick(project, "DELETE_PROJECT")}
+                    onClick={() => handleClick(null, project, "DELETE_PROJECT")}
                   >
                     Delete
                   </button>

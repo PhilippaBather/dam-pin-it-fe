@@ -3,9 +3,10 @@
   flex-direction: column;
 
   label,
-  input {
+  input,
+  textarea {
     margin-top: 0.2rem;
-    margin-bottom: 0.2rem;
+    margin-bottom: 0.3rem;
   }
 
   label {
@@ -29,12 +30,17 @@
     }
   }
 
-  .form-title {
+  .form-title,
+  .form-p {
     font-size: 2rem;
     text-align: center;
     font-family: "Slackside One", cursive;
     color: var(--theme-pink);
-    margin: 0.5rem 0.5rem;
+    margin: 0.5rem 0.3rem;
+  }
+
+  .form-p {
+    font-size: 1.3rem;
   }
 
   .error-msg__form,
@@ -50,13 +56,6 @@
     color: var(--theme-pink);
   }
 }
-
-/* .alert {
-  color: var(--bright-pink);
-  text-align: center;
-  font-weight: 500;
-  font-size: 0.8rem;
-} */
 
 .login-redirects {
   text-align: center;

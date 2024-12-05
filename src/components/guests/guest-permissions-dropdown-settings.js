@@ -1,25 +1,24 @@
 import chroma from "chroma-js";
 
 export const priorityOptions = [
-  { value: "1", label: "None", color: "#ff1919" },
-  { value: "2", label: "Read", color: "#ff1919" },
-  { value: "3", label: "Edit tasks", color: "#cc8400" },
-  { value: "4", label: "Edit and Delete tasks", color: "#b2b200" },
-  { value: "5", label: "Owner", color: "#ff1919" },
+  { value: "1", label: "Read", color: "#ff1919" },
+  { value: "2", label: "Edit tasks", color: "#cc8400" },
+  { value: "3", label: "Edit and Delete tasks", color: "#b2b200" },
+  { value: "4", label: "Owner", color: "#ff1919" },
 ];
 
-// export const selectPriorityOption = {
-//   VIEWER: 2,
-//   EDITOR_RW: 3,
-//   EDITOR_RWD: 4,
-//   OWNER: 5,
-// };
+export const selectPriorityOption = {
+  VIEWER: 2,
+  EDITOR_RW: 3,
+  EDITOR_RWD: 4,
+  OWNER: 5,
+};
 
 export const convertToPermissionsEnum = {
-  Read: "VIEWER",
-  "Edit tasks": "EDITOR_RW",
-  "Edit and Delete tasks": "EDITOR_RWD",
-  Owner: "OWNER",
+  1: "VIEWER",
+  2: "EDITOR_RW",
+  3: "EDITOR_RWD",
+  4: "OWNER",
 };
 
 const dot = (color = "transparent") => ({

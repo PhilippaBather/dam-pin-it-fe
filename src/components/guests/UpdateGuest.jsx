@@ -1,37 +1,54 @@
 import { useState } from "react";
+import { useParams } from "react-router-dom";
 import Card from "../ui/Card";
 import CloseForm from "../forms/CloseForm";
+import FormGuest from "../forms/FormGuest";
+import {
+  processData,
+  handleUpdateRequest,
+  processUpdatedPermissions,
+} from "./guest-utilities";
+import { useProjectContext } from "../../context/project-context";
 import { useUIContext } from "../../context/ui-context";
-import { getAuthToken } from "../../auth/auth-functions";
 
 function UpdateGuest() {
-  const [isUpdated, setIsUpdated] = useState(false);
-  const { setModalComponentType } = useUIContext();
+  const { id } = useParams();
+  const [selectionError, setSelectionError] = useState(false);
+  const { selectedGuest, currProject, ownedProjects, setOwnedProjects } =
+    useProjectContext();
+  const { selectOption, setSelectOption, setModalComponentType } =
+    useUIContext();
 
-  const handleGuestUpdate = async () => {
-    const token = getAuthToken();
+  const handleGuestUpdate = async (data) => {
+    console.log(data);
+    console.log(selectOption);
 
-    try {
-      const resp = await fetch(
-        `http://localhost:3000/guests/owned-projects/${projectId}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Origin: origin,
-            Authorizaton: "Bearer " + token,
-          },
-        }
+    if (selectOption !== null) {
+      const processedData = processData(
+        data,
+        selectOption,
+        id,
+        currProject.projectId
       );
-      setIsUpdated(true);
-      console.log(resp);
-
-      if (resp.status === 200) {
-        setModalComponentType(null);
-      }
-    } catch (e) {
-      console.error(e);
+      console.log(processedData);
+      const resp = await handleUpdateRequest(processedData);
+      setModalComponentType(null);
+      const updatedProjects = processUpdatedPermissions(
+        resp,
+        ownedProjects,
+        currProject.projectId
+      );
+      setOwnedProjects(updatedProjects);
+      reset();
+      // TODO: handle guest not found
+    } else {
+      setSelectionError(true);
     }
+  };
+
+  const reset = () => {
+    setSelectionError(false);
+    setSelectOption(null);
   };
 
   const handleCancel = () => {
@@ -41,19 +58,12 @@ function UpdateGuest() {
   return (
     <Card>
       <CloseForm handleClose={handleCancel} />
-      <form onSubmit={handleGuestUpdate}>
-        <div className={"delete-modal_btn-container"}>
-          {!isUpdated && (
-            <button
-              type="submit"
-              className={"delete-modal_btn"}
-              disabled={isUpdated}
-            >
-              Confirm
-            </button>
-          )}
-        </div>
-      </form>
+      <FormGuest
+        guest={selectedGuest}
+        handleGuestSubmit={handleGuestUpdate}
+        setSelectionError={setSelectionError}
+        selectionError={selectionError}
+      />
     </Card>
   );
 }

@@ -7,12 +7,12 @@ const UIContext = createContext();
 export const UIContextProvider = ({ children }) => {
   const [columnClicked, setColumnClicked] = useState("");
   const [modalComponentType, setModalComponentType] = useState(null);
-  const [selectedOption, setSelectOption] = useState("");
+  const [selectOption, setSelectOption] = useState(null);
 
   const ctxtValue = {
     columnClicked,
     modalComponentType,
-    selectedOption,
+    selectOption,
     setColumnClicked,
     setModalComponentType,
     setSelectOption,
