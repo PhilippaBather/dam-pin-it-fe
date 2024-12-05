@@ -55,12 +55,12 @@ function TableOwner() {
         <div className="table-container__head">
           <div className="table-row__head">Project</div>
           <div className="table-row__head">Deadline</div>
+          <div className="table-row__head ">Delete Project</div>
           <div className="table-row__head">Guests</div>
           <div className="table-row__head">Permissions</div>
-          <div className="table-row__head">Update Guest</div>
-          <div className="table-row__head">Remove Guest</div>
-          <div className="table-row__head">Invite Guest</div>
-          <div className="table-row__head">Delete Project</div>
+          <div className="table-row__head">Update</div>
+          <div className="table-row__head">Remove</div>
+          <div className="table-row__head">Invite</div>
         </div>
         <div>
           {ownedProjects &&
@@ -68,6 +68,15 @@ function TableOwner() {
               <div key={project.projectId} className="table-row__items">
                 <div className="table-row__body">{project.title}</div>
                 <div className="table-row__body">{project.deadline}</div>
+                <div className="table-row__body body-guests">
+                  <button
+                    className="card-btn table-btn"
+                    type="button"
+                    onClick={() => handleClick(null, project, "DELETE_PROJECT")}
+                  >
+                    Delete
+                  </button>
+                </div>
                 <div className="table-row__body">
                   <ul className="table-row__body-list">
                     {project?.guestList.map((guest) => (
@@ -90,7 +99,7 @@ function TableOwner() {
                         key={guest?.guestId}
                         className="table-row__body-guests"
                       >
-                        {guest?.permissions.toLowerCase()}
+                        {guest?.permissions.replace("_", " ").toLowerCase()}
                       </li>
                     ))}
                     {project.guestList.length === 0 && (
@@ -161,15 +170,6 @@ function TableOwner() {
                     onClick={() => handleClick(null, project, "INVITE_GUEST")}
                   >
                     Invite
-                  </button>
-                </div>
-                <div className="table-row__body">
-                  <button
-                    className="card-btn table-btn"
-                    type="button"
-                    onClick={() => handleClick(null, project, "DELETE_PROJECT")}
-                  >
-                    Delete
                   </button>
                 </div>
               </div>

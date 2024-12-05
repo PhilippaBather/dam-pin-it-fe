@@ -58,7 +58,7 @@ function TableShared() {
             <div key={project.projectId} className="table-row__items">
               <div className="table-row__body">{project.projectTitle}</div>
               <div className="table-row__body">
-                {project.permissions.toLowerCase()}
+                {project.permissions.replace("_", " ").toLowerCase()}
               </div>
               <div className="table-row__body">{project.deadline}</div>
               <div className="table-row__body">{`${project.ownerName} ${project.ownerSurname}`}</div>

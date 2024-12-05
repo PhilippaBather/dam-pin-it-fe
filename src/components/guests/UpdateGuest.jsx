@@ -20,9 +20,6 @@ function UpdateGuest() {
     useUIContext();
 
   const handleGuestUpdate = async (data) => {
-    console.log(data);
-    console.log(selectOption);
-
     if (selectOption !== null) {
       const processedData = processData(
         data,
@@ -30,15 +27,19 @@ function UpdateGuest() {
         id,
         currProject.projectId
       );
-      console.log(processedData);
+
       const resp = await handleUpdateRequest(processedData);
+
       setModalComponentType(null);
+
       const updatedProjects = processUpdatedPermissions(
         resp,
         ownedProjects,
         currProject.projectId
       );
+
       setOwnedProjects(updatedProjects);
+
       reset();
       // TODO: handle guest not found
     } else {

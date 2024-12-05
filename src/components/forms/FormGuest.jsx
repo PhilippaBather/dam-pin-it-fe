@@ -37,7 +37,7 @@ function FormGuest({
   };
 
   const handleChange = (selectedOption) => {
-    console.log(selectedOption);
+    console.log(guest.permissions);
     setSelectOption(selectedOption);
     setSelectionError(null);
   };
@@ -48,7 +48,7 @@ function FormGuest({
     : "Update invited participant's project permissions.";
   let textareaMsg = !guest
     ? "Include an optional message "
-    : `Updating current permissions ${guest.permissions} to ${
+    : `Updating current permissions from ${guest.permissions} to ${
         selectOption === null ? "..." : selectOption.label
       }`;
 

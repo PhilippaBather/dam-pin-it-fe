@@ -1,18 +1,18 @@
 import chroma from "chroma-js";
 
 export const priorityOptions = [
-  { value: "1", label: "Read", color: "#ff1919" },
-  { value: "2", label: "Edit tasks", color: "#cc8400" },
-  { value: "3", label: "Edit and Delete tasks", color: "#b2b200" },
-  { value: "4", label: "Owner", color: "#ff1919" },
+  { value: "1", label: "Read", color: "#2076CB" },
+  { value: "2", label: "Edit tasks", color: "#50A154" },
+  { value: "3", label: "Edit and Delete tasks", color: "rgb(255, 140, 0)" },
+  { value: "4", label: "Owner", color: "rgb(231, 15, 15)" },
 ];
 
-export const selectPriorityOption = {
-  VIEWER: 2,
-  EDITOR_RW: 3,
-  EDITOR_RWD: 4,
-  OWNER: 5,
-};
+// export const selectPriorityOption = {
+//   VIEWER: 2,
+//   EDITOR_RW: 3,
+//   EDITOR_RWD: 4,"#b2b200"
+//   OWNER: 5,
+// };
 
 export const convertToPermissionsEnum = {
   1: "VIEWER",
@@ -69,6 +69,7 @@ export const colourStyles = {
         : data.color,
       cursor: isDisabled ? "not-allowed" : "default",
       fontSize: "0.8rem",
+      fontWeight: "600",
 
       ":active": {
         ...styles[":active"],
