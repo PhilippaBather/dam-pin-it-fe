@@ -12,7 +12,6 @@
   border: 1px solid var(--theme-green-button);
   border-radius: 5%;
   background: linear-gradient(45deg, #daffe7 0%, #ece6ff 50%, #eafff2 75%);
-
   overflow-y: auto;
 
   h1 {

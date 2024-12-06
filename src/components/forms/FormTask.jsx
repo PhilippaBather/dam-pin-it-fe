@@ -130,6 +130,7 @@ function FormTask({
           <FormActions
             btnLabel1={btnLabel1}
             btnLabel2={btnLabel2}
+            btn2Type={"reset"}
             handleClick={handleClick}
           />
         )}

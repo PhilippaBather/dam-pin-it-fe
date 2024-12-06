@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
+import Alert from "../../components/ui/Alert";
 import Card from "../../components/ui/Card";
 import CreateProject from "../../components/projects/CreateProject";
 import Modal from "../../components/ui/Modal";
@@ -11,15 +12,24 @@ import "../../stylesheets/titles.css";
 function ProjectHomePage() {
   let { id } = useParams();
   const dialog = useRef();
-  const { setProjects } = useProjectContext();
+  const { isAlert, setProjects } = useProjectContext();
+  const token = getAuthToken();
+
+  // TODO remove: temp
+  // const [isAlert, setIsAlert] = useState(false);
 
   const handleCreateProject = () => {
+    // setIsAlert(false);
     dialog.current.open();
   };
 
   useEffect(() => {
+    // if (isAlert) {
+    //   dialog.current.open();
+    //   setIsAlert(false);
+    // }
     async function fetchData() {
-      const token = getAuthToken();
+      // if (isAlert) return;
       try {
         const resp = await fetch(
           `http://localhost:3000/projects/${parseInt(id)}`,
@@ -45,14 +55,13 @@ function ProjectHomePage() {
     }
 
     fetchData();
-  }, [id, setProjects]);
+  }, [id, setProjects, token, isAlert]);
 
   return (
     <>
       <Modal ref={dialog}>
-        <Card>
-          <CreateProject />
-        </Card>
+        <CreateProject />
+        {isAlert && <Alert />}
       </Modal>
       <main>
         <Sidebar />
@@ -66,6 +75,9 @@ function ProjectHomePage() {
             <h2 className="title-create_project">Create a new project</h2>
           </button>
         </Card>
+        {/* <button type="button" className={"card-btn"} onClick={openAlert}>
+          <h2 className="title-create_project">Alert Test</h2>
+        </button> */}
       </main>
     </>
   );

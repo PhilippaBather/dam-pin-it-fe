@@ -1,7 +1,9 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import Card from "../../components/ui/Card";
+import FormActions from "../../components/forms/FormActions.jsx";
+import { useProjectContext } from "../../context/project-context.jsx";
 import { handleHttpReq, postAuthData } from "../../api/http-requests.js";
 import {
   errorEmailReq as emailReq,
@@ -10,6 +12,7 @@ import {
 import "../../stylesheets/form.css";
 import "../../stylesheets/ui-components.css";
 import { loginEndpoint, userDataEndpoint } from "../../api/endpoints.js";
+import ROUTES from "../routes/routes.js";
 
 function LoginPage() {
   const {
@@ -19,6 +22,7 @@ function LoginPage() {
   } = useForm();
 
   const [error, setError] = useState(null);
+  const { setIsAlert } = useProjectContext();
   const navigate = useNavigate();
 
   const handleLogin = async (data, event) => {
@@ -26,6 +30,7 @@ function LoginPage() {
     try {
       await postAuthData(loginEndpoint, data, "LOGIN");
       const user = await handleHttpReq(userDataEndpoint, data, null, "POST");
+      setIsAlert(!user.userNotification);
       // useNavigate hook to programmatically change route
       const route = `/projects-home/user/${user.id}`;
       navigate(route);
@@ -68,14 +73,15 @@ function LoginPage() {
             {passReq}
           </span>
         )}
-        <div className="form-btn__container">
-          <button className="form-btn" type="submit">
-            Login
-          </button>
-          <button className="form-btn" type="button">
-            Cancel
-          </button>
-        </div>
+        <FormActions
+          btnLabel1={"Login"}
+          btnLabel2={"Cancel"}
+          isLink={true}
+          link={ROUTES.HOME}
+        />
+        <Link to={ROUTES.PASSWORD_RECOVERY} className="form-link">
+          Forgotten your password?
+        </Link>
       </form>
     </Card>
   );
