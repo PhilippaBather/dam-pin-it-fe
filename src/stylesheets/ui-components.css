@@ -80,7 +80,7 @@
 
 .table-card {
   position: relative;
-  top: 15rem;
+  top: 8rem;
   left: 50%;
   width: 85%;
   transform: translate(-50%, -47%);
@@ -89,10 +89,6 @@
   background-color: rgba(0, 0, 0, 0.8);
   padding: 1rem 2rem;
   color: var(--theme-pink);
-}
-
-.table-shared-card {
-  top: 10rem;
 }
 
 .card-btn {

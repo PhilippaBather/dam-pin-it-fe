@@ -15,7 +15,7 @@ function Card({
           : isTable
           ? "table-card"
           : isTableShared
-          ? "table-card table-shared-card"
+          ? "table-card"
           : isStrong
           ? "card-strong"
           : "card"

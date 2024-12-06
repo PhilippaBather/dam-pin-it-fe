@@ -11,8 +11,10 @@ function ManagementDashboard() {
         <header className="dashboard-header__management">
           <h1 className="title-page">Project Management Dashboard</h1>
         </header>
-        <TableOwner />
-        <TableShared />
+        <div>
+          <TableOwner />
+          <TableShared />
+        </div>
       </main>
     </>
   );
