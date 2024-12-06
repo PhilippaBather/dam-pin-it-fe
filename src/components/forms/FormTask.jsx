@@ -20,6 +20,7 @@ function FormTask({
   handleTaskSubmit,
   setSelectOption,
   handleTaskDelete,
+  dateValError,
 }) {
   const [btnLabel1, btnLabel2] = btnLabels;
   const { selectedTask } = useProjectContext();
@@ -99,6 +100,11 @@ function FormTask({
         {errors.deadline && (
           <span className="error-msg__form" role="alert">
             {deadlineReq}
+          </span>
+        )}
+        {dateValError && (
+          <span className="error-msg__form" role="alert">
+            {dateValError}
           </span>
         )}
         <label htmlFor="proj-priority">Priority Level</label>
