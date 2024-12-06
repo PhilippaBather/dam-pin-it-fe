@@ -3,7 +3,7 @@ import { getAuthToken } from "../../auth/auth-functions";
 export const handleCreateProjectRequest = async (data, id, setHttpReqError) => {
   const token = getAuthToken();
   try {
-    const resp = await fetch(`http://localhost:3000/projecs/${id}`, {
+    const resp = await fetch(`http://localhost:3000/projects/${id}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
