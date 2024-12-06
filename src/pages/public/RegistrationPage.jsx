@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import Card from "../../components/ui/Card";
-import LoadingSpinner from "../../components/ui/spinners/LoadingSpinner.jsx";
+import LoadingDots from "../../components/ui/spinners/LoadingDots.jsx";
 import ROUTES from "../../pages/routes/routes";
 import { postAuthData } from "../../api/http-requests.js";
 import { signupEndpoint } from "../../api/endpoints.js";
@@ -58,7 +58,7 @@ function RegistrationPage() {
             {error}
           </span>
         )}
-        {isLoading && <LoadingSpinner />}
+        {isLoading && <LoadingDots dotColor="rgb(202, 247, 170)" size="45" />}
         <label htmlFor="reg-forename">Name:</label>
         <input
           id="reg-forename"

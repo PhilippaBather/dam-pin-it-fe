@@ -5,12 +5,13 @@ function LoadingSpinner() {
     <div className="spinner-container">
       <RotatingLines
         visible={true}
-        height="25"
-        width="25"
-        strokeColor="fb05adb3"
+        height="50"
+        width="50"
+        color="pink"
         strokeWidth="5"
-        animationDuration="0.75"
+        animationDuration="0.55"
         ariaLabel="rotating-lines-loading"
+        wrapperStyle={{}}
       />
     </div>
   );

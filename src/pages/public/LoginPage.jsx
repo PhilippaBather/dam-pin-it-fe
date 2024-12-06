@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import Card from "../../components/ui/Card";
 import FormActions from "../../components/forms/FormActions.jsx";
-import LoadingSpinner from "../../components/ui/spinners/LoadingSpinner.jsx";
+import LoadingDots from "../../components/ui/spinners/LoadingDots.jsx";
 import { useProjectContext } from "../../context/project-context.jsx";
 import { handleHttpReq, postAuthData } from "../../api/http-requests.js";
 import { useUIContext } from "../../context/ui-context.jsx";
@@ -59,7 +59,7 @@ function LoginPage() {
             {error}
           </span>
         )}
-        {isLoading && <LoadingSpinner />}
+        {isLoading && <LoadingDots dotColor="rgb(202, 247, 170)" size="45" />}
         <label htmlFor="login-email">Email:</label>
         <input
           id="login-email"
