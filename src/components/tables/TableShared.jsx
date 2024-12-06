@@ -1,14 +1,13 @@
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Card from "../ui/Card";
 import { useProjectContext } from "../../context/project-context";
 import { useUIContext } from "../../context/ui-context";
-import { getAuthToken } from "../../auth/auth-functions";
+import { handleGetSharedProjects } from "./table-utilities.js";
 import "../../stylesheets/table.css";
 
 function TableShared() {
   const { id } = useParams();
-  const token = getAuthToken();
   const { setSelectedSharedProject, sharedProjects, setSharedProjects } =
     useProjectContext();
   const { setModalComponentType } = useUIContext();
@@ -18,31 +17,18 @@ function TableShared() {
     setModalComponentType("DELETE_SHARED_PROJECT");
   };
 
+  const route = `/projects-home/user/${id}/project/`;
+
   useEffect(() => {
     const getSharedProjects = async () => {
-      try {
-        const resp = await fetch(
-          `http://localhost:3000/guests/shared-projects/${id}`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Origin: origin,
-              Authorizaton: "Bearer " + token,
-            },
-          }
-        );
-        const data = await resp.json();
-        setSharedProjects(data);
-      } catch (e) {
-        console.error(e);
-      }
+      const projects = await handleGetSharedProjects(id);
+      setSharedProjects(projects);
     };
     getSharedProjects();
-  }, [id, setSharedProjects, token]);
+  }, [id, setSharedProjects]);
 
   return (
-    <section className="table-shared">
+    <section className="section-table section-table__shared">
       <Card isTable>
         <h1 className="table-title">Shared Projects</h1>
         <div className="table-container__head">
@@ -57,7 +43,12 @@ function TableShared() {
           sharedProjects.map((project) => (
             <div key={project.projectId} className="table-row__items">
               <div className="table-row__body item-title">
-                {project.projectTitle}
+                <Link
+                  className="table-row__link"
+                  to={route + project.projectId}
+                >
+                  {project.projectTitle}
+                </Link>
               </div>
               <div className="table-row__body">
                 {project.permissions.replace("_", " ").toLowerCase()}

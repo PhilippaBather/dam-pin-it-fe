@@ -37,14 +37,13 @@ function CreateProject() {
     if (httpReqError !== null) return;
 
     setCurrProject(savedProject);
+    clearErrors();
+    reset({ title: "", description: "", deadline: "" });
 
     setModalComponentType(null);
 
     const route = `/projects-home/user/${id}/project/${savedProject.projectId}`;
     navigate(route);
-
-    clearErrors();
-    reset({ title: "", description: "", deadline: "" });
   };
 
   return (
@@ -54,6 +53,7 @@ function CreateProject() {
         handleSubmitProject={handleCreateProject}
         deadlineValError={isDeadlineValError}
         httpReqError={httpReqError}
+        reset={reset}
       />
     </Card>
   );
