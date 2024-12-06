@@ -1,7 +1,7 @@
 import { Form, NavLink, useParams } from "react-router-dom";
-import { getAuthToken } from "../auth/auth-functions.js";
-import ROUTES from "../pages/routes/routes.js";
-import "../stylesheets/navigation.css";
+import { getAuthToken } from "../../auth/auth-functions.js";
+import ROUTES from "../../pages/routes/routes.js";
+import "../../stylesheets/navigation.css";
 
 // NavLink does not send new HTTP request and uses an anonymous function to indicate whether a lin is active
 

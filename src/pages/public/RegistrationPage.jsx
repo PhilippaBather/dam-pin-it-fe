@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import Card from "../../components/Card";
+import Card from "../../components/ui/Card";
 import { postAuthData } from "../../api/http-requests.js";
 import ROUTES from "../../pages/routes/routes";
 import { signupEndpoint } from "../../api/endpoints.js";

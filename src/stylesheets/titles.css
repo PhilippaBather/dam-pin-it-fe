@@ -1,8 +1,28 @@
-.title-page {
+.title-homepage {
+  margin-top: 7rem;
+}
+
+.title-page,
+.title-homepage {
   font-family: "Slackside One", cursive;
   font-size: 3rem;
   color: var(--theme-pink);
   text-align: center;
+  margin-bottom: 0;
+  margin-left: 1rem;
+}
+
+.title-page {
+  margin-bottom: 0.8rem;
+}
+
+.para-info {
+  margin: 0rem 0 0.5rem 2rem;
+  font-size: 0.9rem;
+}
+
+.para-info_title {
+  font-weight: 600;
 }
 
 .title-create_project {

@@ -1,31 +1,25 @@
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { useProjectContext } from "../context/project-context";
-import { postProjectData } from "../api/http-requests";
-import { projectEndpoint } from "../api/endpoints";
+import { useProjectContext } from "../../context/project-context";
+import { handleHttpReq } from "../../api/http-requests";
+import { projectsEndpoint } from "../../api/endpoints";
 import {
   errorDeadlineRequired as deadlineReq,
   errorTitleRequired as titleReq,
-} from "../constants/error-messages";
+} from "../../constants/error-messages";
 
-function EditProject() {
-  const { currProject, setCurrProject } = useProjectContext();
+function CreateProject() {
   const {
     register,
     handleSubmit,
     clearErrors,
     reset,
     formState: { errors },
-  } = useForm({
-    defaultValues: {
-      title: currProject.title,
-      description: currProject.description,
-      deadline: currProject.deadline,
-    },
-  });
+  } = useForm();
 
   let { id } = useParams();
+  const { currProject, setCurrProject } = useProjectContext();
   const navigate = useNavigate();
   const [isCreated, setIsCreated] = useState(false);
 
@@ -34,7 +28,13 @@ function EditProject() {
     setIsCreated(true);
 
     try {
-      const resp = await postProjectData(projectEndpoint, data, id, "PROJECT");
+      const resp = await handleHttpReq(
+        projectsEndpoint,
+        data,
+        id,
+        "POST",
+        "PROJECT"
+      );
       setCurrProject(resp);
     } catch (e) {
       console.log(e);
@@ -112,8 +112,22 @@ function EditProject() {
           </div>
         )}
       </form>
+      {isCreated && (
+        <form method="dialog" className="dialog-btn__form">
+          <div className="form-btn__container">
+            <button
+              className="form-btn form-btn_another-project"
+              method="dialog"
+              type="button"
+              onClick={resetIsCreated}
+            >
+              Create Another Project
+            </button>
+          </div>
+        </form>
+      )}
     </>
   );
 }
 
-export default EditProject;
+export default CreateProject;

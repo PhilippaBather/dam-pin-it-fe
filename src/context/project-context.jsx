@@ -3,18 +3,57 @@ import { createContext, useContext, useState } from "react";
 // create context
 const ProjectContext = createContext({
   projects: [],
+  tasks: {},
 });
 
 // create provider
 export const ProjectContextProvider = ({ children }) => {
   const [projectsState, setProjectsState] = useState([]);
   const [currProject, setCurrProject] = useState({});
+  const [tasks, setTasks] = useState({});
+  const [selectedTask, setSelectedTask] = useState({});
+
+  const updateDraggedTasksYAxis = (colId, updatedTasks) => {
+    setTasks((prev) => {
+      return {
+        ...prev,
+        [colId]: {
+          tasks: updatedTasks,
+        },
+      };
+    });
+  };
+
+  const updateDraggedTasksXAxis = (
+    sourceColId,
+    destinationColId,
+    updatedSourceTasks,
+    updatedDestinationTasks
+  ) => {
+    setTasks((prev) => {
+      return {
+        ...prev,
+        [sourceColId]: {
+          tasks: [...updatedSourceTasks],
+        },
+        [destinationColId]: {
+          tasks: [...updatedDestinationTasks],
+        },
+      };
+    });
+  };
 
   const ctxtValue = {
     currProject,
     projects: projectsState,
+    projectTasks: tasks,
+    selectedTask,
     setCurrProject: setCurrProject,
     setProjects: setProjectsState,
+    setTasks,
+    setSelectedTask,
+    updateDraggedTasksXAxis,
+    updateDraggedTasksYAxis,
   };
 
   return (

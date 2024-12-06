@@ -1,11 +1,18 @@
 import { getAuthToken, setJWTExpiration } from "../auth/auth-functions";
 import { origin } from "./endpoints";
 
-export const postUserLogin = async (url, data) => {
+export const handleHttpReq = async (url, data, id, method, dataType) => {
   const token = getAuthToken();
+
+  if (dataType === "PROJECT" || dataType === "TASK") {
+    url += id;
+  }
+
+  data = data ? JSON.stringify(data) : null;
+
   const resp = await fetch(url, {
-    method: "POST",
-    body: JSON.stringify(data),
+    method: method,
+    body: data,
     headers: {
       "Content-Type": "application/json",
       Origin: origin,
@@ -13,17 +20,24 @@ export const postUserLogin = async (url, data) => {
     },
   });
 
-  const respData = await resp.json();
-  console.log(respData);
+  if ((method === "DELETE" || method === "PUT") && resp.status === 204) {
+    return resp.status;
+  }
 
-  if (!resp.ok) {
-    throw new Error("TODO: create custom error message");
+  const respData = await resp.json();
+
+  if (resp.status === 401 || resp.status === 422) {
+    throw new Error("Incorrect login details.");
+  }
+
+  if (resp.status === 500) {
+    throw new Error(respData.message);
   }
 
   return respData;
 };
 
-export const postAuthData = async (url, data, method) => {
+export const postAuthData = async (url, data, dataType) => {
   const resp = await fetch(url, {
     method: "POST",
     body: JSON.stringify(data),
@@ -43,7 +57,7 @@ export const postAuthData = async (url, data, method) => {
 
   const respData = await resp.json();
 
-  if (method === "SIGNUP" && resp.status !== 200) {
+  if (dataType === "SIGNUP" && resp.status !== 200) {
     if (resp.status === 404) {
       throw new Error(respData.message);
     }
@@ -53,49 +67,8 @@ export const postAuthData = async (url, data, method) => {
     }
   }
 
-  if (method === "LOGIN") {
+  if (dataType === "LOGIN") {
     localStorage.setItem("token", respData.jsonToken);
     setJWTExpiration();
   }
-  return respData;
-};
-
-export const postProjectData = async (url, data, id, method) => {
-  const token = getAuthToken();
-  const ep = url + id;
-
-  const resp = await fetch(ep, {
-    method: "POST",
-    body: JSON.stringify(data),
-    headers: {
-      "Content-Type": "application/json",
-      Origin: origin,
-      Authorizaton: "Bearer " + token,
-    },
-  });
-
-  if (method === "PROJECT") {
-    // TODO
-  }
-
-  if (method === "TASK") {
-    // TODO
-  }
-
-  const respData = await resp.json();
-  return respData;
-};
-
-export const deleteProject = async (url, pid) => {
-  const token = getAuthToken();
-  const ep = url + pid;
-
-  await fetch(ep, {
-    method: "DELETE",
-    headers: {
-      "Content-Type": "application/json",
-      Origin: origin,
-      Authorizaton: "Bearer " + token,
-    },
-  });
 };

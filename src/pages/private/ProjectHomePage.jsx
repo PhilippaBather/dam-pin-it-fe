@@ -1,9 +1,9 @@
 import { useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
-import Card from "../../components/Card";
-import CreateProject from "../../components/CreateProject";
-import Modal from "../../components/Modal";
-import Sidebar from "../../components/Sidebar";
+import Card from "../../components/ui/Card";
+import CreateProject from "../../components/projects/CreateProject";
+import Modal from "../../components/ui/Modal";
+import Sidebar from "../../components/projects/Sidebar";
 import { useProjectContext } from "../../context/project-context";
 import { getAuthToken } from "../../auth/auth-functions";
 import "../../stylesheets/titles.css";
@@ -12,7 +12,6 @@ function ProjectHomePage() {
   let { id } = useParams();
   const dialog = useRef();
   const { setProjects } = useProjectContext();
-  const token = getAuthToken();
 
   const handleCreateProject = () => {
     dialog.current.open();
@@ -20,6 +19,7 @@ function ProjectHomePage() {
 
   useEffect(() => {
     async function fetchData() {
+      const token = getAuthToken();
       try {
         const resp = await fetch(`http://localhost:3000/projects/${id}`, {
           method: "GET",
@@ -40,7 +40,7 @@ function ProjectHomePage() {
     }
 
     fetchData();
-  }, [id, token, setProjects]);
+  }, [id, setProjects]);
 
   return (
     <>
@@ -51,7 +51,7 @@ function ProjectHomePage() {
       </Modal>
       <main>
         <Sidebar />
-        <h1 className="title-page">Project Home Page</h1>
+        <h1 className="title-homepage">Project Home Page</h1>
         <Card>
           <button
             type="button"

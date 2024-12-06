@@ -2,14 +2,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 0 1rem 0 1rem;
-
-  .title-page {
-    font-family: "Slackside One", cursive;
-    font-size: 3rem;
-    color: var(--theme-pink);
-    text-align: center;
-  }
+  margin: 3rem 1rem 0 1rem;
+  margin-bottom: 0;
 }
 
 .delete-modal_title {
@@ -25,7 +19,7 @@
   display: flex;
   justify-content: center;
   gap: 1rem;
-
+  margin-top: 3rem;
   .dashboard-btn,
   .delete-modal_btn {
     margin-bottom: 1rem;

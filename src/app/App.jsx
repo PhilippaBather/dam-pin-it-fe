@@ -10,6 +10,7 @@ import { action as logoutAction } from "../pages/private/Logout.js";
 import ProjectDashboard from "../pages/private/ProjectDashboard.jsx";
 import { checkAuthLoader, tokenLoader } from "../auth/auth-functions.js";
 import ROUTES from "../pages/routes/routes";
+import { UIContextProvider } from "../context/ui-context.jsx";
 
 // TODO: const token = useRouteLoaderData("root"); // retruns token
 
@@ -44,9 +45,11 @@ const router = createBrowserRouter([
 
 function App() {
   return (
-    <ProjectContextProvider>
-      <RouterProvider router={router} />
-    </ProjectContextProvider>
+    <UIContextProvider>
+      <ProjectContextProvider>
+        <RouterProvider router={router} />
+      </ProjectContextProvider>
+    </UIContextProvider>
   );
 }
 

@@ -2,21 +2,23 @@ import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useProjectContext } from "../../context/project-context";
 import { getAuthToken } from "../../auth/auth-functions";
-import Card from "../../components/Card";
-import DeleteProject from "../../components/DeleteProject";
-import EditProject from "../../components/EditProject";
-import Modal from "../../components/Modal";
+import Card from "../../components/ui/Card";
+import AddTask from "../../components/tasks/AddTask";
+import DeleteProject from "../../components/projects/DeleteProject";
+import EditProject from "../../components/projects/EditProject";
+import Modal from "../../components/ui/Modal";
 import "../../stylesheets/project-dashboard.css";
+import ContextContainer from "../../components/draggable/ContextContainer";
 
 function ProjectDashboard() {
   const [dialogType, setDialogType] = useState(null);
   const { id, pid } = useParams();
   const dialog = useRef();
-  const { currProject, setCurrProject } = useProjectContext();
-  const token = getAuthToken();
+  const { currProject, setCurrProject, setTasks } = useProjectContext();
 
   useEffect(() => {
-    async function fetchData() {
+    async function fetchProjectData() {
+      const token = getAuthToken();
       try {
         const resp = await fetch(
           `http://localhost:3000/project/user/${id}/project/${pid}`,
@@ -35,8 +37,8 @@ function ProjectDashboard() {
         console.error(e);
       }
     }
-    fetchData();
-  }, [id, pid, setCurrProject, token]);
+    fetchProjectData();
+  }, [id, pid, setCurrProject, setTasks]);
 
   const handleEditProject = () => {
     dialog.current.open();
@@ -48,11 +50,22 @@ function ProjectDashboard() {
     setDialogType("DELETE");
   };
 
+  const handleAddTask = () => {
+    dialog.current.open();
+    setDialogType("ADD_TASK");
+  };
+
   return (
     <>
       <Modal ref={dialog}>
         <Card>
-          {dialogType === "EDIT" ? <EditProject /> : <DeleteProject />}
+          {dialogType === "EDIT" ? (
+            <EditProject />
+          ) : dialogType === "DELETE" ? (
+            <DeleteProject />
+          ) : (
+            <AddTask />
+          )}
         </Card>
       </Modal>
       <main>
@@ -62,7 +75,7 @@ function ProjectDashboard() {
             <button
               type="button"
               className="dashboard-btn"
-              onClick={handleEditProject}
+              onClick={handleAddTask}
             >
               Task &#128203;
             </button>
@@ -82,6 +95,15 @@ function ProjectDashboard() {
             </button>
           </div>
         </header>
+        <p className="para-info">
+          <span className="para-info_title">Deadline:</span>
+          {new Date(currProject.deadline).toLocaleDateString()}
+        </p>
+        <p className="para-info">
+          <span className="para-info_title">Description:</span>
+          {currProject.description}
+        </p>
+        <ContextContainer />
       </main>
     </>
   );

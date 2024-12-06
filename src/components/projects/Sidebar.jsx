@@ -1,6 +1,6 @@
 import { Link, useParams } from "react-router-dom";
-import { useProjectContext } from "../context/project-context";
-import "../stylesheets/sidebar.css";
+import { useProjectContext } from "../../context/project-context";
+import "../../stylesheets/sidebar.css";
 
 function Sidebar() {
   const { projects } = useProjectContext();
