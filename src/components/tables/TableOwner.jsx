@@ -53,22 +53,26 @@ function TableOwner() {
       <Card isTable>
         <h1 className="table-title">Owned Projects</h1>
         <div className="table-container__head">
-          <div className="table-row__head">Project</div>
+          <div className="table-row__head head-title">Project</div>
           <div className="table-row__head">Deadline</div>
-          <div className="table-row__head ">Delete Project</div>
-          <div className="table-row__head">Guests</div>
+          <div className="table-row__head ">Delete</div>
+          <div className="table-row__head head-guests">Guests</div>
           <div className="table-row__head">Permissions</div>
-          <div className="table-row__head">Update</div>
-          <div className="table-row__head">Remove</div>
+          <div className="table-row__head">Edit</div>
+          <div className="table-row__head">Delete</div>
           <div className="table-row__head">Invite</div>
         </div>
         <div>
           {ownedProjects &&
             ownedProjects?.map((project) => (
               <div key={project.projectId} className="table-row__items">
-                <div className="table-row__body">{project.title}</div>
-                <div className="table-row__body">{project.deadline}</div>
-                <div className="table-row__body body-guests">
+                <div className="table-row__body item-title">
+                  {project.title}
+                </div>
+                <div className="table-row__body item-deadline">
+                  {project.deadline}
+                </div>
+                <div className="table-row__body body-guests item-btn">
                   <button
                     className="card-btn table-btn"
                     type="button"
@@ -77,7 +81,7 @@ function TableOwner() {
                     Delete
                   </button>
                 </div>
-                <div className="table-row__body">
+                <div className="table-row__body item-email">
                   <ul className="table-row__body-list">
                     {project?.guestList.map((guest) => (
                       <li
@@ -92,7 +96,7 @@ function TableOwner() {
                     )}
                   </ul>
                 </div>
-                <div className="table-row__body">
+                <div className="table-row__body item-permissions">
                   <ul className="table-row__body-list">
                     {project?.guestList.map((guest) => (
                       <li
@@ -107,7 +111,7 @@ function TableOwner() {
                     )}
                   </ul>
                 </div>
-                <div className="table-row__body">
+                <div className="table-row__body item-btn">
                   <ul className="table-row__body-list">
                     {project?.guestList.map((guest) => (
                       <li key={guest?.guestId}>
@@ -118,24 +122,13 @@ function TableOwner() {
                             handleClick(guest, project, "UPDATE_GUEST")
                           }
                         >
-                          Update
+                          Edit
                         </button>
                       </li>
                     ))}
-                    {project.guestList.length === 0 && (
-                      <li>
-                        <button
-                          className="card-btn table-btn"
-                          type="button"
-                          disabled
-                        >
-                          Update
-                        </button>
-                      </li>
-                    )}
                   </ul>
                 </div>
-                <div className="table-row__body">
+                <div className="table-row__body item-btn">
                   <ul className="table-row__body-list">
                     {project.guestList.map((guest) => (
                       <li key={guest?.guestId}>
@@ -150,20 +143,9 @@ function TableOwner() {
                         </button>
                       </li>
                     ))}
-                    {project.guestList.length === 0 && (
-                      <li>
-                        <button
-                          className="card-btn table-btn"
-                          type="button"
-                          disabled
-                        >
-                          Remove
-                        </button>
-                      </li>
-                    )}
                   </ul>
                 </div>
-                <div className="table-row__body">
+                <div className="table-row__body item-btn">
                   <button
                     className="card-btn table-btn"
                     type="button"

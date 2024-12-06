@@ -46,23 +46,27 @@ function TableShared() {
       <Card isTable>
         <h1 className="table-title">Shared Projects</h1>
         <div className="table-container__head">
-          <div className="table-row__head">Project</div>
+          <div className="table-row__head head-title">Project</div>
           <div className="table-row__head">Permissions</div>
           <div className="table-row__head">Deadline</div>
           <div className="table-row__head">Owner</div>
-          <div className="table-row__head">Email</div>
-          <div className="table-row__head">Remove Project</div>
+          <div className="table-row__head head-email">Email</div>
+          <div className="table-row__head">Remove</div>
         </div>
         {sharedProjects &&
           sharedProjects.map((project) => (
             <div key={project.projectId} className="table-row__items">
-              <div className="table-row__body">{project.projectTitle}</div>
+              <div className="table-row__body item-title">
+                {project.projectTitle}
+              </div>
               <div className="table-row__body">
                 {project.permissions.replace("_", " ").toLowerCase()}
               </div>
               <div className="table-row__body">{project.deadline}</div>
               <div className="table-row__body">{`${project.ownerName} ${project.ownerSurname}`}</div>
-              <div className="table-row__body">{project.ownerEmail}</div>
+              <div className="table-row__body item-email">
+                {project.ownerEmail}
+              </div>
               <div className="table-row__body">
                 <button
                   className="card-btn table-btn"
