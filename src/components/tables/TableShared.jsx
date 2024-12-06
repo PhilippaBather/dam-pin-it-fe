@@ -43,7 +43,7 @@ function TableShared() {
 
   return (
     <section className="table-shared">
-      <Card isTable>
+      <Card isTableShared>
         <h1 className="table-title">Shared Projects</h1>
         <div className="table-container__head">
           <div className="table-row__head">Project</div>
