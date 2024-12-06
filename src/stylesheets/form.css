@@ -48,12 +48,13 @@
     font-size: 0.7rem;
     font-weight: 900;
     color: var(--theme-pink);
+    color: var(--crimson);
   }
 
   .error-msg__form-resp {
     text-align: center;
     font-size: 0.8rem;
-    color: var(--theme-pink);
+    color: var(--theme-orange);
   }
 }
 
