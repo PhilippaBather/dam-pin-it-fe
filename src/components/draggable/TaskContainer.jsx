@@ -16,7 +16,10 @@ function TaskContainer({ task }) {
     <>
       <Draggable draggableId={task.id.toString()} index={task.taskPosition}>
         {(provided, snapshot) => (
-          <li className="list-item" key={task.id}>
+          <li
+            className={`list-item ${task.priorityLevel.toLowerCase()}-shadow`}
+            key={task.id}
+          >
             <div
               {...provided.draggableProps}
               {...provided.dragHandleProps}
@@ -29,8 +32,12 @@ function TaskContainer({ task }) {
             >
               <p className="task-title">{task.title}</p>
               <div className="task-info">
-                <p className="task-deadline-formatted"> {task.deadline}</p>
-                <p className="task-priority"> {task.priority}</p>
+                <span className="task-deadline-formatted">
+                  {new Date(task.deadline).toLocaleDateString()}
+                </span>
+                <span
+                  className={`dot ${task.priorityLevel.toLowerCase()}`}
+                ></span>
               </div>
             </div>
           </li>

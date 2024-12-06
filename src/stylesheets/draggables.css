@@ -29,7 +29,7 @@
 
   .list-item {
     list-style-type: none;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.7rem;
     font-family: "Slackside One", cursive;
 
     div {
@@ -53,16 +53,53 @@
           display: block;
           flex-basis: 17%;
           margin: 0 1rem 0.2rem 0;
+          font-weight: 600;
         }
 
         .task-priority {
           margin: 0 0.4rem 0.3rem 0;
         }
+
+        .dot {
+          height: 15px;
+          width: 15px;
+          background-color: #bbb; /* default */
+          border-radius: 50%;
+          display: inline-block;
+          margin-bottom: 0.5rem;
+        }
+
+        .urgent {
+          background-color: #ff1919;
+        }
+
+        .high {
+          background-color: #cc8400;
+        }
+        .normal {
+          background-color: #b2b200;
+        }
+        .none {
+          background-color: #465e60;
+        }
+      }
+
+      &:hover {
+        cursor: pointer;
       }
     }
+  }
+  .urgent-shadow {
+    box-shadow: 3px 5px 7px rgba(255, 25, 25, 0.7);
+  }
 
-    &:hover {
-      cursor: pointer;
-    }
+  .high-shadow {
+    box-shadow: 3px 5px 7px rgba(204, 132, 0, 0.7);
+  }
+  .normal-shadow {
+    box-shadow: 3px 5px 7px rgba(178, 178, 0, 0.7);
+  }
+  .none-shadow {
+    box-shadow: 3px 5px 7px rgba(70, 94, 96, 0.7);
   }
 }

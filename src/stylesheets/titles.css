@@ -16,13 +16,17 @@
   margin-bottom: 0.8rem;
 }
 
-.para-info {
+.para-title {
   margin: 0rem 0 0.5rem 2rem;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
+  font-weight: 400;
+  color: var(--bright-pink);
 }
 
-.para-info_title {
-  font-weight: 600;
+.para-info {
+  font-weight: 500;
+  font-family: "Slackside One", cursive;
+  font-size: 1rem;
 }
 
 .title-create_project {
