@@ -1,6 +1,7 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import Card from "../ui/Card";
+import LoadingDots from "../ui/spinners/LoadingDots.jsx";
 import { useProjectContext } from "../../context/project-context";
 import { useUIContext } from "../../context/ui-context";
 import { handleGetSharedProjects } from "./table-utilities.js";
@@ -8,6 +9,7 @@ import "../../stylesheets/table.css";
 
 function TableShared() {
   const { id } = useParams();
+  const [isLoading, setIsLoading] = useState(false);
   const { setSelectedSharedProject, sharedProjects, setSharedProjects } =
     useProjectContext();
   const { setModalComponentType } = useUIContext();
@@ -20,12 +22,13 @@ function TableShared() {
   const route = `/projects-home/user/${id}/project/`;
 
   useEffect(() => {
+    setIsLoading(true);
     const getSharedProjects = async () => {
       const projects = await handleGetSharedProjects(id);
       setSharedProjects(projects);
     };
     getSharedProjects();
-  }, [id, setSharedProjects]);
+  }, [id, setSharedProjects, setIsLoading]);
 
   return (
     <section className="section-table section-table__shared">
@@ -73,6 +76,9 @@ function TableShared() {
           ))}
         {sharedProjects.length == 0 && (
           <p className="table-msg__not-found">No shared projects found.</p>
+        )}
+        {isLoading && sharedProjects.length == 0 && (
+          <LoadingDots dotColor="rgba(202, 247, 170, 0.5)" />
         )}
       </Card>
     </section>

@@ -79,12 +79,7 @@
 }
 
 .table-card {
-  /* position: fixed;
-  top: 15rem;
-  left: 50%; */
   width: 85%;
-
-  /* transform: translate(-50%, -47%); */
   border: 1px solid var(--border-grey-brown);
   border-radius: 10px;
   background-color: rgba(0, 0, 0, 0.8);
@@ -98,4 +93,13 @@
   padding: 0;
   background-color: var(--theme-pink);
   border-radius: 10px;
+}
+
+/***** SPINNER *****/
+
+.spinner-container {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  align-items: center;
 }

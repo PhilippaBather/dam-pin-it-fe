@@ -3,8 +3,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import Card from "../../components/ui/Card";
 import FormActions from "../../components/forms/FormActions.jsx";
+import LoadingDots from "../../components/ui/spinners/LoadingDots.jsx";
 import { useProjectContext } from "../../context/project-context.jsx";
 import { handleHttpReq, postAuthData } from "../../api/http-requests.js";
+import { useUIContext } from "../../context/ui-context.jsx";
 import {
   errorEmailReq as emailReq,
   errorPasswordRequired as passReq,
@@ -13,7 +15,6 @@ import "../../stylesheets/form.css";
 import "../../stylesheets/ui-components.css";
 import { loginEndpoint, userDataEndpoint } from "../../api/endpoints.js";
 import ROUTES from "../routes/routes.js";
-import { useUIContext } from "../../context/ui-context.jsx";
 
 function LoginPage() {
   const {
@@ -23,12 +24,14 @@ function LoginPage() {
   } = useForm();
 
   const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const { setIsAlert, setProjectNotifications } = useProjectContext();
   const { setModalComponentType } = useUIContext();
   const navigate = useNavigate();
 
   const handleLogin = async (data, event) => {
     event.preventDefault();
+    setIsLoading(true);
     try {
       await postAuthData(loginEndpoint, data, "LOGIN");
       const user = await handleHttpReq(userDataEndpoint, data, null, "POST");
@@ -56,6 +59,7 @@ function LoginPage() {
             {error}
           </span>
         )}
+        {isLoading && <LoadingDots dotColor="rgb(202, 247, 170)" size="45" />}
         <label htmlFor="login-email">Email:</label>
         <input
           id="login-email"

@@ -1,8 +1,9 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useProjectContext } from "../../context/project-context";
 import { useUIContext } from "../../context/ui-context";
 import Card from "../ui/Card";
+import LoadingDots from "../ui/spinners/LoadingDots";
 import { handleGetOwnedProjects } from "./table-utilities";
 import "../../stylesheets/table.css";
 
@@ -17,6 +18,7 @@ function TableOwner() {
   } = useProjectContext();
 
   const { setModalComponentType } = useUIContext();
+  const [isLoading, setIsLoading] = useState(false);
 
   const route = `/projects-home/user/${id}/project/`;
 
@@ -28,12 +30,13 @@ function TableOwner() {
   };
 
   useEffect(() => {
+    setIsLoading(true);
     const getOwnedProjects = async () => {
       const projects = await handleGetOwnedProjects(id);
       setOwnedProjects(projects);
     };
     getOwnedProjects();
-  }, [id, setOwnedProjects]);
+  }, [id, setOwnedProjects, setIsLoading]);
   return (
     <section className="section-table">
       <Card isTable>
@@ -147,8 +150,11 @@ function TableOwner() {
                 </div>
               </div>
             ))}
-          {ownedProjects.length == 0 && (
+          {!isLoading && ownedProjects.length == 0 && (
             <p className="table-msg__not-found">No owned projects found.</p>
+          )}
+          {isLoading && ownedProjects.length == 0 && (
+            <LoadingDots dotColor="rgba(202, 247, 170, 0.5)" />
           )}
         </div>
       </Card>
