@@ -1,6 +1,7 @@
 /** CARD **/
 
-.card {
+.card,
+.card-strong {
   position: fixed;
   z-index: 15;
   top: 45%;
@@ -8,8 +9,8 @@
   width: 35%;
   transform: translate(-50%, -47%);
   border: 1px solid var(--border-grey-brown);
+  background-color: rgba(0, 0, 0, 0.9);
   border-radius: 10px;
-  background-color: black;
   padding: 1rem 2rem;
 
   .card-btn {
@@ -19,6 +20,10 @@
     background-color: var(--theme-pink);
     border-radius: 10px;
   }
+}
+
+.card-strong {
+  background-color: rgba(0, 0, 0, 0.95);
 }
 
 .alert-card {
@@ -71,4 +76,25 @@
       padding: 0.3rem;
     }
   }
+}
+
+.table-card {
+  position: relative;
+  top: 8rem;
+  left: 50%;
+  width: 85%;
+  transform: translate(-50%, -47%);
+  border: 1px solid var(--border-grey-brown);
+  border-radius: 10px;
+  background-color: rgba(0, 0, 0, 0.8);
+  padding: 1rem 2rem;
+  color: var(--theme-pink);
+}
+
+.card-btn {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: var(--theme-pink);
+  border-radius: 10px;
 }

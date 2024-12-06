@@ -1,11 +1,25 @@
 import { useForm } from "react-hook-form";
-import CloseForm from "./CloseForm";
+import Select from "react-select";
+import {
+  colourStyles,
+  priorityOptions,
+} from "../guests/guest-permissions-dropdown-settings";
 import { useUIContext } from "../../context/ui-context";
 import { errorEmailInv } from "../../constants/error-messages.js";
 import FormActions from "./FormActions.jsx";
 
-function FormGuest({ handleGuestSubmit }) {
-  const { setModalComponentType } = useUIContext();
+function FormGuest({
+  guest = null,
+  handleGuestSubmit,
+  selectionError,
+  setSelectionError,
+}) {
+  const {
+    modalComponentType,
+    setModalComponentType,
+    selectOption,
+    setSelectOption,
+  } = useUIContext();
 
   const {
     register,
@@ -18,39 +32,78 @@ function FormGuest({ handleGuestSubmit }) {
   const handleClose = () => {
     clearErrors();
     reset({ email: "", msg: "" });
+    setSelectOption(null);
     setModalComponentType(null);
   };
 
+  const handleChange = (selectedOption) => {
+    console.log(guest.permissions);
+    setSelectOption(selectedOption);
+    setSelectionError(null);
+  };
+
+  const formTitle = !guest ? "Invite a Guest" : "Update Guest";
+  const formPara = !guest
+    ? "Invite participants to the project and set their permissions."
+    : "Update invited participant's project permissions.";
+  let textareaMsg = !guest
+    ? "Include an optional message "
+    : `Updating current permissions from ${guest.permissions} to ${
+        selectOption === null ? "..." : selectOption.label
+      }`;
+
   return (
     <>
-      <CloseForm handleClose={handleClose} />
       <form className="form" onSubmit={handleSubmit(handleGuestSubmit)}>
-        <h2 className="form-title">Invite a Guest</h2>
-        <p>Invite participants to the project and set their permissions.</p>
+        <h2 className="form-title">{formTitle}</h2>
+        <p className="form-p">{formPara}</p>
         <label htmlFor="guest-email">Email</label>
         <input
           id="guest-email"
           type="email"
+          defaultValue={guest?.email}
+          readOnly={guest?.email}
           {...register("email", { required: true })}
           aria-invalid={errors.email ? "true" : "false"}
         />
-        {errors.title && (
+        {errors.email && (
           <span className="error-msg__form" role="alert">
             {errorEmailInv}
           </span>
         )}
         <label htmlFor="guest-msg">Message</label>
-        <textarea id="guest-msg" name="guest-msg">
-          Include an optional message...
-        </textarea>
+        <textarea
+          id="guest-msg"
+          name="guest-msg"
+          value={textareaMsg}
+          readOnly={guest}
+          {...register("msg", { required: false })}
+        ></textarea>
         <label htmlFor="guest-permissions">Permissions</label>
-        <input type="radio" id="perm-read" checked />
-        <label htmlFor="perm-read">Read</label>
-        <input type="perm-edit" id="perm-read" />
-        <label htmlFor="perm-edit">Add Tasks</label>
-        <input type="radio" id="perm-delete" />
-        <label htmlFor="perm-delete">Add and Delete Tasks</label>
-        <FormActions btnLabel1={"Send"} btnLabel2={"Reset"} />
+        <Select
+          id="proj-priority"
+          defaultValue={
+            modalComponentType !== "INVITE_GUEST" &&
+            modalComponentType !== "UPDATE_GUEST"
+              ? priorityOptions[1]
+              : priorityOptions[selectOption]
+          }
+          styles={colourStyles}
+          options={priorityOptions}
+          isSearchable={true}
+          onChange={handleChange}
+        />
+        {selectionError && (
+          <span className="error-msg__form" role="alert">
+            Permissions must be selected.
+          </span>
+        )}
+        <FormActions
+          btnLabel1={"Send"}
+          btnLabel2={"Close"}
+          btn2Type={"button"}
+          handleClick={handleClose}
+        />
       </form>
     </>
   );

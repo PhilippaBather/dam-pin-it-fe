@@ -1,34 +1,30 @@
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Card from "../ui/Card";
+import CloseForm from "../forms/CloseForm";
 import { useProjectContext } from "../../context/project-context";
 import { useUIContext } from "../../context/ui-context";
-import { handleHttpReq } from "../../api/http-requests";
-import { projectEndpoint as url } from "../../api/endpoints";
-import CloseForm from "../forms/CloseForm";
+import { deleteProjectRequest } from "./project-utilities";
 
 function DeleteProject() {
   const [isDeleted, setIsDeleted] = useState(false);
   const navigate = useNavigate();
-  const { id, pid } = useParams();
+  const { id } = useParams();
   const { currProject } = useProjectContext();
   const { setModalComponentType } = useUIContext();
 
-  const alertMsg = `Are you sure you want to delete project ${currProject.title}?`;
+  const alertMsg = `Are you sure you want to delete project '${currProject.title}'?`;
 
   const handleDeleteProject = async (e) => {
     e.preventDefault();
+    console.log(currProject.projectId);
+    const resp = await deleteProjectRequest(currProject.projectId);
+    console.log(resp);
 
-    try {
-      const resp = await handleHttpReq(url, null, pid, "DELETE", "PROJECT");
-      setIsDeleted(resp.status === 204 ? true : false);
-
-      if (resp.status === 204) {
-        setModalComponentType(null);
-        navigate(`/projects-home/user/${id}`);
-      }
-    } catch (e) {
-      console.error(e);
+    if (resp === 204) {
+      setIsDeleted(true);
+      setModalComponentType(null);
+      navigate(`/projects-home/user/${id}`);
     }
   };
 

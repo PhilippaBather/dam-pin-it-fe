@@ -12,8 +12,7 @@ import { checkAuthLoader, tokenLoader } from "../auth/auth-functions.js";
 import ROUTES from "../pages/routes/routes";
 import { UIContextProvider } from "../context/ui-context.jsx";
 import PasswordRecoveryPage from "../pages/public/PasswordReoveryPage.jsx";
-
-// TODO: const token = useRouteLoaderData("root"); // retruns token
+import ManagementDashboard from "../pages/private/ManagementDashboard.jsx";
 
 const router = createBrowserRouter([
   {
@@ -31,8 +30,13 @@ const router = createBrowserRouter([
       {
         path: "/projects-home/user/:id/project/:pid",
         element: <ProjectDashboard />,
+        loader: checkAuthLoader,
       },
-
+      {
+        path: "/account-management/:id",
+        element: <ManagementDashboard />,
+        loader: checkAuthLoader,
+      },
       { index: true, element: <HomePage /> },
       { path: ROUTES.LOGIN, element: <LoginPage /> },
       { path: ROUTES.REGISTER, element: <RegistrationPage /> },

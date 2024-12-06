@@ -1,6 +1,6 @@
 :root {
   /* theme colors */
-  --theme-pink: rgba(251, 5, 173);
+  --theme-pink: rgba(251, 5, 173, 0.7);
   --theme-pastel-green: rgb(202, 247, 170);
   --theme-orange: rgb(255, 187, 0);
 
@@ -96,4 +96,8 @@ code {
 main,
 button {
   font-family: "Raleway", sans-serif;
+}
+
+ul {
+  list-style-type: none;
 }
