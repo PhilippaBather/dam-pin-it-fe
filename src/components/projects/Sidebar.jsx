@@ -1,10 +1,12 @@
 import { Link, useParams } from "react-router-dom";
 import { useProjectContext } from "../../context/project-context";
+import LoadingVortex from "../ui/spinners/LoadingVortex";
 import "../../stylesheets/sidebar.css";
 
-function Sidebar() {
-  const { projects } = useProjectContext();
+function Sidebar(isLoading) {
   let { id } = useParams();
+
+  const { projects } = useProjectContext();
   const route = `/projects-home/user/${id}/project/`;
 
   return (
@@ -13,6 +15,7 @@ function Sidebar() {
         <span className={"sidebar-icon"}>&#128204;</span>Projects Menu
       </h1>
       <div>
+        {isLoading && projects.length === 0 && <LoadingVortex />}
         {!projects && <p>Looks like you&apos;ve got no projects.</p>}
         <ul className={"menu-items"}>
           {projects &&

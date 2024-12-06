@@ -2,8 +2,9 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import Card from "../../components/ui/Card";
-import { postAuthData } from "../../api/http-requests.js";
+import LoadingSpinner from "../../components/ui/spinners/LoadingSpinner.jsx";
 import ROUTES from "../../pages/routes/routes";
+import { postAuthData } from "../../api/http-requests.js";
 import { signupEndpoint } from "../../api/endpoints.js";
 import {
   errorFirstnameRequired as firstReq,
@@ -24,10 +25,12 @@ function RegistrationPage() {
     formState: { errors },
   } = useForm();
 
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   const handleRegistration = async (data, event) => {
+    setIsLoading(true);
     event.preventDefault();
     const parsedData = {
       forename: data.forename,
@@ -35,8 +38,6 @@ function RegistrationPage() {
       email: data.email,
       password: data.password,
     };
-
-    console.log(parsedData);
 
     try {
       await postAuthData(signupEndpoint, parsedData, "SIGNUP");
@@ -57,6 +58,7 @@ function RegistrationPage() {
             {error}
           </span>
         )}
+        {isLoading && <LoadingSpinner />}
         <label htmlFor="reg-forename">Name:</label>
         <input
           id="reg-forename"

@@ -1,15 +1,16 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Card from "../../components/ui/Card";
+import ModalHandler from "../../components/ui/ModalHandler";
 import Sidebar from "../../components/projects/Sidebar";
 import { useProjectContext } from "../../context/project-context";
 import { getAuthToken } from "../../auth/auth-functions";
-import "../../stylesheets/titles.css";
-import ModalHandler from "../../components/ui/ModalHandler";
 import { useUIContext } from "../../context/ui-context";
+import "../../stylesheets/titles.css";
 
 function ProjectHomePage() {
   let { id } = useParams();
+  const [isLoading, setIsLoading] = useState(false);
   const { setProjects } = useProjectContext();
   const { modalComponentType, setModalComponentType } = useUIContext();
   const token = getAuthToken();
@@ -20,6 +21,7 @@ function ProjectHomePage() {
 
   useEffect(() => {
     async function fetchData() {
+      setIsLoading(true);
       try {
         const resp = await fetch(
           `http://localhost:3000/projects/${parseInt(id)}`,
@@ -45,13 +47,13 @@ function ProjectHomePage() {
     }
 
     fetchData();
-  }, [id, setProjects, token]);
+  }, [id, setProjects, token, setIsLoading]);
 
   return (
     <>
       {modalComponentType && <ModalHandler />}
       <main>
-        <Sidebar />
+        <Sidebar isLoading={isLoading} />
         <h1 className="title-homepage">Project Home Page</h1>
         <Card>
           <button
