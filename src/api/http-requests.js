@@ -57,7 +57,7 @@ export const postAuthData = async (url, data, dataType) => {
 
   const respData = await resp.json();
 
-  if (dataType === "SIGNUP" && resp.status !== 200) {
+  if (resp.status !== 200) {
     if (resp.status === 404) {
       throw new Error(respData.message);
     }

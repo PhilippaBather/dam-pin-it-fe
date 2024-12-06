@@ -2,12 +2,11 @@ import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useProjectContext } from "../../context/project-context";
-import { handleHttpReq } from "../../api/http-requests";
-import { projectsEndpoint } from "../../api/endpoints";
 import {
   errorDeadlineRequired as deadlineReq,
   errorTitleRequired as titleReq,
 } from "../../constants/error-messages";
+import { getAuthToken } from "../../auth/auth-functions";
 
 function CreateProject() {
   const {
@@ -22,20 +21,24 @@ function CreateProject() {
   const { currProject, setCurrProject } = useProjectContext();
   const navigate = useNavigate();
   const [isCreated, setIsCreated] = useState(false);
+  const token = getAuthToken();
 
   const handleProjectCreation = async (data, event) => {
     event.preventDefault();
     setIsCreated(true);
 
     try {
-      const resp = await handleHttpReq(
-        projectsEndpoint,
-        data,
-        id,
-        "POST",
-        "PROJECT"
-      );
-      setCurrProject(resp);
+      const resp = await fetch(`http://localhost:3000/projects/${id}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Origin: origin,
+          Authorizaton: "Bearer " + token,
+        },
+        body: JSON.stringify(data),
+      });
+      const savedProject = await resp.json();
+      setCurrProject(savedProject);
     } catch (e) {
       console.log(e);
     }

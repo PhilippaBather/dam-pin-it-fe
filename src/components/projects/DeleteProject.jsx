@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import Card from "../ui/Card";
 import { useProjectContext } from "../../context/project-context";
+import { useUIContext } from "../../context/ui-context";
 import { handleHttpReq } from "../../api/http-requests";
 import { projectEndpoint as url } from "../../api/endpoints";
 
@@ -9,6 +11,7 @@ function DeleteProject() {
   const navigate = useNavigate();
   const { id, pid } = useParams();
   const { currProject } = useProjectContext();
+  const { setModalComponentType } = useUIContext();
 
   const alertMsg = `Are you sure you want to delete project ${currProject.title}?`;
 
@@ -20,20 +23,23 @@ function DeleteProject() {
       setIsDeleted(resp.status === 204 ? true : false);
       console.log(resp);
       navigate(`/projects-home/user/${id}`);
+      setModalComponentType(null);
     } catch (e) {
       console.error(e);
     }
   };
 
+  const handleClose = () => {
+    setModalComponentType(null);
+  };
+
   return (
-    <>
-      <form method="dialog">
-        <div className={"delete-modal_btn-container-cancel"}>
-          <button method="dialog" type="cancel" className={"delete-modal_btn"}>
-            Cancel
-          </button>
-        </div>
-      </form>
+    <Card>
+      <div className="form-btn__container-close">
+        <button className="form-btn" type="button" onClick={handleClose}>
+          Cancel
+        </button>
+      </div>
       <form onSubmit={handleDeleteProject}>
         <h1 className={"delete-modal_title"}>{alertMsg}</h1>
         <div className={"delete-modal_btn-container"}>
@@ -44,7 +50,7 @@ function DeleteProject() {
           )}
         </div>
       </form>
-    </>
+    </Card>
   );
 }
 

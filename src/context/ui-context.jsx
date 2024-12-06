@@ -5,17 +5,14 @@ const UIContext = createContext();
 
 // create provider
 export const UIContextProvider = ({ children }) => {
-  //const [rerender, setRerender] = useState(false);
   const [columnClicked, setColumnClicked] = useState("");
-  //const [modal, setModal] = useState(null);
+  const [modalComponentType, setModalComponentType] = useState(null);
 
   const ctxtValue = {
-    //modal,
-    //rerender,
     columnClicked,
-    //setModal,
-    //setRerender,
+    modalComponentType,
     setColumnClicked,
+    setModalComponentType,
   };
 
   return <UIContext.Provider value={ctxtValue}>{children}</UIContext.Provider>;

@@ -7,6 +7,13 @@ export const priorityOptions = [
   { value: "4", label: "None", color: "#465e60" },
 ];
 
+export const selectPriorityOption = {
+  URGENT: 0,
+  HIGH: 1,
+  NORMAL: 2,
+  NONE: 3,
+};
+
 const dot = (color = "transparent") => ({
   alignItems: "center",
   display: "flex",

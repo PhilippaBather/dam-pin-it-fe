@@ -1,7 +1,7 @@
 import "../../stylesheets/form.css";
 
-function Form({ children }) {
+function FormWrapper({ children }) {
   return <form className="form">{children}</form>;
 }
 
-export default Form;
+export default FormWrapper;

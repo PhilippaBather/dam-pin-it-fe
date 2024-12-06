@@ -10,7 +10,7 @@ function ListContainer({ children, colId }) {
 
   return (
     <div className="list-container" onClick={getColClicked}>
-      <h1 onClick={getColClicked}>{getColName[colId]()}</h1>
+      <h1 onClick={getColClicked}>{getColName[colId]}</h1>
       {children}
     </div>
   );

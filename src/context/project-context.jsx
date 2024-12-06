@@ -43,11 +43,23 @@ export const ProjectContextProvider = ({ children }) => {
     });
   };
 
+  const resetTaskState = (reorderedTasks, colId) => {
+    setTasks((prev) => {
+      return {
+        ...prev,
+        [colId]: {
+          tasks: [...reorderedTasks],
+        },
+      };
+    });
+  };
+
   const ctxtValue = {
     currProject,
     projects: projectsState,
     projectTasks: tasks,
     selectedTask,
+    resetTaskState,
     setCurrProject: setCurrProject,
     setProjects: setProjectsState,
     setTasks,
