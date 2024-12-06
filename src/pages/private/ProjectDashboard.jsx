@@ -44,7 +44,7 @@ function ProjectDashboard() {
     <>
       {modalComponentType && <ModalHandler />}
       <main>
-        <header className="dashboard-header">
+        <header className="dashboard-header__project">
           <h1 className="title-page">{currProject.title}</h1>
           <div className="dashboard-btn_container">
             {currProject.permissions === "OWNER" && (

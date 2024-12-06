@@ -8,7 +8,7 @@ function ManagementDashboard() {
     <>
       {modalComponentType && <ModalHandler />}
       <main>
-        <header className="dashboard-header">
+        <header className="dashboard-header__management">
           <h1 className="title-page">Project Management Dashboard</h1>
         </header>
         <TableOwner />
