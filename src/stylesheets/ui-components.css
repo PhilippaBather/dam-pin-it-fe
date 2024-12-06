@@ -21,13 +21,12 @@
   }
 }
 
-.alert-card,
-.project-card {
+.alert-card {
   position: fixed;
   z-index: 15;
-  top: 50%;
+  top: 48%;
   left: 50%;
-  width: 35%;
+  width: 37%;
   transform: translate(-50%, -47%);
   border: 1px solid var(--theme-pastel-green);
   background: linear-gradient(45deg, #78e49e 0%, #9e83f8 50%, #95efb8 75%);
@@ -35,24 +34,41 @@
   padding: 2rem;
   text-align: center;
 
+  h1 {
+    color: var(--theme-pastel-green);
+    font-size: 1.5rem;
+  }
+
   p {
     font-size: 1.5rem;
   }
 
   .card-btn {
-    width: 100%;
+    width: 25%;
     margin: 0;
     padding: 0.3rem;
-    border: 1px solid var(--candy-pink);
-    background-color: var(--theme-pink);
+    color: #5326e6;
+    border: 1px solid #5326e6;
+    background-color: #95efb8;
     border-radius: 10px;
     font-weight: 600;
 
     &:hover {
       border: 1px solid var(--theme-pastel-green);
-      background-color: #95efb8;
-      color: rgb(0, 12, 12);
-      color: var(--theme-pink);
+      background-color: #5326e6;
+      color: var(--theme-pastel-green);
+    }
+  }
+
+  .alert-projects_shared {
+    list-style-type: none;
+    padding-inline-start: 0;
+    color: var(--crimson);
+    font-size: 1.3rem;
+    font-weight: 700;
+
+    .li {
+      padding: 0.3rem;
     }
   }
 }

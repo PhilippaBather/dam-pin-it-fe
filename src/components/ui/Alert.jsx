@@ -1,41 +1,29 @@
-// import { useState } from "react";
+import { useProjectContext } from "../../context/project-context";
+import { useUIContext } from "../../context/ui-context";
 import Card from "./Card";
+
 function Alert() {
-  // TODO: project name
-  // TODO: user name
-  // TODO: refactor Create Project to use new modal setup and not a dialog
-  // const [isAlert, setIsAlert] = useState(false);
-  const handleAlert = async () => {
-    //dialog.current.close();
-    console.log("alert");
+  const { projectNotifications, projects } = useProjectContext();
+  const { setModalComponentType } = useUIContext();
 
-    // setIsAlert(false);
-    // const data = {
-    //   isNotified: "true",
-    // };
-
-    // try {
-    //   await fetch("url", {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //       Origin: origin,
-    //       Authorizaton: "Bearer " + token,
-    //     },
-    //     body: JSON.stringify(data),
-    //   });
-    // } catch (e) {
-    //   console.error(e);
-    // }
+  const handleClose = () => {
+    setModalComponentType(null);
   };
 
   return (
-    <Card>
-      <form method="dialog" onSubmit={handleAlert}>
-        <h1>Projects Updated</h1>
-        <p>Project XXX has been shared with you by YYYY</p>
+    <Card isAlert>
+      <form>
+        <h1>New Shared Projects</h1>
+        <ul className="alert-projects_shared">
+          {projects.map(
+            (project) =>
+              projectNotifications.includes(project.projectId) && (
+                <li key={project.projectId}>{project.title}</li>
+              )
+          )}
+        </ul>
         <div className="form-btn__container">
-          <button method="dialog" type="submit" className="card-btn">
+          <button type="button" className="card-btn" onClick={handleClose}>
             Okay
           </button>
         </div>

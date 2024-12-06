@@ -10,6 +10,7 @@ import "../../stylesheets/draggables.css";
 
 function ContextContainer() {
   const {
+    currProject,
     projectTasks,
     updateDraggedTasksXAxis,
     updateDraggedTasksYAxis,
@@ -65,8 +66,10 @@ function ContextContainer() {
         console.error(e);
       }
     }
-    saveTaskUpdates();
-  }, [projectTasks, id, pid, token]);
+    if (currProject) {
+      saveTaskUpdates();
+    }
+  }, [projectTasks, id, pid, token, currProject]);
 
   const onDragEnd = (result) => {
     if (!projectTasks) {

@@ -9,6 +9,7 @@ const ProjectContext = createContext({
 // create provider
 export const ProjectContextProvider = ({ children }) => {
   const [isAlert, setIsAlert] = useState(false);
+  const [projectNotifications, setProjectNotifications] = useState([]);
   const [projectsState, setProjectsState] = useState([]);
   const [currProject, setCurrProject] = useState({});
   const [tasks, setTasks] = useState({});
@@ -58,12 +59,14 @@ export const ProjectContextProvider = ({ children }) => {
   const ctxtValue = {
     currProject,
     isAlert,
+    projectNotifications,
     projects: projectsState,
     projectTasks: tasks,
     selectedTask,
     resetTaskState,
     setCurrProject: setCurrProject,
     setIsAlert,
+    setProjectNotifications,
     setProjects: setProjectsState,
     setTasks,
     setSelectedTask,

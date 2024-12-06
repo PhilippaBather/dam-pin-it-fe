@@ -47,13 +47,15 @@ function ProjectDashboard() {
         <header className="dashboard-header">
           <h1 className="title-page">{currProject.title}</h1>
           <div className="dashboard-btn_container">
-            <button
-              type="button"
-              className="dashboard-btn"
-              onClick={() => handleClick("INVITE_GUEST")}
-            >
-              Invite &#128389;
-            </button>
+            {currProject.permissions === "OWNER" && (
+              <button
+                type="button"
+                className="dashboard-btn"
+                onClick={() => handleClick("INVITE_GUEST")}
+              >
+                Invite &#128389;
+              </button>
+            )}
             <button
               type="button"
               className="dashboard-btn"
