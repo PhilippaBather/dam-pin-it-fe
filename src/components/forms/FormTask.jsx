@@ -8,10 +8,12 @@ import {
 import { useProjectContext } from "../../context/project-context.jsx";
 import { useUIContext } from "../../context/ui-context.jsx";
 import { selectPriorityOption } from "../tasks/task-priority-dropdown-settings.js";
+import CloseForm from "./CloseForm.jsx";
 import {
   errorDeadlineRequired as deadlineReq,
   errorTitleRequired as titleReq,
 } from "../../constants/error-messages";
+import FormActions from "./FormActions.jsx";
 
 function FormTask({
   btnLabels,
@@ -60,11 +62,12 @@ function FormTask({
 
   return (
     <>
-      <div className="form-btn__container-close">
+      {/* <div className="form-btn__container-close">
         <button className="form-btn" type="button" onClick={handleClose}>
           Close
         </button>
-      </div>
+      </div> */}
+      <CloseForm handleClose={handleClose} />
       <form className="form" onSubmit={handleSubmit(handleTaskSubmit)}>
         <h2 className="form-title">Task Details</h2>
         <label htmlFor="proj-title">Title</label>
@@ -116,14 +119,19 @@ function FormTask({
           onChange={handleChange}
         />
         {!isCreated && (
-          <div className="form-btn__container">
-            <button className="form-btn" type="submit">
-              {btnLabel1}
-            </button>
-            <button className="form-btn" type="reset" onClick={handleClick}>
-              {btnLabel2}
-            </button>
-          </div>
+          // <div className="form-btn__container">
+          //   <button className="form-btn" type="submit">
+          //     {btnLabel1}
+          //   </button>
+          //   <button className="form-btn" type="reset" onClick={handleClick}>
+          //     {btnLabel2}
+          //   </button>
+          // </div>
+          <FormActions
+            btnLabel1={btnLabel1}
+            btnLabel2={btnLabel2}
+            handleClick={handleClick}
+          />
         )}
       </form>
     </>

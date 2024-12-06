@@ -1,0 +1,41 @@
+.backdrop-home {
+  position: fixed;
+  z-index: 5;
+  height: 100vh;
+  width: 100vw;
+  background: url(../assets/kelly-sikkema-huT1A8nW_Ho-unsplash.jpg) 25% 75% /
+    cover no-repeat;
+}
+
+.app-slogan {
+  position: fixed;
+  top: 55%;
+  left: 5%;
+  color: var(--crimson);
+  font-weight: 800;
+}
+
+.app-description {
+  position: fixed;
+  top: 65%;
+  left: 5%;
+  color: rgb(26, 107, 107);
+  font-weight: 500;
+
+  .app-description_p {
+    font-size: 1rem;
+    font-style: italic;
+  }
+}
+
+.app-reg {
+  position: fixed;
+  top: 72%;
+  left: 5%;
+  color: var(--crimson);
+  font-size: 1.5rem;
+
+  &:hover {
+    color: var(--theme-pink);
+  }
+}

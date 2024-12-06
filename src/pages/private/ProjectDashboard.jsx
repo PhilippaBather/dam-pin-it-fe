@@ -50,6 +50,13 @@ function ProjectDashboard() {
             <button
               type="button"
               className="dashboard-btn"
+              onClick={() => handleClick("INVITE_GUEST")}
+            >
+              Invite &#128389;
+            </button>
+            <button
+              type="button"
+              className="dashboard-btn"
               onClick={() => handleClick("ADD_TASK")}
             >
               Task &#128203;

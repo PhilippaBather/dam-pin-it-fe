@@ -21,8 +21,6 @@ function TaskViewer() {
 
   const handleSubmit = async (data, event) => {
     event.preventDefault();
-    console.log("data");
-    console.log(data);
 
     const processedData = processUpdatedTaskData(
       data,
