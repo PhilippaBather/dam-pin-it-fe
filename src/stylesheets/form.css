@@ -46,15 +46,16 @@
   .error-msg__form,
   .error-msg__form-resp {
     font-size: 0.7rem;
-    font-weight: 900;
+    font-weight: 600;
     color: var(--theme-pink);
     color: var(--crimson);
+    color: var(--theme-orange);
   }
 
   .error-msg__form-resp {
     text-align: center;
-    font-size: 0.8rem;
-    color: var(--theme-orange);
+    font-size: 1rem;
+    font-weight: 800;
   }
 }
 
