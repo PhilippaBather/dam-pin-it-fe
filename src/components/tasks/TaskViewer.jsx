@@ -9,7 +9,7 @@ import {
   resetTaskPositionOnTaskDeletion,
   updateColumnOnTaskUpdate,
 } from "../draggable/draggable-utilities.js";
-import { processUpdatedTaskData } from "../draggable/draggable-utilities";
+import { processUpdatedTaskData } from "./task-utilities-js";
 
 function TaskViewer() {
   const [selectOption, setSelectOption] = useState("");

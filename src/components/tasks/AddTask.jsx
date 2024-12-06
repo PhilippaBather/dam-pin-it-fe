@@ -5,23 +5,39 @@ import FormTask from "../forms/FormTask.jsx";
 import { useProjectContext } from "../../context/project-context.jsx";
 import { useUIContext } from "../../context/ui-context.jsx";
 import { getAuthToken } from "../../auth/auth-functions.js";
+import { resetTaskOrderInColumn } from "../draggable/draggable-utilities.js";
 import {
   processNewTaskData,
-  resetTaskOrderInColumn,
-} from "../draggable/draggable-utilities.js";
+  validateTaskDeadlineDate,
+} from "./task-utilities-js";
 
 function AddTask() {
   const [selectOption, setSelectOption] = useState("");
-  const { projectTasks, resetTaskState } = useProjectContext();
+  const [dateValError, setDateValError] = useState(null);
+  const { projectTasks, resetTaskState, currProject } = useProjectContext();
   const { setModalComponentType } = useUIContext();
   const { id, pid } = useParams();
 
   const handleTaskSubmit = async (data, event) => {
     event.preventDefault();
 
+    setDateValError(null); // reset
+
+    // check date valid, if not valid, error msg
+    // if valid processNewTaskData
+    const isDateValidationError = validateTaskDeadlineDate(
+      data.deadline,
+      currProject.deadline,
+      setDateValError
+    );
+
+    if (isDateValidationError) {
+      return;
+    }
     const processedData = processNewTaskData(data, selectOption, pid);
 
     const token = getAuthToken();
+
     try {
       // save updated tasks in batch
       const resp = await fetch(
@@ -76,6 +92,7 @@ function AddTask() {
           btnLabels={["Create", "Reset"]}
           handleTaskSubmit={handleTaskSubmit}
           setSelectOption={setSelectOption}
+          dateValError={dateValError}
         />
       </Card>
     </>
