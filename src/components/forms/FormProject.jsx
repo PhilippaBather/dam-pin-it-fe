@@ -8,7 +8,12 @@ import {
   errorTitleRequired as titleReq,
 } from "../../constants/error-messages";
 
-function FormProject({ btnLabels, handleSubmitProject }) {
+function FormProject({
+  btnLabels,
+  handleSubmitProject,
+  deadlineValError,
+  httpReqError,
+}) {
   const { currProject } = useProjectContext();
   const {
     register,
@@ -28,6 +33,8 @@ function FormProject({ btnLabels, handleSubmitProject }) {
 
   const [btnLabel1, btnLabel2, btnType] = btnLabels;
 
+  const deadlineError = "Project deadline cannot be in the past";
+
   const handleClose = () => {
     clearErrors();
     reset({ title: "", description: "", deadline: "" });
@@ -46,6 +53,11 @@ function FormProject({ btnLabels, handleSubmitProject }) {
       <CloseForm handleClose={handleClose} />
       <form className="form" onSubmit={handleSubmit(handleSubmitProject)}>
         <h2 className="form-title">Project Details</h2>
+        {httpReqError && (
+          <span className="error-msg__form-resp" role="alert">
+            {httpReqError}
+          </span>
+        )}
         <label htmlFor="proj-title">Title</label>
         <input
           id="proj-title"
@@ -77,6 +89,11 @@ function FormProject({ btnLabels, handleSubmitProject }) {
         {errors.deadline && (
           <span className="error-msg__form" role="alert">
             {deadlineReq}
+          </span>
+        )}
+        {deadlineValError && (
+          <span className="error-msg__form" role="alert">
+            {deadlineError}
           </span>
         )}
         <FormActions
