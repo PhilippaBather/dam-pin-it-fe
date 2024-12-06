@@ -5,7 +5,15 @@
   margin: 5rem 1rem 0 1rem;
 }
 
-.table-shared {
+.section-table {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2rem;
+}
+
+.section-table__shared {
   margin-bottom: 7rem;
 }
 
@@ -34,10 +42,18 @@
 }
 
 .table-row__body {
+  border-bottom: 1px solid var(--theme-green-button);
+}
+
+.table-row__body,
+.table-row__link {
   font-size: 0.75rem;
   color: var(--theme-orange-button);
   margin: 1rem 0rem;
-  border-bottom: 1px solid var(--theme-green-button);
+}
+
+.table-row__link {
+  text-decoration: none;
 }
 
 .table-row__items {

@@ -79,11 +79,12 @@
 }
 
 .table-card {
-  position: relative;
-  top: 8rem;
-  left: 50%;
+  /* position: fixed;
+  top: 15rem;
+  left: 50%; */
   width: 85%;
-  transform: translate(-50%, -47%);
+
+  /* transform: translate(-50%, -47%); */
   border: 1px solid var(--border-grey-brown);
   border-radius: 10px;
   background-color: rgba(0, 0, 0, 0.8);

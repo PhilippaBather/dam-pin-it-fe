@@ -1,14 +1,13 @@
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useProjectContext } from "../../context/project-context";
 import { useUIContext } from "../../context/ui-context";
-import { getAuthToken } from "../../auth/auth-functions";
 import Card from "../ui/Card";
+import { handleGetOwnedProjects } from "./table-utilities";
 import "../../stylesheets/table.css";
 
 function TableOwner() {
   const { id } = useParams();
-  const token = getAuthToken();
   const {
     ownedProjects,
     setCurrProject,
@@ -19,6 +18,8 @@ function TableOwner() {
 
   const { setModalComponentType } = useUIContext();
 
+  const route = `/projects-home/user/${id}/project/`;
+
   const handleClick = (guest = null, project, componentType) => {
     setSelectedGuest(guest);
     setSelectedSharedProject(project); // TODO remove and replace w/ currProject state
@@ -28,28 +29,13 @@ function TableOwner() {
 
   useEffect(() => {
     const getOwnedProjects = async () => {
-      try {
-        const resp = await fetch(
-          `http://localhost:3000/guests/owned-projects/${id}`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Origin: origin,
-              Authorizaton: "Bearer " + token,
-            },
-          }
-        );
-        const data = await resp.json();
-        setOwnedProjects(data);
-      } catch (e) {
-        console.error(e);
-      }
+      const projects = await handleGetOwnedProjects(id);
+      setOwnedProjects(projects);
     };
     getOwnedProjects();
-  }, [id, setOwnedProjects, token]);
+  }, [id, setOwnedProjects]);
   return (
-    <section className="table-owned">
+    <section className="section-table">
       <Card isTable>
         <h1 className="table-title">Owned Projects</h1>
         <div className="table-container__head">
@@ -67,7 +53,12 @@ function TableOwner() {
             ownedProjects?.map((project) => (
               <div key={project.projectId} className="table-row__items">
                 <div className="table-row__body item-title">
-                  {project.title}
+                  <Link
+                    className="table-row__link"
+                    to={route + project.projectId}
+                  >
+                    {project.title}
+                  </Link>
                 </div>
                 <div className="table-row__body item-deadline">
                   {project.deadline}

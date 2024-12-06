@@ -4,7 +4,6 @@ function Card({
   children,
   isAlert = false,
   isTable = false,
-  isTableShared = false,
   isStrong = false,
 }) {
   return (
@@ -13,8 +12,6 @@ function Card({
         isAlert
           ? "alert-card"
           : isTable
-          ? "table-card"
-          : isTableShared
           ? "table-card"
           : isStrong
           ? "card-strong"
