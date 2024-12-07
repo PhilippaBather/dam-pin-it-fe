@@ -47,3 +47,11 @@
   color: var(--theme-pink);
   font-weight: 600;
 }
+
+.error-msg__sidebar {
+  font-weight: 700;
+  font-size: 1.3rem;
+  color: var(--crimson);
+  text-shadow: 5px 5px 8px #ccc;
+  overflow-wrap: break-word;
+}

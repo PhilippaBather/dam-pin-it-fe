@@ -4,56 +4,62 @@ import Card from "../../components/ui/Card";
 import ModalHandler from "../../components/ui/ModalHandler";
 import Sidebar from "../../components/projects/Sidebar";
 import { useProjectContext } from "../../context/project-context";
-import { getAuthToken } from "../../auth/auth-functions";
 import { useUIContext } from "../../context/ui-context";
+import { handleProjectHTTPRequest } from "../../components/projects/project-apis";
+import {
+  FAILED_FETCH,
+  MALFORMED_REQUEST,
+  UNEXPECTED_JSON,
+} from "../../api/http-requests.js";
 import "../../stylesheets/titles.css";
 
 function ProjectHomePage() {
   let { id } = useParams();
+  const [httpError, setHttpError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const { setProjects } = useProjectContext();
   const { modalComponentType, setModalComponentType } = useUIContext();
-  const token = getAuthToken();
 
   const handleCreateProject = () => {
     setModalComponentType("CREATE_PROJECT");
   };
 
   useEffect(() => {
+    setIsLoading(true);
     async function fetchData() {
-      setIsLoading(true);
       try {
-        const resp = await fetch(
-          `http://localhost:3000/projects/${parseInt(id)}`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Origin: origin,
-              Authorizaton: "Bearer " + token,
-            },
-          }
+        const data = await handleProjectHTTPRequest(
+          { id, pid: null },
+          "GET",
+          "GET_PROJECTS",
+          null
         );
-        if (resp) {
-          const data = await resp.json();
-          const sortedProjects = data?.sort((a, b) =>
-            a.title.localeCompare(b.title)
-          );
-          setProjects(sortedProjects);
-        }
+
+        const sortedProjects = data?.sort((a, b) =>
+          a.title.localeCompare(b.title)
+        );
+        setProjects(sortedProjects);
+        // }
       } catch (e) {
-        console.error(e);
+        setIsLoading(false);
+        setHttpError(
+          e.message === FAILED_FETCH
+            ? "Network error"
+            : e.message === UNEXPECTED_JSON
+            ? MALFORMED_REQUEST
+            : e.message
+        );
       }
     }
 
     fetchData();
-  }, [id, setProjects, token, setIsLoading]);
+  }, [id, setProjects, setIsLoading]);
 
   return (
     <>
       {modalComponentType && <ModalHandler />}
       <main>
-        <Sidebar isLoading={isLoading} />
+        <Sidebar isLoading={isLoading} httpError={httpError} />
         <h1 className="title-homepage">Project Home Page</h1>
         <Card>
           <button
