@@ -4,27 +4,45 @@ import Card from "../ui/Card";
 import CloseForm from "../forms/CloseForm";
 import { useProjectContext } from "../../context/project-context";
 import { useUIContext } from "../../context/ui-context";
-import { deleteProjectRequest } from "./project-utilities";
+import { handleProjectHTTPRequest } from "./project-apis";
+import {
+  FAILED_FETCH,
+  MALFORMED_REQUEST,
+  UNEXPECTED_JSON,
+} from "../../api/http-requests.js";
 
 function DeleteProject() {
-  const [isDeleted, setIsDeleted] = useState(false);
   const navigate = useNavigate();
   const { id } = useParams();
   const { currProject } = useProjectContext();
   const { setModalComponentType } = useUIContext();
+  const [httpError, setHttpError] = useState(null);
+  const [deleted, setIsDeleted] = useState(false);
 
   const alertMsg = `Are you sure you want to delete project '${currProject.title}'?`;
 
   const handleDeleteProject = async (e) => {
     e.preventDefault();
-    console.log(currProject.projectId);
-    const resp = await deleteProjectRequest(currProject.projectId);
-    console.log(resp);
+    //const resp = await deleteProjectRequest(currProject.projectId);
 
-    if (resp === 204) {
-      setIsDeleted(true);
+    try {
+      const isDeleted = await handleProjectHTTPRequest(
+        { id: id, pid: currProject.projectId },
+        "DELETE",
+        "DELETE",
+        null
+      );
+      setIsDeleted(isDeleted);
       setModalComponentType(null);
       navigate(`/projects-home/user/${id}`);
+    } catch (e) {
+      setHttpError(
+        e.message === FAILED_FETCH
+          ? "Network error"
+          : e.message === UNEXPECTED_JSON
+          ? MALFORMED_REQUEST
+          : e.message
+      );
     }
   };
 
@@ -37,9 +55,14 @@ function DeleteProject() {
       <CloseForm handleClose={handleCancel} />
       <form onSubmit={handleDeleteProject}>
         <h1 className={"delete-modal_title"}>{alertMsg}</h1>
+        {httpError && <span className="error-msg__generic">{httpError}</span>}
         <div className={"delete-modal_btn-container"}>
-          {!isDeleted && (
-            <button type="submit" className={"delete-modal_btn"}>
+          {!deleted && (
+            <button
+              type="submit"
+              hidden={httpError}
+              className={"delete-modal_btn"}
+            >
               Confirm
             </button>
           )}
