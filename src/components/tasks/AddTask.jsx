@@ -4,7 +4,7 @@ import Card from "../../components/ui/Card.jsx";
 import FormTask from "../forms/FormTask.jsx";
 import { useProjectContext } from "../../context/project-context.jsx";
 import { useUIContext } from "../../context/ui-context.jsx";
-import { handleTaskRequest } from "./task-apis.js";
+import { handleTaskHTTPRequest } from "./task-apis.js";
 import { resetTaskOrderInColumn } from "../draggable/draggable-utilities.js";
 import {
   processNewTaskData,
@@ -43,7 +43,7 @@ function AddTask() {
     const processedData = processNewTaskData(data, selectOption, pid);
 
     try {
-      const savedTask = await handleTaskRequest(
+      const savedTask = await handleTaskHTTPRequest(
         { tid: null, id, pid },
         "POST",
         "POST",
@@ -57,7 +57,7 @@ function AddTask() {
       );
 
       // save updated tasks in batch (processed Data)
-      await handleTaskRequest(
+      await handleTaskHTTPRequest(
         { tid: null, id, pid },
         "POST",
         "POST_BATCH",

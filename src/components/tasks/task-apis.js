@@ -1,9 +1,9 @@
 import { BASE_URL } from "../../api/endpoints";
 import { getAuthToken } from "../../auth/auth-functions";
 
-const getURL = (ids, reqMethod) => {
+const getURL = (ids, action) => {
   const { tid, id, pid } = ids;
-  switch (reqMethod) {
+  switch (action) {
     case "POST":
       return `${BASE_URL}tasks/user/${id}/project/${pid}`;
     case "POST_BATCH":
@@ -15,7 +15,7 @@ const getURL = (ids, reqMethod) => {
   }
 };
 
-export const handleTaskRequest = async (ids, reqMethod, action, data) => {
+export const handleTaskHTTPRequest = async (ids, reqMethod, action, data) => {
   const token = getAuthToken();
   const url = getURL(ids, action);
 

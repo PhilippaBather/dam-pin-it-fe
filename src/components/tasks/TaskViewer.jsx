@@ -4,7 +4,7 @@ import { useProjectContext } from "../../context/project-context";
 import { useUIContext } from "../../context/ui-context";
 import Card from "../../components/ui/Card";
 import FormTask from "../forms/FormTask";
-import { handleTaskRequest } from "./task-apis.js";
+import { handleTaskHTTPRequest } from "./task-apis.js";
 import {
   resetTaskPositionOnTaskDeletion,
   updateColumnOnTaskUpdate,
@@ -37,7 +37,7 @@ function TaskViewer() {
 
     try {
       setHttpError(null);
-      await handleTaskRequest(
+      await handleTaskHTTPRequest(
         { tid: selectedTask.id, id, pid },
         "PUT",
         "UPDATE",
@@ -50,7 +50,8 @@ function TaskViewer() {
         columnClicked
       );
       // update task in tasks state and reset ui context
-      reset(updatedColumn, columnClicked);
+      resetState(updatedColumn, columnClicked);
+      resetContext();
     } catch (e) {
       setHttpError(
         e.message === FAILED_FETCH
@@ -65,7 +66,7 @@ function TaskViewer() {
   const handleDelete = async () => {
     setHttpError(null);
     try {
-      await handleTaskRequest(
+      await handleTaskHTTPRequest(
         { tid: selectedTask.id, id, pid },
         "DELETE",
         "UPDATE",
@@ -78,7 +79,8 @@ function TaskViewer() {
         parseInt(columnClicked)
       );
       // update task in tasks state and reset ui context
-      reset(reorderedTasks, parseInt(columnClicked));
+      resetState(reorderedTasks, parseInt(columnClicked));
+      resetContext();
     } catch (e) {
       setHttpError(
         e.message === FAILED_FETCH
@@ -90,8 +92,11 @@ function TaskViewer() {
     }
   };
 
-  const reset = (reorderedTasks, col) => {
+  const resetState = (reorderedTasks, col) => {
     resetTaskState(reorderedTasks, parseInt(col));
+  };
+
+  const resetContext = () => {
     setModalComponentType(null);
     setSelectedTask(null);
   };
