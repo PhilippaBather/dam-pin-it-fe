@@ -16,15 +16,13 @@ function DeleteProject() {
   const { id } = useParams();
   const { currProject } = useProjectContext();
   const { setModalComponentType } = useUIContext();
+  const [deleted, setDeleted] = useState(false);
   const [httpError, setHttpError] = useState(null);
-  const [deleted, setIsDeleted] = useState(false);
 
   const alertMsg = `Are you sure you want to delete project '${currProject.title}'?`;
 
   const handleDeleteProject = async (e) => {
     e.preventDefault();
-    //const resp = await deleteProjectRequest(currProject.projectId);
-
     try {
       const isDeleted = await handleProjectHTTPRequest(
         { id: id, pid: currProject.projectId },
@@ -32,7 +30,7 @@ function DeleteProject() {
         "DELETE",
         null
       );
-      setIsDeleted(isDeleted);
+      setDeleted(isDeleted);
       setModalComponentType(null);
       navigate(`/projects-home/user/${id}`);
     } catch (e) {

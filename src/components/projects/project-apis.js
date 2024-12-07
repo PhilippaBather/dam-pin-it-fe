@@ -11,7 +11,7 @@ const getURL = (ids, action) => {
     case "POST":
       return `${BASE_URL}projects/${id}`;
     case "PUT":
-      return;
+      return `${BASE_URL}project/${pid}`;
     case "DELETE":
       return `${BASE_URL}project/${pid}`;
     case "DELETE_SHARED":
@@ -136,45 +136,45 @@ export const handleUpdateProjectRequest = async (url, data, pid) => {
   }
 };
 
-export const handleDeleteProjectRequest = async (pid) => {
-  const token = getAuthToken();
-  try {
-    const resp = await fetch(`http://localhost:3000/project/${pid}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        Origin: origin,
-        Authorizaton: "Bearer " + token,
-      },
-    });
+// export const handleDeleteProjectRequest = async (pid) => {
+//   const token = getAuthToken();
+//   try {
+//     const resp = await fetch(`http://localhost:3000/project/${pid}`, {
+//       method: "DELETE",
+//       headers: {
+//         "Content-Type": "application/json",
+//         Origin: origin,
+//         Authorizaton: "Bearer " + token,
+//       },
+//     });
 
-    return resp.status;
-  } catch (e) {
-    console.error(e);
-  }
-};
+//     return resp.status;
+//   } catch (e) {
+//     console.error(e);
+//   }
+// };
 
-export const handleDeleteSharedProjectRequest = async (id, pid) => {
-  const token = getAuthToken();
+// export const handleDeleteSharedProjectRequest = async (id, pid) => {
+//   const token = getAuthToken();
 
-  const resp = await fetch(
-    `http://localhost:3000/guests/${id}/shared-projects/${pid}`,
-    {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        Origin: origin,
-        Authorizaton: "Bearer " + token,
-      },
-    }
-  );
+//   const resp = await fetch(
+//     `http://localhost:3000/guests/${id}/shared-projects/${pid}`,
+//     {
+//       method: "DELETE",
+//       headers: {
+//         "Content-Type": "application/json",
+//         Origin: origin,
+//         Authorizaton: "Bearer " + token,
+//       },
+//     }
+//   );
 
-  await handleErrors(resp);
+//   await handleErrors(resp);
 
-  if (resp.status === 204) {
-    return await resp.json();
-  }
-};
+//   if (resp.status === 204) {
+//     return await resp.json();
+//   }
+// };
 
 const handleErrors = async (resp) => {
   const error = await resp.json();

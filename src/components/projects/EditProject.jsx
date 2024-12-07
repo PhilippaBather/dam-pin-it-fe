@@ -1,44 +1,45 @@
+import { useState } from "react";
 import { useParams } from "react-router-dom";
-import { useForm } from "react-hook-form";
 import Card from "../ui/Card";
 import FormProject from "../forms/FormProject";
 import { useProjectContext } from "../../context/project-context";
-import { handleHttpReq } from "../../api/http-requests";
-import { projectEndpoint } from "../../api/endpoints";
-import { getAuthToken } from "../../auth/auth-functions";
+import { useUIContext } from "../../context/ui-context";
+import { handleProjectHTTPRequest } from "./project-apis";
+import {
+  FAILED_FETCH,
+  MALFORMED_REQUEST,
+  UNEXPECTED_JSON,
+} from "../../api/http-requests.js";
 
 function EditProject() {
   let { id, pid } = useParams();
-  const { clearErrors, reset } = useForm();
-  const { setCurrProject, setModalComponentType } = useProjectContext();
+  const { setCurrProject } = useProjectContext();
+  const { setModalComponentType } = useUIContext();
+  const [httpError, setHttpError] = useState(null);
 
   const handleEditProject = async (data, event) => {
-    const token = getAuthToken();
     event.preventDefault();
 
     try {
-      await handleHttpReq(projectEndpoint, data, pid, "PUT", "PROJECT");
+      await handleProjectHTTPRequest({ id, pid }, "PUT", "PUT", data);
 
-      const resp = await fetch(
-        `http://localhost:3000/project/user/${id}/project/${pid}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Origin: origin,
-            Authorizaton: "Bearer " + token,
-          },
-        }
+      const project = await handleProjectHTTPRequest(
+        { id, pid },
+        "GET",
+        "GET_PROJECT",
+        null
       );
-
-      const respData = await resp.json();
-      setCurrProject(respData);
+      setCurrProject(project);
       setModalComponentType(null);
     } catch (e) {
-      console.log(e);
+      setHttpError(
+        e.message === FAILED_FETCH
+          ? "Network error"
+          : e.message === UNEXPECTED_JSON
+          ? MALFORMED_REQUEST
+          : e.message
+      );
     }
-    clearErrors();
-    reset({ title: "", description: "", deadline: "" });
   };
 
   return (
@@ -47,6 +48,7 @@ function EditProject() {
         <FormProject
           btnLabels={["Update", "Reset", "reset"]}
           handleSubmitProject={handleEditProject}
+          httpError={httpError}
         />
       </Card>
     </>
