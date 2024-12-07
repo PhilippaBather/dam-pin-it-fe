@@ -21,6 +21,7 @@ function FormTask({
   setSelectOption,
   handleTaskDelete,
   dateValError,
+  httpError,
 }) {
   const [btnLabel1, btnLabel2] = btnLabels;
   const { selectedTask } = useProjectContext();
@@ -64,13 +65,19 @@ function FormTask({
     }
   };
 
+  const title = httpError ? "Something went wrong..." : "Task Details";
+
   return (
     <>
       <CloseForm handleClose={handleClose} />
       <form className="form" onSubmit={handleSubmit(handleTaskSubmit)}>
-        <h2 className="form-title">Task Details</h2>
-        <label htmlFor="proj-title">Title</label>
+        <h2 className="form-title">{title}</h2>
+        {httpError && <span className="error-msg__form-resp">{httpError}</span>}
+        <label hidden={httpError} htmlFor="proj-title">
+          Title
+        </label>
         <input
+          hidden={httpError}
           id="proj-title"
           type="text"
           {...register("title", {
@@ -83,14 +90,20 @@ function FormTask({
             {titleReq}
           </span>
         )}
-        <label htmlFor="proj-description">Description</label>
+        <label hidden={httpError} htmlFor="proj-description">
+          Description
+        </label>
         <input
+          hidden={httpError}
           id="proj-description"
           type="text"
           {...register("description", { required: false })}
         />
-        <label htmlFor="proj-deadline">Deadline</label>
+        <label hidden={httpError} htmlFor="proj-deadline">
+          Deadline
+        </label>
         <input
+          hidden={httpError}
           id="proj-deadline"
           type="date"
           {...register("deadline", {
@@ -107,27 +120,32 @@ function FormTask({
             {dateValError}
           </span>
         )}
-        <label htmlFor="proj-priority">Priority Level</label>
-        <Select
-          id="proj-priority"
-          defaultValue={
-            modalComponentType !== "VIEW_TASK"
-              ? priorityOptions[4]
-              : priorityOptions[
-                  selectPriorityOption[selectedTask.priorityLevel]
-                ]
-          }
-          styles={colourStyles}
-          options={priorityOptions}
-          isSearchable={true}
-          onChange={handleChange}
-        />
+        <label hidden={httpError} htmlFor="proj-priority">
+          Priority Level
+        </label>
+        {!httpError && (
+          <Select
+            id="proj-priority"
+            defaultValue={
+              modalComponentType !== "VIEW_TASK"
+                ? priorityOptions[4]
+                : priorityOptions[
+                    selectPriorityOption[selectedTask.priorityLevel]
+                  ]
+            }
+            styles={colourStyles}
+            options={priorityOptions}
+            isSearchable={true}
+            onChange={handleChange}
+          />
+        )}
         {!isCreated && (
           <FormActions
             btnLabel1={btnLabel1}
             btnLabel2={btnLabel2}
             btn2Type={"reset"}
             handleClick={handleClick}
+            httpError={httpError}
           />
         )}
       </form>
