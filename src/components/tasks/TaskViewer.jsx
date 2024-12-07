@@ -75,6 +75,10 @@ function TaskViewer() {
         selectedTask,
         parseInt(columnClicked)
       );
+      console.log(reorderedTasks);
+      // update DB
+      // fetch request for tasks pertaining to the clicked column
+
       // update task in tasks state and reset ui context
       reset(reorderedTasks, parseInt(columnClicked));
     } catch (e) {
