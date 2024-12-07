@@ -4,16 +4,22 @@ import Card from "../../components/ui/Card.jsx";
 import FormTask from "../forms/FormTask.jsx";
 import { useProjectContext } from "../../context/project-context.jsx";
 import { useUIContext } from "../../context/ui-context.jsx";
-import { getAuthToken } from "../../auth/auth-functions.js";
+import { handleTaskRequest } from "./task-apis.js";
 import { resetTaskOrderInColumn } from "../draggable/draggable-utilities.js";
 import {
   processNewTaskData,
   validateTaskDeadlineDate,
-} from "./task-utilities-js";
+} from "./task-utilities.js";
+import {
+  FAILED_FETCH,
+  MALFORMED_REQUEST,
+  UNEXPECTED_JSON,
+} from "../../api/http-requests.js";
 
 function AddTask() {
-  const [selectOption, setSelectOption] = useState("");
   const [dateValError, setDateValError] = useState(null);
+  const [httpError, setHttpError] = useState(null);
+  const [selectOption, setSelectOption] = useState("");
   const { projectTasks, resetTaskState, currProject } = useProjectContext();
   const { setModalComponentType } = useUIContext();
   const { id, pid } = useParams();
@@ -36,24 +42,13 @@ function AddTask() {
     }
     const processedData = processNewTaskData(data, selectOption, pid);
 
-    const token = getAuthToken();
-
     try {
-      // save updated tasks in batch
-      const resp = await fetch(
-        `http://localhost:3000/tasks/user/${id}/project/${pid}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Origin: origin,
-            Authorizaton: "Bearer " + token,
-          },
-          body: JSON.stringify(processedData),
-        }
+      const savedTask = await handleTaskRequest(
+        { tid: null, id, pid },
+        "POST",
+        "POST",
+        processedData
       );
-      const savedTask = await resp.json();
-
       // add saved task and revise task positions in column
       const updatedTaskOrderInColumn = resetTaskOrderInColumn(
         savedTask,
@@ -61,22 +56,22 @@ function AddTask() {
         1
       );
 
-      await fetch(
-        `http://localhost:3000/tasks-list/user/${id}/project/${pid}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Origin: origin,
-            Authorizaton: "Bearer " + token,
-          },
-          body: JSON.stringify(updatedTaskOrderInColumn),
-        }
+      // save updated tasks in batch (processed Data)
+      await handleTaskRequest(
+        { tid: null, id, pid },
+        "POST",
+        "POST_BATCH",
+        updatedTaskOrderInColumn
       );
-
       resetContext(updatedTaskOrderInColumn, 1);
     } catch (e) {
-      console.error(e);
+      setHttpError(
+        e.message === FAILED_FETCH
+          ? "Network error"
+          : e.message === UNEXPECTED_JSON
+          ? MALFORMED_REQUEST
+          : e.message
+      );
     }
   };
 
@@ -89,6 +84,7 @@ function AddTask() {
     <>
       <Card>
         <FormTask
+          httpError={httpError}
           btnLabels={["Create", "Reset"]}
           handleTaskSubmit={handleTaskSubmit}
           setSelectOption={setSelectOption}
