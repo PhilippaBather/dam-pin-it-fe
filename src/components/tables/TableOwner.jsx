@@ -4,7 +4,13 @@ import { useProjectContext } from "../../context/project-context";
 import { useUIContext } from "../../context/ui-context";
 import Card from "../ui/Card";
 import LoadingDots from "../ui/spinners/LoadingDots";
-import { handleGetOwnedProjects } from "./table-utilities";
+import { handleManagementHTTPRequest } from "./table-apis";
+import {
+  FAILED_FETCH,
+  MALFORMED_REQUEST,
+  UNDEFINED_PARAM,
+  UNEXPECTED_JSON,
+} from "../../api/http-requests.js";
 import "../../stylesheets/table.css";
 
 function TableOwner() {
@@ -18,6 +24,7 @@ function TableOwner() {
   } = useProjectContext();
 
   const { setModalComponentType } = useUIContext();
+  const [httpError, setHttpError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
   const route = `/projects-home/user/${id}/project/`;
@@ -30,13 +37,33 @@ function TableOwner() {
   };
 
   useEffect(() => {
-    setIsLoading(true);
+    setHttpError(null);
     const getOwnedProjects = async () => {
-      const projects = await handleGetOwnedProjects(id);
-      setOwnedProjects(projects);
+      try {
+        setIsLoading(true);
+        const projects = await handleManagementHTTPRequest(
+          id,
+          "GET",
+          "OWNED_PROJECTS",
+          null
+        );
+        setOwnedProjects(projects);
+      } catch (e) {
+        setIsLoading(false);
+        setHttpError(
+          e.message === FAILED_FETCH
+            ? "Network error"
+            : e.message === UNEXPECTED_JSON ||
+              e.message.includes(UNDEFINED_PARAM)
+            ? MALFORMED_REQUEST
+            : e.message
+        );
+      }
+      //   const projects = await handleGetOwnedProjects(id);
     };
     getOwnedProjects();
   }, [id, setOwnedProjects, setIsLoading]);
+
   return (
     <section className="section-table">
       <Card isTable>
@@ -150,7 +177,8 @@ function TableOwner() {
                 </div>
               </div>
             ))}
-          {!isLoading && ownedProjects.length == 0 && (
+          {httpError && <span className="table-msg__error">{httpError}</span>}
+          {!httpError && !isLoading && ownedProjects.length == 0 && (
             <p className="table-msg__not-found">No owned projects found.</p>
           )}
           {isLoading && ownedProjects.length == 0 && (

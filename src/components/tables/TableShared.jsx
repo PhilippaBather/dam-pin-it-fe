@@ -4,11 +4,18 @@ import Card from "../ui/Card";
 import LoadingDots from "../ui/spinners/LoadingDots.jsx";
 import { useProjectContext } from "../../context/project-context";
 import { useUIContext } from "../../context/ui-context";
-import { handleGetSharedProjects } from "./table-utilities.js";
+import {
+  FAILED_FETCH,
+  MALFORMED_REQUEST,
+  UNDEFINED_PARAM,
+  UNEXPECTED_JSON,
+} from "../../api/http-requests.js";
 import "../../stylesheets/table.css";
+import { handleManagementHTTPRequest } from "./table-apis.js";
 
 function TableShared() {
   const { id } = useParams();
+  const [httpError, setHttpError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const { setSelectedSharedProject, sharedProjects, setSharedProjects } =
     useProjectContext();
@@ -22,13 +29,33 @@ function TableShared() {
   const route = `/projects-home/user/${id}/project/`;
 
   useEffect(() => {
-    setIsLoading(true);
+    setHttpError(null);
     const getSharedProjects = async () => {
-      const projects = await handleGetSharedProjects(id);
-      setSharedProjects(projects);
+      setIsLoading(true);
+      try {
+        const projects = await handleManagementHTTPRequest(
+          id,
+          "GET",
+          "SHARED_PROJECTS",
+          null
+        );
+        setSharedProjects(projects);
+      } catch (e) {
+        setIsLoading(false);
+        setHttpError(
+          e.message === FAILED_FETCH
+            ? "Network error"
+            : e.message === UNEXPECTED_JSON ||
+              e.message.includes(UNDEFINED_PARAM)
+            ? MALFORMED_REQUEST
+            : e.message
+        );
+      }
+      setIsLoading(false);
+      // const projects = await handleGetSharedProjects(id);
     };
     getSharedProjects();
-  }, [id, setSharedProjects, setIsLoading]);
+  }, [id, setSharedProjects, setIsLoading, setHttpError]);
 
   return (
     <section className="section-table section-table__shared">
@@ -74,10 +101,11 @@ function TableShared() {
               </div>
             </div>
           ))}
-        {sharedProjects.length == 0 && (
+        {!httpError && !isLoading && sharedProjects.length == 0 && (
           <p className="table-msg__not-found">No shared projects found.</p>
         )}
-        {isLoading && sharedProjects.length == 0 && (
+        {httpError && <span className="table-msg__error">{httpError}</span>}
+        {!httpError && isLoading && sharedProjects.length === 0 && (
           <LoadingDots dotColor="rgba(202, 247, 170, 0.5)" />
         )}
       </Card>
