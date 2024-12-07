@@ -48,39 +48,39 @@ export const parseTaskData = (data) => {
   return parsedData;
 };
 
-// export const processUpdatedTaskData = (
-//   data,
-//   selectedOption,
-//   selectedTask,
-//   col,
-//   pid
-// ) => {
-//   return {
-//     title: data.title,
-//     description: data.description,
-//     priorityLevel: (data.priorityLevel =
-//       selectedOption === "" ? "NONE" : selectedOption.toUpperCase()),
-//     taskStatus: --col,
-//     taskPosition: selectedTask.taskPosition,
-//     deadline: data.deadline,
-//     projectId: pid,
-//     id: selectedTask.id,
-//   };
-// };
+export const processUpdatedTaskData = (
+  data,
+  selectedOption,
+  selectedTask,
+  col,
+  pid
+) => {
+  return {
+    title: data.title,
+    description: data.description,
+    priorityLevel: (data.priorityLevel =
+      selectedOption === "" ? "NONE" : selectedOption.toUpperCase()),
+    taskStatus: --col,
+    taskPosition: selectedTask.taskPosition,
+    deadline: data.deadline,
+    projectId: pid,
+    id: selectedTask.id,
+  };
+};
 
-// export const processNewTaskData = (data, selectedOption, pid) => {
-//   console.log(data.description);
-//   return {
-//     title: data.title,
-//     description: data.description === "" ? "None" : data.description,
-//     deadline: data.deadline,
-//     priorityLevel: (data.priorityLevel =
-//       selectedOption === "" ? "NONE" : selectedOption.toUpperCase()), // none by default
-//     taskStatus: (data.taskStatus = "PENDING"), // for first column ordering
-//     taskPosition: 1, // add new tasks to top of column
-//     projectId: (data.projectId = parseInt(pid)),
-//   };
-// };
+export const processNewTaskData = (data, selectedOption, pid) => {
+  console.log(data.description);
+  return {
+    title: data.title,
+    description: data.description === "" ? "None" : data.description,
+    deadline: data.deadline,
+    priorityLevel: (data.priorityLevel =
+      selectedOption === "" ? "NONE" : selectedOption.toUpperCase()), // none by default
+    taskStatus: (data.taskStatus = "PENDING"), // for first column ordering
+    taskPosition: 1, // add new tasks to top of column
+    projectId: (data.projectId = parseInt(pid)),
+  };
+};
 
 export const resetTaskOrderInColumn = (savedTask, tasks, col) => {
   const clonedTasks = cloneDeep(tasks);
@@ -94,6 +94,7 @@ export const resetTaskOrderInColumn = (savedTask, tasks, col) => {
 
 export const resetTaskPositionOnTaskDeletion = (tasks, selectedTask, col) => {
   const clonedTasks = cloneDeep(tasks);
+  console.log(tasks);
   const filteredTask = clonedTasks[col].tasks
     .filter((task) => {
       return task.id !== selectedTask.id;
@@ -102,8 +103,12 @@ export const resetTaskPositionOnTaskDeletion = (tasks, selectedTask, col) => {
       if (task.taskPosition > selectedTask.taskPosition) {
         --task.taskPosition;
         return task;
+      } else {
+        return task;
       }
     });
+
+  console.log(filteredTask);
 
   return filteredTask;
 };
