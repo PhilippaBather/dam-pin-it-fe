@@ -8,8 +8,9 @@ import { handleProjectHTTPRequest } from "./project-apis";
 import {
   FAILED_FETCH,
   MALFORMED_REQUEST,
+  UNDEFINED_PARAM,
   UNEXPECTED_JSON,
-} from "../../api/http-requests.js";
+} from "../../api/api-constants.js";
 
 function DeleteSharedProject() {
   const { id } = useParams();
@@ -49,7 +50,7 @@ function DeleteSharedProject() {
       setHttpError(
         e.message === FAILED_FETCH
           ? "Network error"
-          : e.message === UNEXPECTED_JSON
+          : e.message === UNEXPECTED_JSON || e.message.includes(UNDEFINED_PARAM)
           ? MALFORMED_REQUEST
           : e.message
       );

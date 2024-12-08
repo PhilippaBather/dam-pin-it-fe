@@ -9,8 +9,9 @@ import { handleProjectHTTPRequest } from "./project-apis";
 import {
   FAILED_FETCH,
   MALFORMED_REQUEST,
+  UNDEFINED_PARAM,
   UNEXPECTED_JSON,
-} from "../../api/http-requests.js";
+} from "../../api/api-constants.js";
 
 function CreateProject() {
   let { id } = useParams();
@@ -46,7 +47,7 @@ function CreateProject() {
       setHttpError(
         e.message === FAILED_FETCH
           ? "Network error"
-          : e.message === UNEXPECTED_JSON
+          : e.message === UNEXPECTED_JSON || e.message.includes(UNDEFINED_PARAM)
           ? MALFORMED_REQUEST
           : e.message
       );

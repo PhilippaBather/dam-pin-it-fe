@@ -9,7 +9,7 @@ import {
   MALFORMED_REQUEST,
   UNDEFINED_PARAM,
   UNEXPECTED_JSON,
-} from "../../api/http-requests.js";
+} from "../../api/api-constants.js";
 import "../../stylesheets/table.css";
 import { handleManagementHTTPRequest } from "./table-apis.js";
 

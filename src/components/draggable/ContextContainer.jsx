@@ -12,7 +12,7 @@ import {
   MALFORMED_REQUEST,
   UNDEFINED_PARAM,
   UNEXPECTED_JSON,
-} from "../../api/http-requests.js";
+} from "../../api/api-constants.js";
 import "../../stylesheets/draggables.css";
 
 function ContextContainer() {
@@ -73,7 +73,7 @@ function ContextContainer() {
       try {
         for (let i = 1; i < 5; i++) {
           let data = projectTasks[i]?.tasks;
-          handleTaskHTTPRequest(
+          await handleTaskHTTPRequest(
             { tid: null, id, pid },
             "POST",
             "POST_BATCH",

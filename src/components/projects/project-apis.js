@@ -1,4 +1,4 @@
-import { BASE_URL } from "../../api/endpoints";
+import { BASE_URL } from "../../api/api-constants";
 import { getAuthToken } from "../../auth/auth-functions";
 
 const getURL = (ids, action) => {

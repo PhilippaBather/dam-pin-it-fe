@@ -13,8 +13,9 @@ import { processUpdatedTaskData } from "./task-utilities.js";
 import {
   FAILED_FETCH,
   MALFORMED_REQUEST,
+  UNDEFINED_PARAM,
   UNEXPECTED_JSON,
-} from "../../api/http-requests.js";
+} from "../../api/api-constants.js";
 
 function TaskViewer() {
   const { id, pid } = useParams();
@@ -56,7 +57,7 @@ function TaskViewer() {
       setHttpError(
         e.message === FAILED_FETCH
           ? "Network error"
-          : e.message === UNEXPECTED_JSON
+          : e.message === UNEXPECTED_JSON || e.message.includes(UNDEFINED_PARAM)
           ? MALFORMED_REQUEST
           : e.message
       );

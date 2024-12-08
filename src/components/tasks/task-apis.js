@@ -1,4 +1,4 @@
-import { BASE_URL } from "../../api/endpoints";
+import { BASE_URL } from "../../api/api-constants";
 import { getAuthToken } from "../../auth/auth-functions";
 
 const getURL = (ids, action) => {
@@ -42,58 +42,11 @@ export const handleTaskHTTPRequest = async (ids, reqMethod, action, data) => {
   }
 };
 
-export const handleAddNewTask = async (id, pid, processedData) => {
-  const token = getAuthToken();
-  const resp = await fetch(
-    `http://localhost:3000/tasks/user/${id}/project/${pid}`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Origin: origin,
-        Authorizaton: "Bearer " + token,
-      },
-      body: JSON.stringify(processedData),
-    }
-  );
-  await handleErrors(resp);
-
-  if (resp.status === 201) {
-    return await resp.json();
-  }
-};
-
-export const handleUpdatedTaskOrderOnAddTask = async (
-  id,
-  pid,
-  updatedTaskOrderInColumn
-) => {
-  const token = getAuthToken();
-
-  const resp = await fetch(`${BASE_URL}/tasks-list/user/${id}/project/${pid}`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Origin: origin,
-      Authorizaton: "Bearer " + token,
-    },
-    body: JSON.stringify(updatedTaskOrderInColumn),
-  });
-
-  await handleErrors(resp);
-
-  if (resp.status === 201 || resp.status === 200) {
-    return await resp.json();
-  }
-};
-
 const handleErrors = async (resp) => {
   const error = await resp.json();
-  console.log(error);
 
   if (!resp.ok) {
     if (resp.status === 401) {
-      console.log("here");
       if (error.message.includes("Unexpected end of JSON input")) {
         throw new Error("Malformed request");
       }
@@ -112,3 +65,48 @@ const handleErrors = async (resp) => {
   }
   return;
 };
+
+// export const handleAddNewTask = async (id, pid, processedData) => {
+//   const token = getAuthToken();
+//   const resp = await fetch(
+//     `http://localhost:3000/tasks/user/${id}/project/${pid}`,
+//     {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json",
+//         Origin: origin,
+//         Authorizaton: "Bearer " + token,
+//       },
+//       body: JSON.stringify(processedData),
+//     }
+//   );
+//   await handleErrors(resp);
+
+//   if (resp.status === 201) {
+//     return await resp.json();
+//   }
+// };
+
+// export const handleUpdatedTaskOrderOnAddTask = async (
+//   id,
+//   pid,
+//   updatedTaskOrderInColumn
+// ) => {
+//   const token = getAuthToken();
+
+//   const resp = await fetch(`${BASE_URL}/tasks-list/user/${id}/project/${pid}`, {
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json",
+//       Origin: origin,
+//       Authorizaton: "Bearer " + token,
+//     },
+//     body: JSON.stringify(updatedTaskOrderInColumn),
+//   });
+
+//   await handleErrors(resp);
+
+//   if (resp.status === 201 || resp.status === 200) {
+//     return await resp.json();
+//   }
+// };

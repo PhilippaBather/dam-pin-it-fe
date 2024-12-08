@@ -1,23 +1,22 @@
-import { getAuthToken } from "../../auth/auth-functions";
 import { BASE_URL } from "../../api/api-constants";
+import { getAuthToken } from "../../auth/auth-functions";
 
-const getURL = (id, action) => {
+const getURL = (ids, action) => {
+  const { email, pid } = ids;
+
   switch (action) {
-    case "OWNED_PROJECTS":
-      return `${BASE_URL}guests/owned-projects/${id}`;
-    case "SHARED_PROJECTS":
-      return `${BASE_URL}guests/shared-projects/${id}`;
+    case "DELETE":
+      return `${BASE_URL}guests/owned-projects/guest/${email}/project/${pid}`;
+    case "POST":
+      return `${BASE_URL}guests/owned-projects`;
+    case "PUT":
+      return `${BASE_URL}guests/owned-projects`;
     default:
       return;
   }
 };
 
-export const handleManagementHTTPRequest = async (
-  id,
-  reqMethod,
-  action,
-  data
-) => {
+export const handleGuestHTTPRequest = async (id, reqMethod, action, data) => {
   const token = getAuthToken();
   const url = getURL(id, action);
 
@@ -44,7 +43,6 @@ export const handleManagementHTTPRequest = async (
 
 const handleErrors = async (resp) => {
   const error = await resp.json();
-  console.log(error);
 
   if (!resp.ok) {
     if (resp.status === 401) {
