@@ -1,6 +1,16 @@
 import { getAuthToken, setJWTExpiration } from "../auth/auth-functions";
 import { origin } from "./endpoints";
 
+///// HTTP REQUEST RESPONSE ERROR MESSAGES
+export const FAILED_FETCH = "Failed to fetch";
+export const UNEXPECTED_JSON =
+  "Failed to execute 'json' on 'Response': Unexpected end of JSON input";
+export const UNDEFINED_PARAM = "is not defined";
+
+///// HTTP REQUEST CUSTOM ERROR MESSAGES
+export const NETWORK_ERROR = "Network error";
+export const MALFORMED_REQUEST = "Malformed request";
+
 export const handleHttpReq = async (url, data, id, method, dataType) => {
   const token = getAuthToken();
 
