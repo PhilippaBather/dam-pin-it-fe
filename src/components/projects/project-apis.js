@@ -7,7 +7,7 @@ const getURL = (ids, action) => {
     case "GET_PROJECTS":
       return `${BASE_URL}projects/${parseInt(id)}`;
     case "GET_PROJECT":
-      return `${BASE_URL}project/user/dfd/project/${pid}`;
+      return `${BASE_URL}project/user/${id}/project/${pid}`;
     case "POST":
       return `${BASE_URL}projects/${id}`;
     case "PUT":
@@ -53,7 +53,6 @@ export const handleProjectHTTPRequest = async (
 
 const handleErrors = async (resp) => {
   const error = await resp.json();
-  console.log(error);
 
   if (!resp.ok) {
     if (resp.status === 401) {

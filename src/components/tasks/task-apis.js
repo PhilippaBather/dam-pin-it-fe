@@ -4,6 +4,7 @@ import { getAuthToken } from "../../auth/auth-functions";
 const getURL = (ids, action) => {
   const { tid, id, pid } = ids;
   switch (action) {
+    case "GET_TASK":
     case "POST":
       return `${BASE_URL}tasks/user/${id}/project/${pid}`;
     case "POST_BATCH":
@@ -37,6 +38,7 @@ export const handleTaskHTTPRequest = async (ids, reqMethod, action, data) => {
     return;
   } else {
     await handleErrors(resp);
+    return;
   }
 };
 
