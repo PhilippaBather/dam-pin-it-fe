@@ -5,7 +5,7 @@ import { getItemDragStyle } from "./draggable-utilities";
 
 function TaskContainer({ task }) {
   const { setSelectedTask } = useProjectContext();
-  const { setModalComponentType } = useUIContext();
+  const { dashboardError, setModalComponentType } = useUIContext();
 
   const viewTaskDetails = (task) => {
     setSelectedTask(task);
@@ -14,35 +14,37 @@ function TaskContainer({ task }) {
 
   return (
     <>
-      <Draggable draggableId={task.id.toString()} index={task.taskPosition}>
-        {(provided, snapshot) => (
-          <li
-            className={`list-item ${task.priorityLevel.toLowerCase()}-shadow`}
-            key={task.id}
-          >
-            <div
-              {...provided.draggableProps}
-              {...provided.dragHandleProps}
-              ref={provided.innerRef}
-              style={getItemDragStyle(
-                snapshot.isDragging,
-                provided.draggableProps.style
-              )}
-              onClick={() => viewTaskDetails(task)}
+      {!dashboardError && (
+        <Draggable draggableId={task.id.toString()} index={task.taskPosition}>
+          {(provided, snapshot) => (
+            <li
+              className={`list-item ${task.priorityLevel.toLowerCase()}-shadow`}
+              key={task.id}
             >
-              <p className="task-title">{task.title}</p>
-              <div className="task-info">
-                <span className="task-deadline-formatted">
-                  {new Date(task.deadline).toLocaleDateString()}
-                </span>
-                <span
-                  className={`dot ${task.priorityLevel.toLowerCase()}`}
-                ></span>
+              <div
+                {...provided.draggableProps}
+                {...provided.dragHandleProps}
+                ref={provided.innerRef}
+                style={getItemDragStyle(
+                  snapshot.isDragging,
+                  provided.draggableProps.style
+                )}
+                onClick={() => viewTaskDetails(task)}
+              >
+                <p className="task-title">{task.title}</p>
+                <div className="task-info">
+                  <span className="task-deadline-formatted">
+                    {new Date(task.deadline).toLocaleDateString()}
+                  </span>
+                  <span
+                    className={`dot ${task.priorityLevel.toLowerCase()}`}
+                  ></span>
+                </div>
               </div>
-            </div>
-          </li>
-        )}
-      </Draggable>
+            </li>
+          )}
+        </Draggable>
+      )}
     </>
   );
 }
