@@ -7,7 +7,7 @@ const getURL = (ids, action) => {
     case "GET_PROJECTS":
       return `${BASE_URL}projects/${parseInt(id)}`;
     case "GET_PROJECT":
-      return `${BASE_URL}project/user/${id}/project/${pid}`;
+      return `${BASE_URL}project/user/dfd/project/${pid}`;
     case "POST":
       return `${BASE_URL}projects/${id}`;
     case "PUT":
@@ -57,7 +57,6 @@ const handleErrors = async (resp) => {
 
   if (!resp.ok) {
     if (resp.status === 401) {
-      console.log("here");
       if (error.message.includes("Unexpected end of JSON input")) {
         throw new Error("Malformed request");
       }
