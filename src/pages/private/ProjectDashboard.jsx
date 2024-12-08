@@ -11,7 +11,7 @@ import {
   MALFORMED_REQUEST,
   UNDEFINED_PARAM,
   UNEXPECTED_JSON,
-} from "../../api/http-requests.js";
+} from "../../api/api-constants";
 import "../../stylesheets/project-dashboard.css";
 
 function ProjectDashboard() {

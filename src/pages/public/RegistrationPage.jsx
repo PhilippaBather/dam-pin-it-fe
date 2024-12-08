@@ -4,8 +4,13 @@ import { useNavigate } from "react-router-dom";
 import Card from "../../components/ui/Card";
 import LoadingDots from "../../components/ui/spinners/LoadingDots.jsx";
 import ROUTES from "../../pages/routes/routes";
-import { postAuthData } from "../../api/http-requests.js";
-import { signupEndpoint } from "../../api/endpoints.js";
+import { handleAuthHTTPRequest } from "../../auth/auth-apis.js";
+import {
+  FAILED_FETCH,
+  MALFORMED_REQUEST,
+  UNDEFINED_PARAM,
+  UNEXPECTED_JSON,
+} from "../../api/api-constants.js";
 import {
   errorFirstnameRequired as firstReq,
   errorFirstnameInvalid as firstInv,
@@ -26,11 +31,10 @@ function RegistrationPage() {
   } = useForm();
 
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [httpError, setHttpError] = useState(null);
   const navigate = useNavigate();
 
   const handleRegistration = async (data, event) => {
-    setIsLoading(true);
     event.preventDefault();
     const parsedData = {
       forename: data.forename,
@@ -39,26 +43,35 @@ function RegistrationPage() {
       password: data.password,
     };
 
+    setIsLoading(true);
     try {
-      await postAuthData(signupEndpoint, parsedData, "SIGNUP");
+      await handleAuthHTTPRequest(null, "POST", "SIGNUP", parsedData);
       navigate(ROUTES.LOGIN);
     } catch (e) {
-      setError(e.message);
+      setIsLoading(false);
+      setHttpError(
+        e.message === FAILED_FETCH
+          ? "Network error"
+          : e.message === UNEXPECTED_JSON || e.message.includes(UNDEFINED_PARAM)
+          ? MALFORMED_REQUEST
+          : e.message
+      );
     }
-    console.log(data);
-    console.log(error);
+    setIsLoading(false);
   };
 
   return (
     <Card>
       <form className="form" onSubmit={handleSubmit(handleRegistration)}>
         <h1 className="form-title">¡Register!</h1>
-        {error && (
+        {httpError && (
           <span className="error-msg__form-resp" role="alert">
-            {error}
+            {httpError}
           </span>
         )}
-        {isLoading && <LoadingDots dotColor="rgb(202, 247, 170)" size="45" />}
+        {isLoading && !httpError && (
+          <LoadingDots dotColor="rgb(202, 247, 170)" size="45" />
+        )}
         <label htmlFor="reg-forename">Name:</label>
         <input
           id="reg-forename"
