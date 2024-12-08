@@ -9,6 +9,7 @@ import { handleProjectHTTPRequest } from "../../components/projects/project-apis
 import {
   FAILED_FETCH,
   MALFORMED_REQUEST,
+  UNDEFINED_PARAM,
   UNEXPECTED_JSON,
 } from "../../api/http-requests.js";
 import "../../stylesheets/titles.css";
@@ -45,7 +46,8 @@ function ProjectHomePage() {
         setHttpError(
           e.message === FAILED_FETCH
             ? "Network error"
-            : e.message === UNEXPECTED_JSON
+            : e.message === UNEXPECTED_JSON ||
+              e.message.includes(UNDEFINED_PARAM)
             ? MALFORMED_REQUEST
             : e.message
         );
