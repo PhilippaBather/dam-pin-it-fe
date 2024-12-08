@@ -14,27 +14,35 @@
   text-align: center;
 }
 
+.error-para {
+  text-align: center;
+  font-size: 1rem;
+  font-family: "Source Code Pro", monospace;
+  color: var(--theme-orange);
+}
+
 .error-para__link {
   text-align: center;
 }
 
 .error-link {
-  font-family: "Source Code Pro", monospace;
+  font-family: "Slackside One", cursive;
   text-align: center;
-  font-size: 1.5rem;
+  font-size: 2.5rem;
   text-decoration: none;
   font-weight: 600;
-  color: white;
   color: var(--theme-orange);
+  color: white;
 }
 
 .background-attribution {
   color: white;
-  font-size: 0.6rem;
+  color: var(--crimson);
+  font-size: 0.7rem;
   text-align: center;
 
   a {
     text-decoration: none;
-    color: var(--theme-pink);
+    color: var(--crimson);
   }
 }
