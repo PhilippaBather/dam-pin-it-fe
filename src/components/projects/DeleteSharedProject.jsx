@@ -20,6 +20,7 @@ function DeleteSharedProject() {
   const { setModalComponentType } = useUIContext();
 
   const alertMsg = `Are you sure you want to leave the shared project '${selectedSharedProject.projectTitle}'?`;
+  console.log(selectedSharedProject);
 
   const handleDeleteSharedProject = async () => {
     // const token = getAuthToken();

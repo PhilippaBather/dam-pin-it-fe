@@ -1,7 +1,7 @@
 import { getAuthToken, setJWTExpiration } from "./auth-functions";
 import { BASE_URL } from "../api/api-constants";
 
-const getURL = (ids, action) => {
+const getURL = (email, action) => {
   switch (action) {
     case "LOGIN":
       return `${BASE_URL}users/auth/login`;
@@ -10,15 +10,15 @@ const getURL = (ids, action) => {
     case "POST_USER":
       return `${BASE_URL}users`;
     case "PSWD_RESET":
-      return ``;
+      return `${BASE_URL}users/pswd-reset/${email}`;
     default:
       return;
   }
 };
 
-export const handleAuthHTTPRequest = async (ids, reqMethod, action, data) => {
+export const handleAuthHTTPRequest = async (email, reqMethod, action, data) => {
   const token = getAuthToken();
-  const url = getURL(ids, action);
+  const url = getURL(email, action);
 
   data = data ? JSON.stringify(data) : null;
 

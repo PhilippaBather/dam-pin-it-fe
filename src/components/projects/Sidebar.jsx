@@ -16,8 +16,10 @@ function Sidebar({ isLoading, httpError }) {
       </h1>
       {httpError && <span className="error-msg__sidebar">{httpError}</span>}
       <div>
-        {isLoading && projects.length === 0 && <LoadingVortex />}
-        {!projects && <p>Looks like you&apos;ve got no projects.</p>}
+        {isLoading && !projects && <LoadingVortex />}
+        {projects.length === 0 && (
+          <p>Looks like you&apos;ve got no projects.</p>
+        )}
         <ul className={"menu-items"}>
           {projects &&
             projects?.map((project) => (
