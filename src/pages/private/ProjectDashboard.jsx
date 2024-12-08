@@ -29,6 +29,8 @@ function ProjectDashboard() {
 
   useEffect(() => {
     async function fetchProjectData() {
+      setHttpError(false);
+      setDashboardError(false);
       try {
         setIsLoading(true);
         const data = await handleProjectHTTPRequest(
@@ -40,7 +42,6 @@ function ProjectDashboard() {
         setCurrProject(data);
       } catch (e) {
         setIsLoading(false);
-        console.log(e);
         if (e.message.toLowerCase().includes("user not found")) {
           setGlobalError(e.message);
           navigate("/error-page");
@@ -89,10 +90,13 @@ function ProjectDashboard() {
               {httpError}
             </h1>
           )}
-          <h1 className="title-page">{currProject.title}</h1>
+          <h1 hidden={httpError} className="title-page">
+            {currProject.title}
+          </h1>
           <div className="dashboard-btn_container">
             {currProject.permissions === "OWNER" && (
               <button
+                hidden={httpError}
                 type="button"
                 className="dashboard-btn"
                 onClick={() => handleClick("INVITE_GUEST")}
