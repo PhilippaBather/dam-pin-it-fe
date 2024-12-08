@@ -14,25 +14,6 @@ import {
   UNEXPECTED_JSON,
 } from "../../api/api-constants.js";
 
-// export const handleInvitationRequest = async (data) => {
-//   const token = getAuthToken();
-//   try {
-//     const resp = await fetch("http://localhost:3000/guests", {
-//       method: "POST",
-//       headers: {
-//         "Content-Type": "application/json",
-//         Origin: origin,
-//         Authorizaton: "Bearer " + token,
-//       },
-//       body: JSON.stringify(data),
-//     });
-//     const respData = await resp.json();
-//     return respData;
-//   } catch (e) {
-//     console.error(e);
-//   }
-// };
-
 function InviteGuest() {
   const { id } = useParams();
   const {
@@ -50,42 +31,41 @@ function InviteGuest() {
   const handleSubmit = async (data, event) => {
     event.preventDefault();
 
-    if (selectOption !== null) {
-      const processedData = processData(
-        data,
-        selectOption,
-        id,
-        currProject.projectId
-      );
-      try {
-        const resp = await handleGuestHTTPRequest(
-          null,
-          "POST",
-          "POST",
-          processedData
-        );
-        // const resp = await handleInvitationRequest(processedData);
-        setModalComponentType(null);
-        const updatedProjects = processOwnedGuestProjects(
-          resp,
-          ownedProjects,
-          selectedSharedProject.projectId
-        );
-        setOwnedProjects(updatedProjects);
-        reset();
-      } catch (e) {
-        setIsLoading(false);
-        setHttpError(
-          e.message === FAILED_FETCH
-            ? "Network error"
-            : e.message === UNEXPECTED_JSON ||
-              e.message.includes(UNDEFINED_PARAM)
-            ? MALFORMED_REQUEST
-            : e.message
-        );
-      }
+    let processedData;
 
-      setSelectionError(true);
+    if (selectOption === null) {
+      return;
+    }
+
+    console.log(selectOption.value);
+    processedData = processData(data, selectOption, id, currProject.projectId);
+    console.log(processedData);
+
+    try {
+      setIsLoading(true);
+      const resp = await handleGuestHTTPRequest(
+        { email: null, ìd: null },
+        "POST",
+        "POST",
+        processedData
+      );
+      setModalComponentType(null);
+      const updatedProjects = processOwnedGuestProjects(
+        resp,
+        ownedProjects,
+        selectedSharedProject.projectId
+      );
+      setOwnedProjects(updatedProjects);
+      reset();
+    } catch (e) {
+      setIsLoading(false);
+      setHttpError(
+        e.message === FAILED_FETCH
+          ? "Network error"
+          : e.message === UNEXPECTED_JSON || e.message.includes(UNDEFINED_PARAM)
+          ? MALFORMED_REQUEST
+          : e.message
+      );
     }
   };
 
@@ -98,12 +78,13 @@ function InviteGuest() {
 
   return (
     <Card>
-      {httpError && <span className="error-msg__form-resp ">{httpError}</span>}
+      {httpError && <span className="error-msg__generic">{httpError}</span>}
       {isLoading && !httpError && <LoadingDots />}
       <FormGuest
         handleGuestSubmit={handleSubmit}
         selectionError={selectionError}
         setSelectionError={setSelectionError}
+        setSelectOption={setSelectOption}
       />
     </Card>
   );

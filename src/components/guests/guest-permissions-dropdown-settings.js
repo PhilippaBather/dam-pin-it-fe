@@ -8,17 +8,18 @@ export const priorityOptions = [
 ];
 
 export const selectPriorityOption = {
-  VIEWER: 2,
-  EDITOR_RW: 3,
-  EDITOR_RWD: 4,
-  OWNER: 5,
+  VIEWER: 1,
+  EDITOR_RW: 2,
+  EDITOR_RWD: 3,
+  OWNER: 4,
+  NONE: 0,
 };
 
 export const convertToPermissionsEnum = {
-  1: "VIEWER",
-  2: "EDITOR_RW",
-  3: "EDITOR_RWD",
-  4: "OWNER",
+  Read: "VIEWER",
+  "Edit tasks": "EDITOR_RW",
+  "Edit and Delete tasks": "EDITOR_RWD",
+  Owner: "OWNER",
 };
 
 const dot = (color = "transparent") => ({

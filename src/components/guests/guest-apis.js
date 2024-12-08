@@ -1,14 +1,14 @@
 import { BASE_URL } from "../../api/api-constants";
 import { getAuthToken } from "../../auth/auth-functions";
 
-const getURL = (ids, action) => {
-  const { email, pid } = ids;
-
+const getURL = (email, pid, action) => {
   switch (action) {
-    case "DELETE":
-      return `${BASE_URL}guests/owned-projects/guest/${email}/project/${pid}`;
+    case "DELETE_GUEST":
+      return `${BASE_URL}guests/owned-projects/guest/${email}/project/${parseInt(
+        pid
+      )}`;
     case "POST":
-      return `${BASE_URL}guests/owned-projects`;
+      return `${BASE_URL}guests`;
     case "PUT":
       return `${BASE_URL}guests/owned-projects`;
     default:
@@ -16,10 +16,12 @@ const getURL = (ids, action) => {
   }
 };
 
-export const handleGuestHTTPRequest = async (id, reqMethod, action, data) => {
+export const handleGuestHTTPRequest = async (ids, reqMethod, action, data) => {
   const token = getAuthToken();
-  const url = getURL(id, action);
-
+  console.log("here");
+  const { email = null, pid = null } = ids;
+  const url = getURL(email, pid, action);
+  console.log(url);
   data = data ? JSON.stringify(data) : null;
 
   const resp = await fetch(`${url}`, {

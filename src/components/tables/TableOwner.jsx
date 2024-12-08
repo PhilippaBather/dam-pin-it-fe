@@ -30,6 +30,7 @@ function TableOwner() {
   const route = `/projects-home/user/${id}/project/`;
 
   const handleClick = (guest = null, project, componentType) => {
+    console.log(project);
     setSelectedGuest(guest);
     setSelectedSharedProject(project); // TODO remove and replace w/ currProject state
     setCurrProject(project);
@@ -59,7 +60,6 @@ function TableOwner() {
             : e.message
         );
       }
-      //   const projects = await handleGetOwnedProjects(id);
     };
     getOwnedProjects();
   }, [id, setOwnedProjects, setIsLoading]);
@@ -81,7 +81,7 @@ function TableOwner() {
         <div>
           {ownedProjects &&
             ownedProjects?.map((project) => (
-              <div key={project.projectId} className="table-row__items">
+              <div key={project?.projectId} className="table-row__items">
                 <div className="table-row__body item-title">
                   <Link
                     className="table-row__link"
@@ -124,7 +124,7 @@ function TableOwner() {
                         key={guest?.guestId}
                         className="table-row__body-guests"
                       >
-                        {guest?.permissions.replace("_", " ").toLowerCase()}
+                        {guest?.permissions?.replace("_", " ").toLowerCase()}
                       </li>
                     ))}
                     {project.guestList.length === 0 && (
