@@ -29,6 +29,12 @@ function AddTask() {
     event.preventDefault();
 
     setDateValError(null); // reset
+    httpError(null);
+
+    if (currProject.permissions !== "VIEWER") {
+      setHttpError("Insufficient Permissions");
+      return;
+    }
 
     // check date valid, if not valid, error msg
     // if valid processNewTaskData

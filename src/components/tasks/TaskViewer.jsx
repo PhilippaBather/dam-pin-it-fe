@@ -21,12 +21,24 @@ function TaskViewer() {
   const { id, pid } = useParams();
   const [httpError, setHttpError] = useState(null);
   const [selectOption, setSelectOption] = useState("");
-  const { projectTasks, resetTaskState, selectedTask, setSelectedTask } =
-    useProjectContext();
+  const {
+    currProject,
+    projectTasks,
+    resetTaskState,
+    selectedTask,
+    setSelectedTask,
+  } = useProjectContext();
   const { columnClicked, setModalComponentType } = useUIContext();
 
   const handleSubmit = async (data, event) => {
     event.preventDefault();
+
+    setHttpError(null);
+
+    if (currProject.permissions === "VIEWER") {
+      setHttpError("Insufficient Permissions");
+      return;
+    }
 
     const processedData = processUpdatedTaskData(
       data,
@@ -66,6 +78,13 @@ function TaskViewer() {
 
   const handleDelete = async () => {
     setHttpError(null);
+    if (
+      currProject.permissions === "VIEWER" ||
+      currProject.permissions !== "EDITOR_RW"
+    ) {
+      setHttpError("Insufficient Permissions");
+      return;
+    }
     try {
       await handleTaskHTTPRequest(
         { tid: selectedTask.id, id, pid },

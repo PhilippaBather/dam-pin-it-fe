@@ -20,6 +20,11 @@ function EditProject() {
 
   const handleEditProject = async (data, event) => {
     event.preventDefault();
+    setHttpError(null);
+    if (setCurrProject.permissions === "VIEWER") {
+      setHttpError("Insufficient Permissions");
+      return;
+    }
 
     try {
       await handleProjectHTTPRequest({ id, pid }, "PUT", "PUT", data);

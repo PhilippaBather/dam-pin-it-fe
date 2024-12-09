@@ -24,6 +24,14 @@ function DeleteProject() {
 
   const handleDeleteProject = async (e) => {
     e.preventDefault();
+    setHttpError(null);
+    if (
+      currProject.permissions === "VIEWER" ||
+      currProject.permissions !== "EDITOR_RW"
+    ) {
+      setHttpError("Insufficient permissions.");
+      return;
+    }
     try {
       const isDeleted = await handleProjectHTTPRequest(
         { id: id, pid: currProject.projectId },
