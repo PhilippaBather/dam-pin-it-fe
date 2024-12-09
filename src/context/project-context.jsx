@@ -19,6 +19,7 @@ export const ProjectContextProvider = ({ children }) => {
   const [selectedSharedProject, setSelectedSharedProject] = useState({});
   const [tasks, setTasks] = useState({});
   const [selectedTask, setSelectedTask] = useState({});
+  const [taskComments, setTaskComments] = useState([]);
 
   const updateDraggedTasksYAxis = (colId, updatedTasks) => {
     setTasks((prev) => {
@@ -73,6 +74,7 @@ export const ProjectContextProvider = ({ children }) => {
     selectedOwnedProject,
     sharedProjects,
     selectedSharedProject,
+    taskComments,
     resetTaskState,
     setCurrProject: setCurrProject,
     setIsAlert,
@@ -85,6 +87,7 @@ export const ProjectContextProvider = ({ children }) => {
     setSelectedSharedProject,
     setTasks,
     setSelectedTask,
+    setTaskComments,
     updateDraggedTasksXAxis,
     updateDraggedTasksYAxis,
   };
