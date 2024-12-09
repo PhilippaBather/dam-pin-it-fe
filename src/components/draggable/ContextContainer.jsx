@@ -49,7 +49,6 @@ function ContextContainer() {
           setGlobalError(e.message);
           navigate("/error-page");
         } else {
-          console.log(e.message);
           setHttpError(
             e.message === FAILED_FETCH
               ? "Network error"
@@ -183,7 +182,7 @@ function ContextContainer() {
       {httpError && <h1 className="title-page dashboard-error">{errorTxt}</h1>}
       <ColumnContainer>
         <DragDropContext onDragEnd={onDragEnd}>
-          {
+          {projectTasks &&
             // get the key identifying task status
             Object.keys(projectTasks).map((key) => {
               const column = key;
@@ -199,8 +198,7 @@ function ContextContainer() {
                   httpError={httpError}
                 />
               );
-            })
-          }
+            })}
         </DragDropContext>
       </ColumnContainer>
     </>
