@@ -11,6 +11,10 @@ const getURL = (ids, action) => {
       return `${BASE_URL}tasks-list/user/${id}/project/${pid}`;
     case "UPDATE":
       return `${BASE_URL}task/${tid}/user/${id}/project/${pid}`;
+    case "GET_COMMENTS":
+      return `${BASE_URL}comments/${tid}`;
+    case "POST_COMMENT":
+      return `${BASE_URL}comments/${tid}/user/${id}`;
     default:
       return null;
   }

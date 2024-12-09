@@ -7,6 +7,8 @@ import DeleteProject from "../../components/projects/DeleteProject";
 import DeleteSharedProject from "../projects/DeleteSharedProject";
 import EditProject from "../../components/projects/EditProject";
 import InviteGuest from "../guests/InviteGuest";
+import TaskComment from "../forms/CommentForm";
+import TaskDetails from "../tasks/TaskDetails";
 import TaskViewer from "../../components/tasks/TaskViewer";
 import UpdateGuest from "../guests/UpdateGuest";
 import { useProjectContext } from "../../context/project-context";
@@ -29,6 +31,7 @@ const Overlay = () => {
   const { modalComponentType } = useUIContext();
   const modalComponents = {
     ADD_TASK: <AddTask />,
+    ADD_COMMENT: <TaskComment />,
     ALERT_PROJECT: <Alert />,
     CREATE_PROJECT: <CreateProject />,
     DELETE_PROJECT: <DeleteProject />,
@@ -37,7 +40,8 @@ const Overlay = () => {
     EDIT_PROJECT: <EditProject />,
     INVITE_GUEST: <InviteGuest />,
     UPDATE_GUEST: <UpdateGuest />,
-    VIEW_TASK: <TaskViewer />,
+    UPDATE_TASK: <TaskViewer />,
+    VIEW_TASK: <TaskDetails />,
   };
 
   if (!modalComponentType) return null;

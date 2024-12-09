@@ -79,7 +79,9 @@ function InviteGuest() {
   return (
     <Card>
       {httpError && <span className="error-msg__generic">{httpError}</span>}
-      {isLoading && !httpError && <LoadingDots />}
+      {isLoading && !httpError && (
+        <LoadingDots dotColor="rgba(251, 5, 173, 0.7)" size="30" />
+      )}
       <FormGuest
         handleGuestSubmit={handleSubmit}
         selectionError={selectionError}
