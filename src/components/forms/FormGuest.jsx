@@ -85,7 +85,7 @@ function FormGuest({
           defaultValue={
             modalComponentType !== "UPDATE_GUEST" ||
             modalComponentType != "INVITE_GUEST"
-              ? priorityOptions[0]
+              ? priorityOptions[4]
               : priorityOptions[selectPriorityOption[selectedGuest.permissions]]
           }
           styles={colourStyles}

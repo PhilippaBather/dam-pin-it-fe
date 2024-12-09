@@ -35,10 +35,11 @@ function FormTask({
     formState: { errors },
   } = useForm({
     defaultValues: {
-      title: modalComponentType === "VIEW_TASK" ? selectedTask.title : "",
+      title: modalComponentType === "UPDATE_TASK" ? selectedTask.title : "",
       description:
-        modalComponentType === "VIEW_TASK" ? selectedTask.description : "",
-      deadline: modalComponentType === "VIEW_TASK" ? selectedTask.deadline : "",
+        modalComponentType === "UPDATE_TASK" ? selectedTask.description : "",
+      deadline:
+        modalComponentType === "UPDATE_TASK" ? selectedTask.deadline : "",
     },
   });
 
@@ -127,7 +128,8 @@ function FormTask({
           <Select
             id="proj-priority"
             defaultValue={
-              modalComponentType !== "VIEW_TASK"
+              modalComponentType !== "UPDATE_TASK" ||
+              modalComponentType === "VIEW_TASK"
                 ? priorityOptions[4]
                 : priorityOptions[
                     selectPriorityOption[selectedTask.priorityLevel]
