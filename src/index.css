@@ -38,13 +38,6 @@
   --project-card-off-white: rgb(247, 247, 247);
   --project-card-shadow-grey-brown: rgba(194, 179, 179, 0.6);
   --project-card-shadow-sand-brown: rgba(194, 179, 179, 0.6);
-
-  /* legend */
-  --legend-none-green: rgb(41, 207, 29);
-  --legend-low-cyan: rgb(26, 234, 234);
-  --legend-medium-yellow: rgb(251, 251, 37);
-  --legend-high-orange: rgb(245, 182, 66);
-  --legend-critical-red: rgb(231, 15, 15);
 }
 
 * {
