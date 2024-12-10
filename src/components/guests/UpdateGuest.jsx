@@ -27,21 +27,25 @@ function UpdateGuest() {
 
   const handleGuestUpdate = async (data) => {
     let processedData;
-    if (selectOption !== null) {
-      processedData = processData(
-        data,
-        selectOption,
-        id,
-        currProject.projectId
-      );
-    } else {
+    console.log(selectOption);
+
+    if (selectOption === null) {
       setSelectionError(true);
+      return;
     }
+
+    processedData = processData(data, selectOption, id, currProject.projectId);
+    console.log(processedData);
 
     try {
       setIsLoading(true);
-      const resp = handleGuestHTTPRequest(null, "PUT", "PUT", processedData);
-      setModalComponentType(null);
+      console.log("here");
+      const resp = await handleGuestHTTPRequest(
+        null,
+        "PUT",
+        "PUT",
+        processedData
+      );
 
       const updatedProjects = processUpdatedPermissions(
         resp,
@@ -50,6 +54,7 @@ function UpdateGuest() {
       );
 
       setOwnedProjects(updatedProjects);
+      setModalComponentType(null);
     } catch (e) {
       setIsLoading(false);
       setHttpError(
@@ -85,6 +90,7 @@ function UpdateGuest() {
         handleGuestSubmit={handleGuestUpdate}
         setSelectionError={setSelectionError}
         selectionError={selectionError}
+        setSelectOption={setSelectOption}
       />
     </Card>
   );

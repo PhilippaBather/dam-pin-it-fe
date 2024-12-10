@@ -3,23 +3,23 @@ import Select from "react-select";
 import {
   colourStyles,
   priorityOptions,
+  selectPriorityOption,
 } from "../guests/guest-permissions-dropdown-settings";
 import { useUIContext } from "../../context/ui-context";
 import { errorEmailInv } from "../../constants/error-messages.js";
 import FormActions from "./FormActions.jsx";
+import { useProjectContext } from "../../context/project-context.jsx";
 
 function FormGuest({
   guest = null,
   handleGuestSubmit,
   selectionError,
   setSelectionError,
+  setSelectOption,
 }) {
-  const {
-    modalComponentType,
-    setModalComponentType,
-    selectOption,
-    setSelectOption,
-  } = useUIContext();
+  const { modalComponentType, setModalComponentType, selectOption } =
+    useUIContext();
+  const { selectedGuest } = useProjectContext();
 
   const {
     register,
@@ -37,8 +37,8 @@ function FormGuest({
   };
 
   const handleChange = (selectedOption) => {
-    console.log(guest.permissions);
-    setSelectOption(selectedOption);
+    console.log(selectedOption);
+    setSelectOption(selectedOption.label);
     setSelectionError(null);
   };
 
@@ -83,10 +83,10 @@ function FormGuest({
         <Select
           id="proj-priority"
           defaultValue={
-            modalComponentType !== "INVITE_GUEST" &&
-            modalComponentType !== "UPDATE_GUEST"
-              ? priorityOptions[1]
-              : priorityOptions[selectOption]
+            modalComponentType !== "UPDATE_GUEST" ||
+            modalComponentType != "INVITE_GUEST"
+              ? priorityOptions[0]
+              : priorityOptions[selectPriorityOption[selectedGuest.permissions]]
           }
           styles={colourStyles}
           options={priorityOptions}

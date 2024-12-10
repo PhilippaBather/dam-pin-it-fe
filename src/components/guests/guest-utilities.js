@@ -1,29 +1,22 @@
 import { cloneDeep } from "lodash";
 import { convertToPermissionsEnum } from "./guest-permissions-dropdown-settings";
-import { getAuthToken } from "../../auth/auth-functions";
 
 export const processData = (data, selectOption, id, pid) => {
   const body = data.msg.replace("Include an optional message...", "");
 
-  return {
+  const modData = {
     email: data.email,
-    permissions: convertToPermissionsEnum[selectOption.value],
+    permissions: convertToPermissionsEnum[selectOption],
     userId: id,
     projectId: pid,
     body: body.length > 0 ? body : "",
   };
+
+  return modData;
 };
 
 export const processOwnedGuestProjects = (data, ownedProjects, pid) => {
   const clonedOwnedProjects = cloneDeep(ownedProjects);
-
-  // get object index
-  // let index = null;
-  // for (const [k, v] of Object.entries(clonedOwnedProjects)) {
-  //   if (v.projectId === pid) index = k;
-  // }
-
-  // if (index === null) return;
 
   const index = getObjectIndex(clonedOwnedProjects, pid);
 
@@ -59,21 +52,15 @@ const getObjectIndex = (clonedOwnedProjects, pid) => {
   return index;
 };
 
-export const handleUpdateRequest = async (data) => {
-  const token = getAuthToken();
-  try {
-    const resp = await fetch(`http://localhost:3000/guests/owned-projects`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Origin: origin,
-        Authorizaton: "Bearer " + token,
-      },
-      body: JSON.stringify(data),
-    });
-    const respData = await resp.json();
-    return respData;
-  } catch (e) {
-    console.error(e);
-  }
+export const updateGuestListOnDeletion = (email, pid, ownedProjects) => {
+  const clonedOwnedProjects = cloneDeep(ownedProjects);
+
+  const index = getObjectIndex(clonedOwnedProjects, pid);
+
+  // return data with new guest added
+  const guestList = clonedOwnedProjects[index].guestList;
+  const modGuestList = guestList.filter((g) => g.email !== email);
+
+  clonedOwnedProjects[index].guestList = modGuestList;
+  return clonedOwnedProjects;
 };
