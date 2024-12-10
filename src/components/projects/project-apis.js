@@ -15,7 +15,7 @@ const getURL = (ids, action) => {
     case "DELETE":
       return `${BASE_URL}project/${pid}`;
     case "DELETE_SHARED":
-      return `guests/${id}/shared-projects/${pid}`;
+      return `${BASE_URL}guests/${id}/shared-projects/${pid}`;
     default:
       return null;
   }
@@ -29,6 +29,7 @@ export const handleProjectHTTPRequest = async (
 ) => {
   const token = getAuthToken();
   const url = getURL(ids, action);
+  console.log(url);
 
   data = data ? JSON.stringify(data) : null;
 

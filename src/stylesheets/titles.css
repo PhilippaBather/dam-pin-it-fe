@@ -34,3 +34,9 @@
   font-family: "Slackside One", cursive;
   color: white;
 }
+
+.msg-alert {
+  display: block;
+  text-align: center;
+  color: var(--theme-orange);
+}

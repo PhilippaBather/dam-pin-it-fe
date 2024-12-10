@@ -107,11 +107,12 @@
 .form-link {
   text-decoration: none;
   text-align: center;
-  font-size: 0.8rem;
-  color: var(--theme-pink);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--theme-pastel-green);
 
   &:hover {
-    color: var(--theme-pastel-green);
+    color: var(--theme-pink);
   }
 }
 

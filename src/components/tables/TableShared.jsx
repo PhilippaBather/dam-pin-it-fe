@@ -92,9 +92,7 @@ function TableShared() {
                 <button
                   className="card-btn table-btn"
                   type="button"
-                  onClick={(project) =>
-                    handleLeaveSharedProject(project.projectTitle)
-                  }
+                  onClick={() => handleLeaveSharedProject(project)}
                 >
                   Remove
                 </button>

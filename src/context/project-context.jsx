@@ -13,7 +13,7 @@ export const ProjectContextProvider = ({ children }) => {
   const [projectsState, setProjectsState] = useState([]);
   const [currProject, setCurrProject] = useState({});
   const [selectedGuest, setSelectedGuest] = useState({});
-  const [ownedProjects, setOwnedProjects] = useState([]);
+  const [ownedProjects, setOwnedProjects] = useState(null);
   const [selectedOwnedProject, setSelectedOwnedProject] = useState({});
   const [sharedProjects, setSharedProjects] = useState([]);
   const [selectedSharedProject, setSelectedSharedProject] = useState({});

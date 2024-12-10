@@ -49,6 +49,7 @@ function TableOwner() {
           null
         );
         setOwnedProjects(projects);
+        setIsLoading(false);
       } catch (e) {
         setIsLoading(false);
         setHttpError(
@@ -79,7 +80,7 @@ function TableOwner() {
           <div className="table-row__head">Invite</div>
         </div>
         <div>
-          {ownedProjects &&
+          {ownedProjects !== null &&
             ownedProjects?.map((project) => (
               <div key={project?.projectId} className="table-row__items">
                 <div className="table-row__body item-title">
@@ -178,10 +179,10 @@ function TableOwner() {
               </div>
             ))}
           {httpError && <span className="table-msg__error">{httpError}</span>}
-          {!httpError && !isLoading && ownedProjects.length == 0 && (
+          {!httpError && !isLoading && ownedProjects?.length === 0 && (
             <p className="table-msg__not-found">No owned projects found.</p>
           )}
-          {isLoading && ownedProjects.length == 0 && (
+          {isLoading && !httpError && (
             <LoadingDots dotColor="rgba(202, 247, 170, 0.5)" />
           )}
         </div>
