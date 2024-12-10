@@ -44,7 +44,6 @@ export const handleManagementHTTPRequest = async (
 
 const handleErrors = async (resp) => {
   const error = await resp.json();
-  console.log(error);
 
   if (!resp.ok) {
     if (resp.status === 401) {

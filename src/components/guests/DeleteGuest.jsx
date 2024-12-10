@@ -8,7 +8,6 @@ import { handleGuestHTTPRequest } from "./guest-apis";
 import { updateGuestListOnDeletion } from "./guest-utilities.js";
 import {
   FAILED_FETCH,
-  MALFORMED_REQUEST,
   UNDEFINED_PARAM,
   UNEXPECTED_JSON,
 } from "../../api/api-constants.js";
@@ -31,37 +30,40 @@ function DeleteGuest() {
     e.preventDefault();
     try {
       setIsLoading(true);
-      const resp = await handleGuestHTTPRequest(
-        {
-          email: selectedGuest.email,
-          pid: selectedSharedProject.projectId,
-        },
+      await handleGuestHTTPRequest(
         "DELETE",
-        "DELETE_GUEST",
-        null
+
+        null,
+        `http://localhost:3000/guests/owned-projects/guest/${selectedGuest.email}/project/${selectedSharedProject.projectId}`
       );
 
-      setIsDeleted(resp.status === 204);
+      setIsDeleted(true);
 
-      // updated state
-      const updatedGuestList = updateGuestListOnDeletion(
-        selectedGuest.email,
-        selectedSharedProject.projectId,
-        ownedProjects
-      );
-      setOwnedProjects(updatedGuestList);
-      setModalComponentType(null);
+      updateGuestList();
     } catch (e) {
       setIsLoading(false);
-      setHttpError(
-        e.message === FAILED_FETCH
-          ? "Network error"
-          : e.message === UNEXPECTED_JSON || e.message.includes(UNDEFINED_PARAM)
-          ? MALFORMED_REQUEST
-          : e.message
-      );
+
+      if (
+        e.message === UNEXPECTED_JSON ||
+        e.message.includes(UNDEFINED_PARAM)
+      ) {
+        updateGuestList();
+        return;
+      }
+
+      setHttpError(e.message === FAILED_FETCH ? "Network error" : e.message);
     }
     setIsLoading(false);
+  };
+
+  const updateGuestList = () => {
+    const updatedGuestList = updateGuestListOnDeletion(
+      selectedGuest.email,
+      selectedSharedProject.projectId,
+      ownedProjects
+    );
+    setOwnedProjects(updatedGuestList);
+    setModalComponentType(null);
   };
 
   const handleCancel = () => {

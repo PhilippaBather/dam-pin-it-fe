@@ -29,9 +29,9 @@ function AddTask() {
     event.preventDefault();
 
     setDateValError(null); // reset
-    httpError(null);
+    setHttpError(null);
 
-    if (currProject.permissions !== "VIEWER") {
+    if (currProject.permissions === "VIEWER") {
       setHttpError("Insufficient Permissions");
       return;
     }

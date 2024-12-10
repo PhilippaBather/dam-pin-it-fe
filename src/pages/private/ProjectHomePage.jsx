@@ -63,15 +63,17 @@ function ProjectHomePage() {
       <main>
         <Sidebar isLoading={isLoading} httpError={httpError} />
         <h1 className="title-homepage">Project Home Page</h1>
-        <Card>
-          <button
-            type="button"
-            className={"card-btn"}
-            onClick={handleCreateProject}
-          >
-            <h2 className="title-create_project">Create a new project</h2>
-          </button>
-        </Card>
+        {modalComponentType === null && (
+          <Card>
+            <button
+              type="button"
+              className={"card-btn"}
+              onClick={handleCreateProject}
+            >
+              <h2 className="title-create_project">Create a new project</h2>
+            </button>
+          </Card>
+        )}
       </main>
     </>
   );

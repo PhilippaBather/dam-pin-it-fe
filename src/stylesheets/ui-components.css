@@ -44,16 +44,30 @@
   transform: translate(-50%, -47%);
   border: 1px solid var(--theme-pastel-green);
   background: linear-gradient(45deg, #78e49e 0%, #9e83f8 50%, #95efb8 75%);
+  background: linear-gradient(
+    45deg,
+    #59097e 10%,
+    var(--theme-pink-button) 20%,
+    #bb04e4 80%,
+    var(--theme-pink-button) 85%,
+    #59097e 90%
+  );
   border-radius: 10px;
   padding: 2rem;
   text-align: center;
 
   h1 {
-    color: var(--theme-pastel-green);
+    color: var(--duck-egg-white);
     font-size: 1.5rem;
   }
 
+  li {
+    color: var(--duck-egg-white);
+    padding: 1rem;
+  }
+
   p {
+    color: var(--duck-egg-white);
     font-size: 1.5rem;
   }
 
@@ -61,16 +75,17 @@
     width: 25%;
     margin: 0;
     padding: 0.3rem;
-    color: #5326e6;
     border: 1px solid #5326e6;
     background-color: #95efb8;
+    background-color: #5326e6;
+    color: var(--theme-pastel-green);
     border-radius: 10px;
     font-weight: 600;
 
     &:hover {
       border: 1px solid var(--theme-pastel-green);
-      background-color: #5326e6;
-      color: var(--theme-pastel-green);
+      color: #5326e6;
+      background-color: #95efb8;
     }
   }
 

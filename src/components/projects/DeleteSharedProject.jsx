@@ -5,9 +5,9 @@ import CloseForm from "../forms/CloseForm";
 import { useProjectContext } from "../../context/project-context";
 import { useUIContext } from "../../context/ui-context";
 import { handleProjectHTTPRequest } from "./project-apis";
+import { deleteSharedProject } from "./project-utilities.js";
 import {
   FAILED_FETCH,
-  MALFORMED_REQUEST,
   UNDEFINED_PARAM,
   UNEXPECTED_JSON,
 } from "../../api/api-constants.js";
@@ -16,28 +16,20 @@ function DeleteSharedProject() {
   const { id } = useParams();
   const [deleted, setDeleted] = useState(false);
   const [httpError, setHttpError] = useState(null);
-  const { selectedSharedProject } = useProjectContext();
+  const {
+    selectedSharedProject,
+    setSelectedSharedProject,
+    sharedProjects,
+    setSharedProjects,
+  } = useProjectContext();
   const { setModalComponentType } = useUIContext();
 
-  const alertMsg = `Are you sure you want to leave the shared project '${selectedSharedProject.projectTitle}'?`;
-  console.log(selectedSharedProject);
+  const alertMsg = `Are you sure you want to leave the shared project?`;
 
-  const handleDeleteSharedProject = async () => {
-    // const token = getAuthToken();
+  const handleDeleteSharedProject = async (e) => {
+    e.preventDefault();
 
     try {
-      // const resp = await fetch(
-      //   `http://localhost:3000/guests/${id}/shared-projects/${selectedSharedProject.projectId}`,
-      //   {
-      //     method: "DELETE",
-      //     headers: {
-      //       "Content-Type": "application/json",
-      //       Origin: origin,
-      //       Authorizaton: "Bearer " + token,
-      //     },
-      //   }
-      // );
-
       const isDeleted = await handleProjectHTTPRequest(
         { id, pid: selectedSharedProject.projectId },
         "DELETE",
@@ -46,18 +38,28 @@ function DeleteSharedProject() {
       );
 
       setDeleted(isDeleted);
-      setModalComponentType(null);
+      resetState();
     } catch (e) {
-      setHttpError(
-        e.message === FAILED_FETCH
-          ? "Network error"
-          : e.message === UNEXPECTED_JSON || e.message.includes(UNDEFINED_PARAM)
-          ? MALFORMED_REQUEST
-          : e.message
-      );
+      if (
+        e.message === UNEXPECTED_JSON ||
+        e.message.includes(UNDEFINED_PARAM)
+      ) {
+        resetState();
+      }
+
+      setHttpError(e.message === FAILED_FETCH ? "Network error" : e.message);
     }
   };
 
+  const resetState = () => {
+    deleteSharedProject(
+      sharedProjects,
+      setSharedProjects,
+      selectedSharedProject.projectId
+    );
+    setSelectedSharedProject(null);
+    setModalComponentType(null);
+  };
   const handleCancel = () => {
     setModalComponentType(null);
   };

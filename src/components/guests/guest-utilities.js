@@ -8,7 +8,7 @@ export const processData = (data, selectOption, id, pid) => {
     email: data.email,
     permissions: convertToPermissionsEnum[selectOption],
     userId: id,
-    projectId: pid,
+    projectId: pid.toString(),
     body: body.length > 0 ? body : "",
   };
 

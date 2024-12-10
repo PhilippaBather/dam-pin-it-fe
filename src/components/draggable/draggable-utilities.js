@@ -60,7 +60,6 @@ export const resetTaskOrderInColumn = (savedTask, tasks, col) => {
 
 export const resetTaskPositionOnTaskDeletion = (tasks, selectedTask, col) => {
   const clonedTasks = cloneDeep(tasks);
-  console.log(tasks);
   const filteredTask = clonedTasks[col].tasks
     .filter((task) => {
       return task.id !== selectedTask.id;

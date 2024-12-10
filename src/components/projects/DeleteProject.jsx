@@ -25,9 +25,11 @@ function DeleteProject() {
   const handleDeleteProject = async (e) => {
     e.preventDefault();
     setHttpError(null);
+
+    const url = window.location.href;
     if (
-      currProject.permissions === "VIEWER" ||
-      currProject.permissions !== "EDITOR_RW"
+      !url.includes("account-management") &&
+      currProject.permissions !== "OWNER"
     ) {
       setHttpError("Insufficient permissions.");
       return;

@@ -30,7 +30,6 @@ function TableOwner() {
   const route = `/projects-home/user/${id}/project/`;
 
   const handleClick = (guest = null, project, componentType) => {
-    console.log(project);
     setSelectedGuest(guest);
     setSelectedSharedProject(project); // TODO remove and replace w/ currProject state
     setCurrProject(project);

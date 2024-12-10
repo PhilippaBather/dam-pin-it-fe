@@ -16,9 +16,9 @@ function FormGuest({
   selectionError,
   setSelectionError,
   setSelectOption,
+  httpError,
 }) {
-  const { modalComponentType, setModalComponentType, selectOption } =
-    useUIContext();
+  const { modalComponentType, setModalComponentType } = useUIContext();
   const { selectedGuest } = useProjectContext();
 
   const {
@@ -37,7 +37,6 @@ function FormGuest({
   };
 
   const handleChange = (selectedOption) => {
-    console.log(selectedOption);
     setSelectOption(selectedOption.label);
     setSelectionError(null);
   };
@@ -48,14 +47,15 @@ function FormGuest({
     : "Update invited participant's project permissions.";
   let textareaMsg = !guest
     ? "Include an optional message "
-    : `Updating current permissions from ${guest.permissions} to ${
-        selectOption === null ? "..." : selectOption.label
-      }`;
+    : `Updating current permissions from ${guest.permissions} to ...`;
 
   return (
     <>
       <form className="form" onSubmit={handleSubmit(handleGuestSubmit)}>
         <h2 className="form-title">{formTitle}</h2>
+        <span className="error-msg__form-resp" role="alert">
+          {httpError}
+        </span>
         <p className="form-p">{formPara}</p>
         <label htmlFor="guest-email">Email</label>
         <input

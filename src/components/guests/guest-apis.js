@@ -1,30 +1,11 @@
-import { BASE_URL } from "../../api/api-constants";
+import { UNREG_GUEST } from "../../api/api-constants";
 import { getAuthToken } from "../../auth/auth-functions";
 
-const getURL = (email, pid, action) => {
-  switch (action) {
-    case "DELETE_GUEST":
-      return `${BASE_URL}guests/owned-projects/guest/${email}/project/${parseInt(
-        pid
-      )}`;
-    case "POST":
-      return `${BASE_URL}guests`;
-    case "PUT":
-      return `${BASE_URL}guests/owned-projects`;
-    default:
-      return;
-  }
-};
-
-export const handleGuestHTTPRequest = async (ids, reqMethod, action, data) => {
+export const handleGuestHTTPRequest = async (reqMethod, data, url) => {
   const token = getAuthToken();
-  console.log("here");
-  const { email = null, pid = null } = ids;
-  const url = getURL(email, pid, action);
-  console.log(url);
   data = data ? JSON.stringify(data) : null;
 
-  const resp = await fetch(`${url}`, {
+  const resp = await fetch(url, {
     method: reqMethod,
     headers: {
       "Content-Type": "application/json",
@@ -34,36 +15,23 @@ export const handleGuestHTTPRequest = async (ids, reqMethod, action, data) => {
     body: data,
   });
 
-  if (resp.status === 200 || resp.status === 201) {
-    return await resp.json();
-  } else if (resp.status === 204) {
-    return true;
+  const respData = await resp.json();
+
+  if (resp.status === 200 || resp.ok) {
+    return respData;
+  }
+
+  if (respData === null) {
+    return;
+  }
+
+  if (respData.code === "404") {
+    throw new Error(UNREG_GUEST);
+  }
+
+  if (respData.code === "500") {
+    throw new Error("Internal server error");
   } else {
-    await handleErrors(resp);
+    throw new Error(resp.message);
   }
-};
-
-const handleErrors = async (resp) => {
-  const error = await resp.json();
-
-  if (!resp.ok) {
-    if (resp.status === 401) {
-      console.log("here");
-      if (error.message.includes("Unexpected end of JSON input")) {
-        throw new Error("Malformed request");
-      }
-      throw new Error(error.message);
-    }
-
-    if (resp.status === 404) {
-      throw new Error(error.message);
-    }
-
-    if (resp.status === 500) {
-      throw new Error("Internal server error");
-    } else {
-      throw new Error(error.message);
-    }
-  }
-  return;
 };

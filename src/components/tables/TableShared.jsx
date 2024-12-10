@@ -52,7 +52,6 @@ function TableShared() {
         );
       }
       setIsLoading(false);
-      // const projects = await handleGetSharedProjects(id);
     };
     getSharedProjects();
   }, [id, setSharedProjects, setIsLoading, setHttpError]);
@@ -71,20 +70,20 @@ function TableShared() {
         </div>
         {sharedProjects &&
           sharedProjects.map((project) => (
-            <div key={project.projectId} className="table-row__items">
+            <div key={project?.projectId} className="table-row__items">
               <div className="table-row__body item-title">
                 <Link
                   className="table-row__link"
-                  to={route + project.projectId}
+                  to={route + project?.projectId}
                 >
-                  {project.projectTitle}
+                  {project?.projectTitle}
                 </Link>
               </div>
               <div className="table-row__body">
                 {project.permissions.replace("_", " ").toLowerCase()}
               </div>
-              <div className="table-row__body">{project.deadline}</div>
-              <div className="table-row__body">{`${project.ownerName} ${project.ownerSurname}`}</div>
+              <div className="table-row__body">{project?.deadline}</div>
+              <div className="table-row__body">{`${project?.ownerName} ${project?.ownerSurname}`}</div>
               <div className="table-row__body item-email">
                 {project.ownerEmail}
               </div>
