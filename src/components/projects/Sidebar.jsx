@@ -3,7 +3,7 @@ import { useProjectContext } from "../../context/project-context";
 import LoadingVortex from "../ui/spinners/LoadingVortex";
 import "../../stylesheets/sidebar.css";
 
-function Sidebar(isLoading) {
+function Sidebar({ isLoading, httpError }) {
   let { id } = useParams();
 
   const { projects } = useProjectContext();
@@ -14,6 +14,7 @@ function Sidebar(isLoading) {
       <h1>
         <span className={"sidebar-icon"}>&#128204;</span>Projects Menu
       </h1>
+      {httpError && <span className="error-msg__sidebar">{httpError}</span>}
       <div>
         {isLoading && projects.length === 0 && <LoadingVortex />}
         {!projects && <p>Looks like you&apos;ve got no projects.</p>}

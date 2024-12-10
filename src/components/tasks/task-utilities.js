@@ -1,10 +1,4 @@
-export const processNewTaskData = (
-  data,
-  selectedOption,
-  pid
-  //   setDateValError
-) => {
-  //   validateDate(data.deadline, setDateValError);
+export const processNewTaskData = (data, selectedOption, pid) => {
   return {
     title: data.title,
     description: data.description === "" ? "None" : data.description,

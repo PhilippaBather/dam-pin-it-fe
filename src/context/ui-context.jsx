@@ -8,12 +8,18 @@ export const UIContextProvider = ({ children }) => {
   const [columnClicked, setColumnClicked] = useState("");
   const [modalComponentType, setModalComponentType] = useState(null);
   const [selectOption, setSelectOption] = useState(null);
+  const [globalError, setGlobalError] = useState(null);
+  const [dashboardError, setDashboardError] = useState(false);
 
   const ctxtValue = {
     columnClicked,
+    dashboardError,
+    globalError,
     modalComponentType,
     selectOption,
     setColumnClicked,
+    setDashboardError,
+    setGlobalError,
     setModalComponentType,
     setSelectOption,
   };

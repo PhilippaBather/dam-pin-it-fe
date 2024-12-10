@@ -1,41 +1,54 @@
 import { useState } from "react";
 import Card from "../ui/Card";
 import CloseForm from "../forms/CloseForm";
-import { getAuthToken } from "../../auth/auth-functions";
+import LoadingDots from "../../components/ui/spinners/LoadingDots.jsx";
 import { useProjectContext } from "../../context/project-context";
 import { useUIContext } from "../../context/ui-context";
+import { handleGuestHTTPRequest } from "./guest-apis";
+import {
+  FAILED_FETCH,
+  MALFORMED_REQUEST,
+  UNDEFINED_PARAM,
+  UNEXPECTED_JSON,
+} from "../../api/api-constants.js";
 
 function DeleteGuest() {
   const [isDeleted, setIsDeleted] = useState(false);
+  const [httpError, setHttpError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const { selectedGuest, selectedSharedProject } = useProjectContext();
   const { setModalComponentType } = useUIContext();
 
   const alertMsg = `Are you sure you want to remove ${selectedGuest.email} from the shared project ${selectedSharedProject.projectTitle}?`;
 
   const handleDelete = async () => {
-    const token = getAuthToken();
-
     try {
-      const resp = await fetch(
-        `http://localhost:3000/guests/owned-projects/guest/${selectedGuest.email}/project/${selectedSharedProject.projectId}`,
+      setIsLoading(true);
+      const resp = await handleGuestHTTPRequest(
         {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-            Origin: origin,
-            Authorizaton: "Bearer " + token,
-          },
-        }
+          id: null,
+          pid: selectedSharedProject.projectId,
+        },
+        "DELETE",
+        "DELETE_OWNED_PROJECT",
+        null
       );
-
       setIsDeleted(resp.status === 204 ? true : false);
 
       if (resp.status === 204) {
         setModalComponentType(null);
       }
     } catch (e) {
-      console.error(e);
+      setIsLoading(false);
+      setHttpError(
+        e.message === FAILED_FETCH
+          ? "Network error"
+          : e.message === UNEXPECTED_JSON || e.message.includes(UNDEFINED_PARAM)
+          ? MALFORMED_REQUEST
+          : e.message
+      );
     }
+    setIsLoading(false);
   };
 
   const handleCancel = () => {
@@ -44,6 +57,8 @@ function DeleteGuest() {
 
   return (
     <Card>
+      {httpError && <span className="error-msg__form-resp">{httpError}</span>}
+      {isLoading && !httpError && <LoadingDots />}
       <CloseForm handleClose={handleCancel} />
       <form onSubmit={handleDelete}>
         <h1 className={"delete-modal_title"}>{alertMsg}</h1>

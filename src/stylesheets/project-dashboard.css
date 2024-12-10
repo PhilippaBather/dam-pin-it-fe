@@ -73,3 +73,12 @@
     cursor: pointer;
   }
 }
+
+.dashboard-error {
+  font-size: 3rem;
+  color: var(--crimson);
+  text-align: center;
+  margin-bottom: 0;
+  margin-left: 1rem;
+  width: 100%;
+}

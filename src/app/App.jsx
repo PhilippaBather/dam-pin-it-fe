@@ -21,6 +21,7 @@ const router = createBrowserRouter([
     element: <RootLayout />,
     errorElement: <ErrorPage />,
     loader: tokenLoader,
+    action: logoutAction,
     children: [
       {
         path: "/projects-home/user/:id",

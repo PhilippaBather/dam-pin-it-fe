@@ -5,16 +5,21 @@ import Card from "../../components/ui/Card";
 import FormActions from "../../components/forms/FormActions.jsx";
 import LoadingDots from "../../components/ui/spinners/LoadingDots.jsx";
 import { useProjectContext } from "../../context/project-context.jsx";
-import { handleHttpReq, postAuthData } from "../../api/http-requests.js";
 import { useUIContext } from "../../context/ui-context.jsx";
+import { handleAuthHTTPRequest } from "../../auth/auth-apis.js";
+import ROUTES from "../routes/routes.js";
 import {
   errorEmailReq as emailReq,
   errorPasswordRequired as passReq,
 } from "../../constants/error-messages.js";
+import {
+  FAILED_FETCH,
+  MALFORMED_REQUEST,
+  UNDEFINED_PARAM,
+  UNEXPECTED_JSON,
+} from "../../api/api-constants.js";
 import "../../stylesheets/form.css";
 import "../../stylesheets/ui-components.css";
-import { loginEndpoint, userDataEndpoint } from "../../api/endpoints.js";
-import ROUTES from "../routes/routes.js";
 
 function LoginPage() {
   const {
@@ -23,7 +28,7 @@ function LoginPage() {
     formState: { errors },
   } = useForm();
 
-  const [error, setError] = useState(null);
+  const [httpError, setHttpError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const { setIsAlert, setProjectNotifications } = useProjectContext();
   const { setModalComponentType } = useUIContext();
@@ -33,8 +38,8 @@ function LoginPage() {
     event.preventDefault();
     setIsLoading(true);
     try {
-      await postAuthData(loginEndpoint, data, "LOGIN");
-      const user = await handleHttpReq(userDataEndpoint, data, null, "POST");
+      await handleAuthHTTPRequest({ id: null }, "POST", "LOGIN", data);
+      const user = await handleAuthHTTPRequest(null, "POST", "POST_USER", data);
 
       if (user.projectNotifications.length > 0) {
         setIsAlert(true);
@@ -46,7 +51,14 @@ function LoginPage() {
       const route = `/projects-home/user/${user.id}`;
       navigate(route);
     } catch (e) {
-      setError(e.message);
+      setHttpError(
+        e.message === FAILED_FETCH
+          ? "Network error"
+          : e.message === UNEXPECTED_JSON || e.message.includes(UNDEFINED_PARAM)
+          ? MALFORMED_REQUEST
+          : e.message
+      );
+      setIsLoading(false);
     }
   };
 
@@ -54,12 +66,14 @@ function LoginPage() {
     <Card>
       <form className="form" onSubmit={handleSubmit(handleLogin)}>
         <h1 className="form-title">Login</h1>
-        {error && (
+        {httpError && (
           <span className="error-msg__form-resp" role="alert">
-            {error}
+            {httpError}
           </span>
         )}
-        {isLoading && <LoadingDots dotColor="rgb(202, 247, 170)" size="45" />}
+        {!httpError && isLoading && (
+          <LoadingDots dotColor="rgb(202, 247, 170)" size="45" />
+        )}
         <label htmlFor="login-email">Email:</label>
         <input
           id="login-email"

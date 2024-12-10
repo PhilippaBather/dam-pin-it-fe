@@ -41,7 +41,6 @@ export async function checkAuthLoader() {
   if (!token) {
     return redirect("/"); // TODO: is this the route I want?
   }
-
   // TODO: check user loaded into context
 
   // loaders must return a value

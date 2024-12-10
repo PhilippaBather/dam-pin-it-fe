@@ -7,14 +7,20 @@ function FormActions({
   isLink = false,
   link = null,
   btn2Type = "button",
+  httpError,
 }) {
   return (
     <div className="form-btn__container">
-      <button className="form-btn" type="submit">
+      <button className="form-btn" hidden={httpError} type="submit">
         {btnLabel1}
       </button>
       {!isLink && (
-        <button className="form-btn" type={btn2Type} onClick={handleClick}>
+        <button
+          className="form-btn"
+          hidden={httpError}
+          type={btn2Type}
+          onClick={handleClick}
+        >
           {btnLabel2}
         </button>
       )}

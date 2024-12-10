@@ -12,9 +12,14 @@ function FormProject({
   btnLabels,
   handleSubmitProject,
   deadlineValError,
-  httpReqError,
+  httpError,
 }) {
   const { currProject } = useProjectContext();
+  const deadlineError = "Project deadline cannot be in the past";
+
+  const [btnLabel1, btnLabel2, btnType] = btnLabels;
+  const { modalComponentType, setModalComponentType } = useUIContext();
+
   const {
     register,
     handleSubmit,
@@ -23,21 +28,17 @@ function FormProject({
     formState: { errors },
   } = useForm({
     defaultValues: {
-      title: currProject.title,
-      description: currProject.description,
-      deadline: currProject.deadline,
+      title: modalComponentType === "EDIT_PROJECT" ? currProject.title : "",
+      description:
+        modalComponentType === "EDIT_PROJECT" ? currProject.description : "",
+      deadline:
+        modalComponentType === "EDIT_PROJECT" ? currProject.deadline : "",
     },
   });
 
-  const { setModalComponentType } = useUIContext();
-
-  const [btnLabel1, btnLabel2, btnType] = btnLabels;
-
-  const deadlineError = "Project deadline cannot be in the past";
-
   const handleClose = () => {
-    clearErrors();
     reset({ title: "", description: "", deadline: "" });
+    clearErrors();
     setModalComponentType(null);
   };
 
@@ -48,18 +49,23 @@ function FormProject({
     }
   };
 
+  const title = httpError ? "Something went wrong..." : "Task Details";
+
   return (
     <>
       <CloseForm handleClose={handleClose} />
       <form className="form" onSubmit={handleSubmit(handleSubmitProject)}>
-        <h2 className="form-title">Project Details</h2>
-        {httpReqError && (
+        <h2 className="form-title">{title}</h2>
+        {httpError && (
           <span className="error-msg__form-resp" role="alert">
-            {httpReqError}
+            {httpError}
           </span>
         )}
-        <label htmlFor="proj-title">Title</label>
+        <label hidden={httpError} htmlFor="proj-title">
+          Title
+        </label>
         <input
+          hidden={httpError}
           id="proj-title"
           type="text"
           {...register("title", {
@@ -72,14 +78,20 @@ function FormProject({
             {titleReq}
           </span>
         )}
-        <label htmlFor="proj-description">Description</label>
+        <label hidden={httpError} htmlFor="proj-description">
+          Description
+        </label>
         <input
+          hidden={httpError}
           id="proj-description"
           type="text"
           {...register("description", { required: false })}
         />
-        <label htmlFor="proj-deadline">Deadline</label>
+        <label hidden={httpError} htmlFor="proj-deadline">
+          Deadline
+        </label>
         <input
+          hidden={httpError}
           id="proj-deadline"
           type="date"
           {...register("deadline", {
@@ -97,6 +109,7 @@ function FormProject({
           </span>
         )}
         <FormActions
+          httpError={httpError}
           btnLabel1={btnLabel1}
           btnLabel2={btnLabel2}
           btn2Type={btnType}

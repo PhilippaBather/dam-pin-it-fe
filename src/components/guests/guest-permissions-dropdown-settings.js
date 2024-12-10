@@ -7,12 +7,12 @@ export const priorityOptions = [
   { value: "4", label: "Owner", color: "rgb(231, 15, 15)" },
 ];
 
-// export const selectPriorityOption = {
-//   VIEWER: 2,
-//   EDITOR_RW: 3,
-//   EDITOR_RWD: 4,"#b2b200"
-//   OWNER: 5,
-// };
+export const selectPriorityOption = {
+  VIEWER: 2,
+  EDITOR_RW: 3,
+  EDITOR_RWD: 4,
+  OWNER: 5,
+};
 
 export const convertToPermissionsEnum = {
   1: "VIEWER",

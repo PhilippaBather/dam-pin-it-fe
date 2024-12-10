@@ -99,3 +99,11 @@ button {
 ul {
   list-style-type: none;
 }
+
+.error-msg__generic {
+  display: block;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--theme-orange);
+  text-align: center;
+}
