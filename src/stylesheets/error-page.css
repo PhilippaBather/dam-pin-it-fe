@@ -1,0 +1,48 @@
+.background-error {
+  position: fixed;
+  z-index: 5;
+  height: 100vh;
+  width: 100vw;
+  background: url(../src/assets/max-chen-lud4OaUCP4Q-unsplash.jpg) 25% 75% /
+    cover no-repeat;
+}
+
+.error-title {
+  color: white;
+  font-family: "Source Code Pro", monospace;
+  font-size: 2rem;
+  text-align: center;
+}
+
+.error-para {
+  text-align: center;
+  font-size: 1rem;
+  font-family: "Source Code Pro", monospace;
+  color: var(--theme-orange);
+}
+
+.error-para__link {
+  text-align: center;
+}
+
+.error-link {
+  font-family: "Slackside One", cursive;
+  text-align: center;
+  font-size: 2.5rem;
+  text-decoration: none;
+  font-weight: 600;
+  color: var(--theme-orange);
+  color: white;
+}
+
+.background-attribution {
+  color: white;
+  color: var(--crimson);
+  font-size: 0.7rem;
+  text-align: center;
+
+  a {
+    text-decoration: none;
+    color: var(--crimson);
+  }
+}

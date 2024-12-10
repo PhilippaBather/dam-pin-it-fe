@@ -1,0 +1,57 @@
+.sidebar_container {
+  background-color: black;
+  position: fixed;
+  z-index: 15;
+  top: 15%;
+  left: 2%;
+  height: 78%;
+  border: 1px solid var(--theme-pink);
+  border-radius: 5px;
+  background-color: white;
+  padding: 0.5rem 1rem;
+  font-size: 0.85rem;
+  overflow-y: scroll;
+  scrollbar-width: thin;
+  scrollbar-color: var(--theme-pastel-green) var(--theme-pink);
+}
+
+.sidebar-icon {
+  width: 25%;
+  margin: 0 auto;
+  margin: 1rem 0 1rem 0;
+  padding: 0.25rem;
+  text-align: center;
+  border-radius: 10px;
+  color: black;
+  font-weight: 700;
+
+  &:hover {
+    background-color: var(--theme-pastel-green);
+    font-weight: 800;
+    cursor: pointer;
+  }
+}
+
+.menu-items {
+  list-style-type: none;
+  margin-block-start: 0;
+  padding-inline-start: 0.5rem;
+}
+
+.menu-items_item {
+  margin: 0.5rem;
+}
+
+.menu-items_item-link {
+  text-decoration: none;
+  color: var(--theme-pink);
+  font-weight: 600;
+}
+
+.error-msg__sidebar {
+  font-weight: 700;
+  font-size: 1.3rem;
+  color: var(--crimson);
+  text-shadow: 5px 5px 8px #ccc;
+  overflow-wrap: break-word;
+}

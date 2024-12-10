@@ -1,0 +1,118 @@
+.dashboard-header__management {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 5rem 1rem 0 1rem;
+}
+
+.section-table {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2rem;
+}
+
+.section-table__shared {
+  margin-bottom: 7rem;
+}
+
+.table-title {
+  color: var(--theme-green-button);
+  text-align: center;
+}
+
+.table-container__head {
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  align-items: left;
+}
+
+.table-row__head,
+.table-row__body {
+  flex: 1;
+  overflow-wrap: break-word;
+  color: var(--crimson);
+}
+
+.table-row__head {
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.table-row__body {
+  border-bottom: 1px solid var(--theme-green-button);
+
+  li {
+    margin-bottom: 1rem;
+    height: 1.2rem;
+  }
+}
+
+.table-row__body,
+.table-row__link {
+  font-size: 0.75rem;
+  color: var(--theme-orange-button);
+  margin: 1rem 0rem;
+}
+
+.table-row__link {
+  text-decoration: none;
+}
+
+.table-row__items {
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  align-items: stretch;
+}
+
+.head-title,
+.head-guests,
+.head-email,
+.item-title,
+.item-email {
+  flex-grow: 2;
+}
+
+ul {
+  margin-block: 0;
+  padding-inline-start: 0;
+}
+
+.table-btn {
+  width: 39%;
+  font-size: 0.7rem;
+  font-weight: 600;
+  background: linear-gradient(45deg, #78e49e 0%, #9e83f8 50%, #95efb8 75%);
+  margin: 0.1rem;
+  padding: 0.05rem;
+  color: #5326e6;
+  border: 1px solid #5326e6;
+  background-color: #95efb8;
+  border-radius: 10px;
+  font-weight: 600;
+  margin-bottom: 0.8rem;
+
+  &:hover {
+    border: 1px solid var(--theme-pastel-green);
+    background-color: #5326e6;
+    color: rgba(0, 0, 0, 0.8);
+  }
+}
+
+.table-msg__not-found {
+  text-align: center;
+  color: var(--theme-orange-button);
+}
+
+.table-msg__error {
+  display: block;
+  font-family: "Source Code Pro", monospace;
+  padding: 2rem;
+  font-size: 2rem;
+  font-weight: 800;
+  text-align: center;
+  color: var(--theme-orange-button);
+}

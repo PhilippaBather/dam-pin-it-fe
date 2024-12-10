@@ -1,0 +1,73 @@
+.root-header {
+  background: linear-gradient(
+    90deg,
+    var(--dull-black 0%),
+    var(--grey-black 70%),
+    var(--pitch-black 100%)
+  );
+
+  position: fixed;
+  z-index: 10;
+  width: 100%;
+  top: 0%;
+  left: 0%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  color: var(--theme-pink);
+  border-bottom: 1px solid var(--theme-pastel-green);
+  background: linear-gradient(
+    rgba(30, 30, 30),
+    rgba(20, 20, 20),
+    rgba(30, 30, 30)
+  );
+
+  .header-title {
+    flex-grow: 2;
+    margin: 0;
+    margin-left: 0.5rem;
+    font-family: "Slackside One", cursive;
+    font-size: 3rem;
+    color: var(--theme-pink);
+    text-decoration: none;
+  }
+
+  .nav-list {
+    display: flex;
+    flex-direction: row;
+    list-style-type: none;
+    align-items: center;
+    padding: 0;
+
+    .nav-list__item,
+    .nav-list__signout {
+      font-size: 0.9rem;
+      padding: 0;
+      margin: 0;
+      flex-grow: 1;
+      margin: 0 0.5rem 0 0;
+    }
+
+    .nav-list__link,
+    .nav-list__link-active,
+    .nav-list__signout-btn {
+      background: transparent;
+      border: none;
+      text-decoration: none;
+      color: var(--theme-pink);
+      font-weight: 600;
+
+      &:hover {
+        color: var(--theme-pastel-green);
+        text-decoration: none;
+        cursor: grab;
+      }
+    }
+
+    .nav-list__link-active {
+      color: var(--theme-pastel-green);
+      text-decoration: none;
+    }
+  }
+}

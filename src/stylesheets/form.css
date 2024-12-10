@@ -1,0 +1,146 @@
+.form {
+  display: flex;
+  flex-direction: column;
+
+  label,
+  input,
+  textarea {
+    margin-top: 0.2rem;
+    margin-bottom: 0.3rem;
+  }
+
+  label {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--theme-pink);
+  }
+
+  input,
+  select,
+  textarea {
+    border-radius: 5px;
+    border: 1px solid var(--light-grey);
+    padding: 0.2rem;
+
+    &:focus {
+      outline: none;
+      background-color: var(--theme-green-button);
+      border: 2px solid var(--theme-pink-button);
+      border: 2px solid var(--theme-orange-button);
+    }
+  }
+
+  .form-title,
+  .form-p {
+    font-size: 2rem;
+    text-align: center;
+    font-family: "Slackside One", cursive;
+    color: var(--theme-pink);
+    margin: 0.5rem 0.3rem;
+  }
+
+  .form-p {
+    font-size: 1.3rem;
+  }
+
+  .error-msg__form,
+  .error-msg__form-resp {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--theme-orange);
+  }
+
+  .error-msg__form-resp {
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 800;
+    padding: 1rem;
+  }
+}
+
+.login-redirects {
+  text-align: center;
+
+  a {
+    text-decoration: none;
+
+    &:hover,
+    &:active {
+      font-weight: 600;
+      text-decoration: underline;
+    }
+  }
+}
+
+.form-btn__container {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.form-btn {
+  width: 25%;
+  margin: 0 auto;
+  margin: 1rem 0 1rem 0;
+  padding: 0.25rem;
+  text-align: center;
+  border: 1px solid var(--theme-pink);
+  background-color: var(--theme-pink);
+  border-radius: 10px;
+  color: black;
+  font-weight: 700;
+
+  .form-btn_link {
+    text-decoration: none;
+    color: black;
+    width: 25%;
+  }
+
+  &:hover {
+    background-color: var(--theme-pastel-green);
+    border: none;
+    font-weight: 800;
+    cursor: pointer;
+  }
+}
+
+.form-link {
+  text-decoration: none;
+  text-align: center;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--theme-pastel-green);
+
+  &:hover {
+    color: var(--theme-pink);
+  }
+}
+
+.form-btn_another-project {
+  width: 50%;
+}
+
+.form-btn__container-close {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+
+  .form-btn {
+    width: 15%;
+    margin-bottom: 0;
+  }
+}
+
+/* TASKS */
+
+/* for previously created selected task */
+.form-input__select-task {
+  padding: 0.75rem;
+  &::placeholder {
+    color: var(--crimson);
+    font-size: 1.3rem;
+    font-weight: 900;
+    letter-spacing: 2px;
+    text-align: center;
+  }
+}

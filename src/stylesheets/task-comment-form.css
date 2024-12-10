@@ -1,0 +1,78 @@
+.comment-title {
+  font-family: "Slackside One", cursive;
+  font-size: 1.5rem;
+  color: var(--theme-pink);
+  text-align: center;
+}
+
+.comment-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.comment-textarea {
+  font-weight: 600;
+  width: 90%;
+  height: 20vh;
+  background-color: rgb(200, 248, 248);
+  border-radius: 3%;
+  padding: 1rem;
+  overflow-y: scroll;
+  scrollbar-width: thin;
+  &:focus {
+    outline: none;
+    background-color: var(--theme-green-button);
+    border: 2px solid var(--theme-orange-button);
+    background: linear-gradient(
+      45deg,
+      #ece6ff 0%,
+      var(--theme-pink-button) 20%,
+      #ece6ff 80%,
+      var(--theme-pink-button) 95%
+    );
+  }
+}
+
+.btn-container__comments,
+.btn-container {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: baseline;
+  gap: 2rem;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.btn-container__comments {
+  justify-content: left;
+}
+
+.comment-btn__add,
+.comment-btn {
+  margin: 0 auto;
+  margin: 1rem 0 1rem 0;
+  padding: 0.1rem;
+  text-align: center;
+  border: 1px solid var(--theme-pink);
+  background-color: var(--theme-pink);
+  border-radius: 10px;
+  color: black;
+  font-weight: 700;
+  font-size: 0.7rem;
+
+  &:hover {
+    background-color: var(--theme-pastel-green);
+    border: none;
+    font-weight: 800;
+    cursor: pointer;
+  }
+}
+.comment-btn {
+  width: 10%;
+}
+
+.comment-btn__add {
+  width: 15%;
+}

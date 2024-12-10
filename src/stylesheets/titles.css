@@ -1,0 +1,42 @@
+.title-homepage {
+  margin-top: 7rem;
+}
+
+.title-page,
+.title-homepage {
+  font-family: "Slackside One", cursive;
+  font-size: 3rem;
+  color: var(--theme-pink);
+  text-align: center;
+  margin-bottom: 0;
+  margin-left: 1rem;
+}
+
+.title-page {
+  margin-bottom: 0.8rem;
+}
+
+.para-title {
+  margin: 0rem 0 0.5rem 2rem;
+  font-size: 0.85rem;
+  font-weight: 400;
+  color: var(--bright-pink);
+}
+
+.para-info {
+  font-weight: 500;
+  font-family: "Slackside One", cursive;
+  font-size: 1rem;
+}
+
+.title-create_project {
+  font-size: 1.5rem;
+  font-family: "Slackside One", cursive;
+  color: white;
+}
+
+.msg-alert {
+  display: block;
+  text-align: center;
+  color: var(--theme-orange);
+}
