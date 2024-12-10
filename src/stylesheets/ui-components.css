@@ -1,6 +1,7 @@
 /** CARD **/
 
 .card,
+.card-task,
 .card-strong {
   position: fixed;
   z-index: 15;
@@ -20,6 +21,14 @@
     background-color: var(--theme-pink);
     border-radius: 10px;
   }
+}
+
+.card-task {
+  height: 65%;
+  width: 50%;
+  overflow-y: scroll;
+  scrollbar-width: thin;
+  scrollbar-color: var(--theme-pastel-green) var(--theme-pink);
 }
 
 .card-strong {
