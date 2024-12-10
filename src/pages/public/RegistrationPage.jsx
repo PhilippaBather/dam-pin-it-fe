@@ -36,6 +36,7 @@ function RegistrationPage() {
 
   const handleRegistration = async (data, event) => {
     event.preventDefault();
+
     const parsedData = {
       forename: data.forename,
       surname: data.surname,
@@ -88,7 +89,7 @@ function RegistrationPage() {
           </span>
         )}
         {errors.firstname?.type === "minLength" && (
-          <span className="error-msg__form__form" role="alert">
+          <span className="error-msg__form" role="alert">
             {firstInv}
           </span>
         )}
@@ -108,11 +109,13 @@ function RegistrationPage() {
           </span>
         )}
         {errors.surname?.type === "minLength" && (
-          <span role="alert">{surnInv}</span>
+          <span className="error-msg__form" role="alert">
+            {surnInv}
+          </span>
         )}
         <label htmlFor="reg-email">Email:</label>
         <input
-          id="reg-email"
+          id="reg_email"
           type="email"
           {...register("email", {
             required: "required",
@@ -139,6 +142,11 @@ function RegistrationPage() {
           })}
           aria-invalid={errors.emailConfirmation ? "true" : "false"}
         />
+        {watch("email") !== watch("emailConfirmation") && (
+          <span className="error-msg__form" role="alert">
+            {emailInv}
+          </span>
+        )}
         {errors.emailConfirmation && (
           <span className="error-msg__form" role="alert">
             {emailConfInv}
