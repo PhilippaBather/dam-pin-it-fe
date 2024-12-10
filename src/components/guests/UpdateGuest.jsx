@@ -13,6 +13,7 @@ import {
   MALFORMED_REQUEST,
   UNDEFINED_PARAM,
   UNEXPECTED_JSON,
+  UNREG_GUEST,
 } from "../../api/api-constants.js";
 
 function UpdateGuest() {
@@ -27,7 +28,7 @@ function UpdateGuest() {
 
   const handleGuestUpdate = async (data) => {
     let processedData;
-    console.log(selectOption);
+    setHttpError(null);
 
     if (selectOption === null) {
       setSelectionError(true);
@@ -39,12 +40,10 @@ function UpdateGuest() {
 
     try {
       setIsLoading(true);
-      console.log("here");
       const resp = await handleGuestHTTPRequest(
-        null,
         "PUT",
-        "PUT",
-        processedData
+        processedData,
+        "http://localhost:3000/guests/owned-projects"
       );
 
       const updatedProjects = processUpdatedPermissions(
@@ -56,21 +55,24 @@ function UpdateGuest() {
       setOwnedProjects(updatedProjects);
       setModalComponentType(null);
     } catch (e) {
+      console.log(e.message);
       setIsLoading(false);
       setHttpError(
         e.message === FAILED_FETCH
           ? "Network error"
           : e.message === UNEXPECTED_JSON || e.message.includes(UNDEFINED_PARAM)
           ? MALFORMED_REQUEST
+          : e.message.includes("User not found")
+          ? UNREG_GUEST
           : e.message
       );
     }
 
+    setIsLoading(false);
     reset();
   };
 
   const reset = () => {
-    setHttpError(null);
     setIsLoading(false);
     setSelectionError(false);
     setSelectOption(null);
@@ -91,6 +93,7 @@ function UpdateGuest() {
         setSelectionError={setSelectionError}
         selectionError={selectionError}
         setSelectOption={setSelectOption}
+        httpError={httpError}
       />
     </Card>
   );

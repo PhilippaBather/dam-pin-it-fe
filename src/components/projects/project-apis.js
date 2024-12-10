@@ -11,9 +11,9 @@ const getURL = (ids, action) => {
     case "POST":
       return `${BASE_URL}projects/${id}`;
     case "PUT":
-      return `${BASE_URL}project/${pid}`;
+      return `${BASE_URL}project/${pid}/user/${id}`;
     case "DELETE":
-      return `${BASE_URL}project/${pid}`;
+      return `${BASE_URL}project/${pid}/user/${id}`;
     case "DELETE_SHARED":
       return `${BASE_URL}guests/${id}/shared-projects/${pid}`;
     default:

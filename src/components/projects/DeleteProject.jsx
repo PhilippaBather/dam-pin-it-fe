@@ -24,6 +24,16 @@ function DeleteProject() {
 
   const handleDeleteProject = async (e) => {
     e.preventDefault();
+    setHttpError(null);
+
+    const url = window.location.href;
+    if (
+      !url.includes("account-management") &&
+      currProject.permissions !== "OWNER"
+    ) {
+      setHttpError("Insufficient permissions.");
+      return;
+    }
     try {
       const isDeleted = await handleProjectHTTPRequest(
         { id: id, pid: currProject.projectId },

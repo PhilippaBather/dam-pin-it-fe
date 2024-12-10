@@ -104,30 +104,37 @@ function ProjectDashboard() {
                 Invite &#128389;
               </button>
             )}
-            <button
-              hidden={httpError}
-              type="button"
-              className="dashboard-btn"
-              onClick={() => handleClick("ADD_TASK")}
-            >
-              Task &#128203;
-            </button>
-            <button
-              hidden={httpError}
-              type="button"
-              className="dashboard-btn"
-              onClick={() => handleClick("EDIT_PROJECT")}
-            >
-              Edit &#128393;
-            </button>
-            <button
-              hidden={httpError}
-              type="button"
-              className="dashboard-btn"
-              onClick={() => handleClick("DELETE_PROJECT")}
-            >
-              Delete &#x1f5d1;
-            </button>
+            {currProject.permissions !== "VIEWER" && (
+              <button
+                hidden={httpError}
+                type="button"
+                className="dashboard-btn"
+                onClick={() => handleClick("ADD_TASK")}
+              >
+                Task &#128203;
+              </button>
+            )}
+            {currProject.permissions !== "VIEWER" && (
+              <button
+                hidden={httpError}
+                type="button"
+                className="dashboard-btn"
+                onClick={() => handleClick("EDIT_PROJECT")}
+              >
+                Edit &#128393;
+              </button>
+            )}
+            {currProject.permissions !== "VIEWER" &&
+              currProject.permissions !== "EDITOR_RW" && (
+                <button
+                  hidden={httpError}
+                  type="button"
+                  className="dashboard-btn"
+                  onClick={() => handleClick("DELETE_PROJECT")}
+                >
+                  Delete &#x1f5d1;
+                </button>
+              )}
           </div>
         </header>
         <p hidden={httpError} className="para-title">

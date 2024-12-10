@@ -33,21 +33,18 @@ function InviteGuest() {
 
     let processedData;
 
-    if (selectOption === null) {
+    if (selectOption.value === null) {
       return;
     }
 
-    console.log(selectOption.value);
     processedData = processData(data, selectOption, id, currProject.projectId);
-    console.log(processedData);
 
     try {
       setIsLoading(true);
       const resp = await handleGuestHTTPRequest(
-        { email: null, ìd: null },
         "POST",
-        "POST",
-        processedData
+        processedData,
+        "http://localhost:3000/guests"
       );
       setModalComponentType(null);
       const updatedProjects = processOwnedGuestProjects(
@@ -79,9 +76,7 @@ function InviteGuest() {
   return (
     <Card>
       {httpError && <span className="error-msg__generic">{httpError}</span>}
-      {isLoading && !httpError && (
-        <LoadingDots dotColor="rgba(251, 5, 173, 0.7)" size="30" />
-      )}
+      {isLoading && !httpError && <LoadingDots />}
       <FormGuest
         handleGuestSubmit={handleSubmit}
         selectionError={selectionError}
